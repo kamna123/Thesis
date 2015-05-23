@@ -349,6 +349,7 @@ int GCD_Test(loop* write,SgNode* loop)
                        {ss<<write_size[j] ;j++;}
                        ss>>s;
                        }
+                      
                        else
                        {
                         ss<<write_size[j] ;
