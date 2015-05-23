@@ -99,16 +99,15 @@ void CalculateLambda(string a,int *lambda,string loop_id_string)
 void extCS_VariableDistance_Lambda(loop* write,SgNode* n,int loop_number,set<string> var)
 {
 	SgForStatement* ab=isSgForStatement(n);
-          SgExpression* ivarast=NULL, *lbast=NULL, *ubast=NULL, *stepast=NULL;
-           SgStatementPtrList & init=ab->get_init_stmt();
-       SgStatement* init1 = init.front();
-       SgInitializedName* ivarname=NULL;
+        SgExpression* ivarast=NULL, *lbast=NULL, *ubast=NULL, *stepast=NULL;
+        SgStatementPtrList & init=ab->get_init_stmt();
+        SgStatement* init1 = init.front();
+        SgInitializedName* ivarname=NULL;
         if (isAssignmentStatement(init1, &ivarast, &lbast))
              {
                 SgVarRefExp* var = isSgVarRefExp(ivarast);
                   if (var)
                    {
-                     
                      ivarname = var->get_symbol()->get_declaration();
                    }
              }   
