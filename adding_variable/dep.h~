@@ -1,0 +1,43 @@
+#ifndef __OPENCL_FROM_LOOPS_HPP__
+#define __OPENCL_FROM_LOOPS_HPP__
+#include <vector>
+#include <map>
+#include <string>
+class SgStatement;
+class SgForStatement;
+class SgVariableSymbol;
+class SgSourceFile;
+class SgProject;
+class SgInitializedName;
+class SgType;
+class SgVarRefExp;
+class SgExpression;
+enum AccessType {
+in,
+out,
+inout,
+unknown
+};
+struct Scalar {
+Scalar(std::string name_);
+std::string name;
+SgType * type;
+AccessType access_type;
+};
+struct Array {
+Array(std::string name_);
+std::string name;
+SgType * base_type;
+std::vector<unsigned> dimensions;
+AccessType access_type;
+SgVariableSymbol * associated_ocl_buffer;
+};
+struct AnalysisContainer {
+AnalysisContainer();
+bool polyhedral_analysis_success;
+std::map<SgInitializedName *, Scalar> scalars;
+std::map<SgInitializedName *, Array> arrays;
+SgFunctionDeclaration * base_func;
+std::vector<PolyhedricDependency::FunctionDependency *> * dependencies;
+};
+

@@ -1,0 +1,779 @@
+    1  ssh 172.27.20.153
+    2  ssh 172.27.20.158
+    3  service ssh restart
+    4  sudo apt-get install ssh
+    5  ssh 172.27.20.158
+    6  service ssh restart
+    7  sudo service ssh restart
+    8  sudo service ssh start
+    9  sudo service ssh stop
+   10  sudo service ssh restart
+   11  ssh 172.27.20.158
+   12  ssh 172.27.20.152
+   13  ssh -X 172.27.20.153
+   14  ssh -X 172.27.20.152
+   15  cd rose/rose_build/
+   16  make
+   17  make install
+   18  cd ..
+   19  cd rose-0.9.5a-19065/
+   20  libtoolize --force
+   21  cd ..
+   22  cd rose_build/
+   23  make
+   24  wget --version
+   25  g++ --version
+   26  gfortran --version
+   27  sudo apt-get install gfortran-4.4
+   28  sudo update-alternatives --install /usr/bin/gfortran gfortran /usr/bin/gfortran-4.4 100
+   29  sudo update-alternatives --install /usr/bin/gfortran gfortran /usr/bin/gfortran-4.6 50
+   30  gfortran --version
+   31  autocof --version
+   32  autoconf --version
+   33  libtool --version
+   34  flex --version
+   35  bison --version
+   36  doxygen --version
+   37  sudo apt-get install doxygen
+   38  sudo apt-get update
+   39  sudo apt-get install doxygen
+   40  /home/kamna/rose/rose-0.9.5a-19065/configure --prefix=/home/kamna/rose/rose_build --with-boost=/home/kamna/rose/boost_build
+   41  make
+   42  cd ..
+   43  cd rose-0.9.5a-19065/
+   44  libtoolize --force
+   45  cd ..
+   46  cd rose_build/
+   47  make
+   48  sudo apt-get install graphviz
+   49  make
+   50  sudo apt-get install ghostscript
+   51  sudo apt-get install sqlite
+   52  sudo apt-get install mpicc
+   53  sudo apt-get install ghc
+   54  cd ..
+   55  cd boost_build/
+   56  cd
+   57  cd rose/boost_1_40_0/
+   58  ./bootstrap.sh --prefix=/home/kamna/rose/boost_build/
+   59  ./bjam --prefix=/home/kamna/rose/boost_build/
+   60  echo $LD_LIBRARY_PATH
+   61  export LD_LIBRARY_PATH=/home/kamna/rose/boost_build/lib/:$LD_LIBRARY_PATH
+   62  echo $LD_LIBRARY_PATH
+   63  export LD_LIBRARY_PATH=/home/kamna/rose/boost_1_40_0/libs/:$LD_LIBRARY_PATH
+   64  echo $LD_LIBRARY_PATH
+   65  export LD_LIBRARY_PATH=/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/server/:$LD_LIBRARY_PATH
+   66  echo $LD_LIBRARY_PATH
+   67  export LD_LIBRARY_PATH=/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/server:$LD_LIBRARY_PATH
+   68  export LD_LIBRARY_PATH=/home/kamna/rose/boost_1_40_0/libs:$LD_LIBRARY_PATH
+   69  export LD_LIBRARY_PATH=/home/kamna/rose/boost_build/lib:$LD_LIBRARY_PATH
+   70  echo $LD_LIBRARY_PATH
+   71  cd
+   72  cd project/
+   73  cd boost_1_40_0/
+   74  chmod a+x bootstrap.sh 
+   75  ./bootstrap.sh --prefix=/home/kamna/project/boost_install/
+   76  ./bjam install --prefix=/home/kamna/project/boost_install/
+   77  export LD_LIBRARY_PATH=/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/server:$LD_LIBRARY_PATH
+   78  echo $LD_LIBRARY_PATH
+   79  export LD_LIBRARY_PATH=/home/kamna/project/boost_install/lib/:$LD_LIBRARY_PATH
+   80  export LD_LIBRARY_PATH=/home/kamna/project/boost_install/lib:$LD_LIBRARY_PATH
+   81  export LD_LIBRARY_PATH=/home/kamna/project/boost_1_40_0/libs:$LD_LIBRARY_PATH
+   82  echo $LD_LIBRARY_PATH
+   83  cd ..
+   84  cd rose-0.9.5a-19065/
+   85  chmod a+x configure
+   86  cd ..
+   87  cd rose_install/
+   88  /home/kamna/project/rose-0.9.5a-19065/configure --prefix=/home/kamna/project/rose_install --with-boost=/home/kamna/project/boost_install
+   89  gch --version
+   90  haskell --version
+   91  Haskell --version
+   92  sudo apt-get uninstall gch
+   93  ghc --version
+   94  sudo apt-get install ghc-6.10.1
+   95  sudo apt-get remove ghc
+   96  /home/kamna/project/rose-0.9.5a-19065/configure --prefix=/home/kamna/project/rose_install --with-boost=/home/kamna/project/boost_install
+   97  make
+   98  cd ..
+   99  cd rose-0.9.5a-19065/
+  100  libtoolize --force
+  101  cd ..
+  102  cd make install
+  103  cd rose_install/
+  104  make install
+  105  ln -s /usr/include/x86_64-linux-gnu/sys /usr/include/sys
+  106  sudo ln -s /usr/include/x86_64-linux-gnu/sys /usr/include/sys
+  107  make -C src/ -j<1>
+  108  make -C src/ -j
+  109  make -C tests/ check -j8
+  110  export LD_LIBRARY_PATH=/home/kamna/project/boost_install/lib/libboost_date_time.so:$LD_LIBRARY_PATH
+  111  make
+  112  cd
+  113  cd project/rose_install/exampleTranslators/documentedExamples/simpleTranslatorExamples/
+  114  make -f exampleMakefile 
+  115  clear
+  116  make -f exampleMakefile 
+  117  gcc -version
+  118  gcc --version
+  119  libtool
+  120  libtool --version
+  121  cd
+  122  g++ --version
+  123  gfortran --version
+  124  sudo apt-get remove libtool
+  125  libtool --version
+  126  automake --version
+  127  cd project/
+  128  cd boost_1_40_0/
+  129  ./bootstrap.sh --prefix=/home/kamna/project/boost_install/
+  130  ./bjam install --prefix=/home/kamna/project/boost_install/
+  131  export LD_LIBRARY_PATH=/home/kamna/project/boost_install/lib:$LD_LIBRARY_PATH
+  132  export JAVA_HOME=/usr/
+  133  echo $LD_LIBARY_PATH
+  134  export LD_LIBRARY_PATH=/home/kamna/project/boost_install/lib:$LD_LIBRARY_PATH
+  135  echo $LD_LIBARY_PATH
+  136  export LD_LIBRARY_PATH=/home/kamna/project/boost_install/lib:${LD_LIBRARY_PATH}
+  137  echo $LD_LIBARY_PATH
+  138  echo $LD_LIRBARY_PATH
+  139  echo $LD_LIBRARY_PATH
+  140  export LD_LIBRARY_PATH=/home/kamna/project/boost_1_40_0/libs:$LD_LIBRARY_PATH
+  141  echo $LD_LIBRARY_PATH
+  142  export LD_LIBRARY_PATH=/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/server/:$LD_LIBRARY_PATH
+  143  export LD_LIBRARY_PATH=/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/server:$LD_LIBRARY_PATH
+  144  echo $LD_LIBRARY_PATH
+  145  cd
+  146  cd rose/
+  147  cd rose_build/
+  148  cd
+  149  cd project/rose_install/
+  150  /home/kamna/project/rose-0.9.5a-19065/configure --prefix=/home/kamna/project/rose_install --with-boost=/home/kamna/project/boost_install
+  151  make
+  152  automake --version
+  153  sudo apt-get install autotools-dev
+  154  sudo apt-get install automake
+  155  make distcheck
+  156  sdo apt-get libtool-2.2
+  157  sudo apt-get install libtool-2.2
+  158  sudo apt-get install libtool
+  159  make
+  160  locate libtool
+  161  /usr/bin/libtool --mode=compile
+  162  /usr/bin/libtool --mode=compile $(CXX)
+  163  /usr/bin/libtool --mode=compile $(g++)
+  164  /usr/bin/libtool --mode=compile $(g++) $(-g -Wall)
+  165  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I/home/kamna/rose/boost_build/include -c -o exampleTranslator exampleTranslators.lo /home/kamna/rose/rose_build/lib/librose.la 
+  166  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I/home/kamna/rose/boost_build/include -c -o exampleTranslators.lo /home/kamna/rose/rose-0.9.5a-19065/exampleTranslators/documentedExamples/simpleTranslatorExamples/identityTranslator.C 
+  167  cd
+  168  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I/home/kamna/rose/boost_build/include -c -o exampleTranslators.lo /home/kamna/rose/rose-0.9.5a-19065/exampleTranslators/documentedExamples/simpleTranslatorExamples/identityTranslator.C 
+  169  /usr/bin/libtool --mode=link g++ -g -Wall -o exampleTranslators exampleTranslators.lo /home/kamna/rose/rose_build/lib/librose.la 
+  170  ./exampleTranslators -c /home/kamna/rose/rose-0.9.5a-19065/exampleTranslators/documentedExamples/simpleTranslatorExamples/testCode.C 
+  171  cd rose
+  172  history >history.txt
+  173  cd
+  174  cd rose/
+  175  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I/home/kamna/rose/boost_build/include -c -o exampleTranslators.lo /home/kamna/rose/rose-0.9.5a-19065/exampleTranslators/documentedExamples/simpleTranslatorExamples/identityTranslator.C 
+  176  /usr/bin/libtool --mode=link g++ -g -Wall -o exampleTranslators exampleTranslators.lo /home/kamna/rose/rose_build/lib/librose.la 
+  177  ./exampleTranslators -c /home/kamna/rose/rose-0.9.5a-19065/exampleTranslators/documentedExamples/simpleTranslatorExamples/testCode.C 
+  178  cd rose_build/projects/arrayOptimization/test/
+  179  cd ..
+  180  ./ArrayProcessor -c /home/kamna/rose/rose-0.9.5a-19065/exampleTranslators/documentedExamples/simpleTranslatorExamples/testCode.C 
+  181  cd
+  182  cd rose/
+  183  /usr/bin/libtool --mode=link g++ -g -Wall -o exampleTranslators exampleTranslators.lo /home/kamna/rose/rose_build/lib/librose.la 
+  184  ./exampleTranslators -c /home/kamna/rose/rose-0.9.5a-19065/exampleTranslators/documentedExamples/simpleTranslatorExamples/testCode.C 
+  185  sudo apt-get udate
+  186  sudo apt-get update
+  187  cd rose/
+  188  history 
+  189  gedit history.txt 
+  190  cd
+  191  exit
+  192  gedit history.txt 
+  193  exit
+  194  ssh 172.27.20.152
+  195  service ssh restart
+  196  sudo service ssh restart
+  197  sudo service ssh stop
+  198  sudo service ssh restart
+  199  ssh 172.27.20.152
+  200  sudo ssh 172.27.20.152
+  201  sudo apt-get update
+  202  sudo apt-get install dcpp
+  203  sudo apt-get update
+  204  /usr/bin/libtool --mode=link g++ -g -Wall -o exampleTranslators exampleTranslators.lo /home/kamna/rose/rose_build/lib/librose.la 
+  205  cd rose/
+  206  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I/home/kamna/rose/boost_build/include -c -o exampleTranslators.lo /home/kamna/rose/rose-0.9.5a-19065/exampleTranslators/documentedExamples/simpleTranslatorExamples/identityTranslator.C 
+  207  /usr/bin/libtool --mode=link g++ -g -Wall -o exampleTranslators exampleTranslators.lo /home/kamna/rose/rose_build/lib/librose.la 
+  208  /usr/bin/libtool --mode=link g++ -g -Wall -o exampleTranslators exampleTranslators.lo /home/kamna/rose/rose_build/lib/librose.
+  209   
+  210  /usr/bin/libtool --mode=link g++ -g -Wall -o /home/kamna/rose/rose_build/exampleTranslators exampleTranslators.lo /home/kamna/rose/rose_build/lib/librose.
+  211  /usr/bin/libtool --mode=link g++ -g -Wall -o /home/kamna/rose/rose_build/exampleTranslators exampleTranslators.lo /home/kamna/rose/rose_build/lib/librose.la 
+  212  echo $LD_LIBRARY_PATH
+  213  export LD_LIBRARY_PATH=/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/server:$LD_LIBRARY_PATH
+  214  echo $LD_LIBRARY_PATH
+  215  $LD_LIBRARY_PATH
+  216  export LD_LIBRARY_PATH=/home/kamna/rose/boost_1_40_0/libs:$LD_LIBRARY_PATH
+  217  echo $LD_LIBRARY_PATH
+  218  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I/home/kamna/rose/boost_build/include -c -o exampleTranslators.lo /home/kamna/rose/rose-0.9.5a-19065/exampleTranslators/documentedExamples/simpleTranslatorExamples/identityTranslator.C 
+  219  /usr/bin/libtool --mode=link g++ -g -Wall -o exampleTranslators exampleTranslators.lo /home/kamna/rose/rose_build/lib/librose.la 
+  220  ./exampleTranslators -c /home/kamna/rose/rose-0.9.5a-19065/exampleTranslators/documentedExamples/simpleTranslatorExamples/testCode.C 
+  221  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I/home/kamna/rose/boost_build/include -c -o exampleTranslators.lo /home/kamna/rose/rose-0.9.5a-19065/exampleTranslators/documentedExamples/simpleTranslatorExamples/identityTranslator.C 
+  222  /usr/bin/libtool --mode=link g++ -g -Wall -o exampleTranslators exampleTranslators.lo /home/kamna/rose/rose_build/lib/librose.la 
+  223  ./exampleTranslators -c /home/kamna/rose/rose-0.9.5a-19065/exampleTranslators/documentedExamples/simpleTranslatorExamples/testCode.C 
+  224  /usr/bin/libtool --mode=link g++ -g -Wall -o exampleTranslators exampleTranslators.lo /home/kamna/rose/rose_build/lib/librose.la 
+  225  ./exampleTranslators -c /home/kamna/rose/rose-0.9.5a-19065/exampleTranslators/documentedExamples/simpleTranslatorExamples/testCode.C 
+  226  cd rose
+  227  history >histr.txt
+  228  cd rose/
+  229  gedit history.txt 
+  230  cd rose/
+  231  history
+  232  /usr/bin/libtool --mode=link g++ -g -Wall -o exampleTranslators exampleTranslators.lo /home/kamna/rose/rose_build/lib/librose.la 
+  233  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I/home/kamna/rose/boost_build/include -c -o exampleTranslators.lo /home/kamna/rose/rose-0.9.5a-19065/exampleTranslators/documentedExamples/simpleTranslatorExamples/identityTranslator.C 
+  234  /usr/bin/libtool --mode=link g++ -g -Wall -o exampleTranslators exampleTranslators.lo /home/kamna/rose/rose_build/lib/librose.la 
+  235  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I/home/kamna/rose/boost_build/include -c -o exampleTranslators.lo /home/kamna/rose/rose-0.9.5a-19065/exampleTranslators/documentedExamples/simpleTranslatorExamples/identityTranslator.C 
+  236  /usr/bin/libtool --mode=link g++ -g -Wall -o exampleTranslators exampleTranslators.lo /home/kamna/rose/rose_build/lib/librose.la 
+  237  history
+  238  gedit histr.txt 
+  239  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I/home/kamna/rose/boost_build/include -c -o exampleTranslators.lo /home/kamna/rose/rose-0.9.5a-19065/exampleTranslators/documentedExamples/simpleTranslatorExamples/identityTranslator.C
+  240  /usr/bin/libtool --mode=link g++ -g -Wall -o exampleTranslators exampleTranslators.lo /home/kamna/rose/rose_build/lib/librose.la 
+  241  echo $LD_LIBRARY_PATH
+  242  export LD_LIBRARY_PATH=/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/server:$LD_LIBRARY_PATH
+  243  export LD_LIBRARY_PATH=/home/kamna/rose/boost_1_40_0/libs:$LD_LIBRARY_PATH
+  244  /usr/bin/libtool --mode=link g++ -g -Wall -o exampleTranslators exampleTranslators.lo /home/kamna/rose/rose_build/lib/librose.la 
+  245  export LD_LIBRARY_PATH=/home/kamna/rose/boost_build/lib:$LD_LIBRARY_PATH
+  246  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I/home/kamna/rose/boost_build/include -c -o exampleTranslators.lo /home/kamna/rose/rose-0.9.5a-19065/exampleTranslators/documentedExamples/simpleTranslatorExamples/identityTranslator.C
+  247  /usr/bin/libtool --mode=link g++ -g -Wall -o exampleTranslators exampleTranslators.lo /home/kamna/rose/rose_build/lib/librose.la 
+  248  ./exampleTranslators -c /home/kamna/rose/rose-0.9.5a-19065/exampleTranslators/documentedExamples/simpleTranslatorExamples/testCode.C 
+  249  sudo apt-get update
+  250  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I/home/kamna/rose/boost_build/include -c -o exampleTranslators.lo /home/kamna/rose/rose-0.9.5a-19065/exampleTranslators/documentedExamples/simpleTranslatorExamples/identityTranslator.C
+  251  /usr/bin/libtool --mode=link g++ -g -Wall -o exampleTranslators exampleTranslators.lo /home/kamna/rose/rose_build/lib/librose.la 
+  252  ./exampleTranslators -c /home/kamna/rose/rose-0.9.5a-19065/exampleTranslators/documentedExamples/simpleTranslatorExamples/testCode.C 
+  253  cd rose/
+  254  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I/home/kamna/rose/boost_build/include -c -o example.lo /home/kamna/rose/rose-0.9.5a-19065/exampleTranslators/documentedExamples/simpleTranslatorExamples/identityTranslator.C 
+  255  /usr/bin/libtool --mode=link g++ -g -Wall -o exam example.lo /home/kamna/rose/rose_build/lib/librose.la 
+  256  /usr/bin/libtool --mode=link g++ -g -Wall -o example example.lo /home/kamna/rose/rose_build/lib/librose.la 
+  257  echo $LD_LIBRARY_PATH
+  258  export LD_LIBRARY_PATH=/home/kamna/rose/boost_1_40_0/libs:$LD_LIBRARY_PATH
+  259  export LD_LIBRARY_PATH=/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/server:$LD_LIBRARY_PATH
+  260  export LD_LIBRARY_PATH=/home/kamna/rose/boost_build/lib:$LD_LIBRARY_PATH
+  261  /usr/bin/libtool --mode=link g++ -g -Wall -o example example.lo /home/kamna/rose/rose_build/lib/librose.la 
+  262  /usr/bin/libtool --mode=link g++ -g -Wall -o examp example.lo /home/kamna/rose/rose_build/lib/librose.la 
+  263  ./examp -c /home/kamna/rose/rose-0.9.5a-19065/exampleTranslators/documentedExamples/simpleTranslatorExamples/testCode.C 
+  264  make
+  265  cd rose_build/exampleTranslators/documentedExamples/simpleTranslatorExamples/
+  266  make -f exampleMakefile 
+  267  clear
+  268  make -f exampleMakefile 
+  269  make -f Makefile 
+  270  make -f Makefile check
+  271  ./identityTranslator -c /home/kamna/rose/rose-0.9.5a-19065/exampleTranslators/documentedExamples/simpleTranslatorExamples/testCode.C 
+  272  cd ..
+  273  cd
+  274  cd rose/rose_build/tests/CompileTests/CudaTests/
+  275  make -f Makefile 
+  276  nautilus
+  277  cd rose/
+  278  gedit histr.txt 
+  279  nautilus
+  280  locate SgFunctionSymbol
+  281  locate SimpleInstrumentation
+  282  locate SgSimpleProcessing
+  283  locate buildVariableDeclaration
+  284  nautilus
+  285  locate SgSimpleProcessing
+  286  nautilus
+  287  cd rose/
+  288  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c addVar.lo addVar.c 
+  289  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c -o addVar.lo addVar.c 
+  290  /usr/bin/libtool --mode=link g++ -g -Wall -o addVar addVar.lo /home/kamna/rose/rose_build/lib/librose.la 
+  291  ./addVar -c testCode.c
+  292  /usr/bin/libtool --mode=link g++ -g -Wall -o addVar addVar.lo /home/kamna/rose/rose_build/lib/librose.la 
+  293  ./addVar -c testCode.c
+  294  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c -o addVar.lo addVar.c 
+  295  /usr/bin/libtool --mode=link g++ -g -Wall -o addVar addVar.lo /home/kamna/rose/rose_build/lib/librose.la 
+  296  ./addVar -c testCode.c
+  297  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c -o addVar.lo addVar.c 
+  298  /usr/bin/libtool --mode=link g++ -g -Wall -o addVar addVar.lo /home/kamna/rose/rose_build/lib/librose.la 
+  299  ./addVar -c testCode.c
+  300  cd rose_build/tests/CompileTests/OpenClTests/
+  301  make -f Makefile 
+  302  locate mint
+  303  cd
+  304  cd rose/rose_build/projects/mint/src/
+  305  ./mint -c rose_inputFile.C 
+  306  ./mint -c testCode.c 
+  307  scp mint_testCode.cu kamna@gpu02.cc.iitk.ac.in:
+  308  locate SgSimpleProcessing
+  309  locate buildVariableDeclaration
+  310  nautilus
+  311  cd rose/rose_build/mint-1.0.0/
+  312  cd bin/
+  313  ./mint -c a.c 
+  314  cd
+  315  cd rose/rose_build/projects/mint/tests/
+  316  make -f Makefile 
+  317  make -f Makefile
+  318  cd ..
+  319  cd OpenMP_Translator/
+  320  ./ompTranslator -c testCode.c 
+  321  cd ..
+  322  cd OpenMP_Analysis/
+  323  ./ompAnalyzer -c testCode.c 
+  324  cd ..
+  325  cd OpenMP_Translator/
+  326  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c -o ompA
+  327  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c -o ompAstConstruction.
+  328  /usr/bin/libtool --mode=link g++ -g -Wall -o ompTranslator ompTranslator.lo /home/kamna/rose/rose_build/lib/librose.la 
+  329  export LD_LIBRARY_PATH=/home/kamna/project/boost_1_40_0/libs:$LD_LIBRARY_PATH
+  330  export
+  331  LD_LIBRARY_PATH=/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/server/:$LD_LIBRARY_PATH
+  332  export LD_LIBRARY_PATH=/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/server/:$LD_LIBRARY_PATH
+  333  export LD_LIBRARY_PATH=/home/kamna/project/boost_install/lib:$LD_LIBRARY_PATH
+  334  $LD_LIBRARY_PATH
+  335  /usr/bin/libtool --mode=link g++ -g -Wall -o ompTranslator ompTranslator.lo /home/kamna/rose/rose_build/lib/librose.la 
+  336  ./ompTranslator -c test
+  337  ./ompTranslator -c testCode.c 
+  338  cd ..
+  339  cd OpenMP_Translator/
+  340  cd includes/
+  341  make -f Makefile 
+  342  cd
+  343  cd rose/rose-0.9.5a-19065/src/frontend/SageIII/
+  344  /usr/bin/libtool --mode=compile g++ -g -Wall I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c -o ompAstConstruction.lo ompAstConstruction.cpp 
+  345  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c -o ompAstConstruction.lo ompAstConstruction.cpp 
+  346  locate SageInterface
+  347  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c -o ompAstConstruction.lo ompAstConstruction.cpp 
+  348  locate SageInterface
+  349  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c -o ompAstConstruction.lo ompAstConstruction.cpp 
+  350  locate sageInterface.c
+  351  locate sageInterface.C
+  352  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c -o ompAstConstruction.lo ompAstConstruction.cpp 
+  353  cd
+  354  cd project/rose-0.9.5a-19065/src/frontend/SageIII/
+  355  cd
+  356  cd rose/rose_build/src/frontend/SageIII/
+  357  /usr/bin/libtool --mode=link g++ -g -Wall -o ompAstConstruction.lo /home/kamna/rose/rose_build/lib/librose.la 
+  358  /usr/bin/libtool --mode=link g++ -g -Wall -o ompAstConstruction.lo libsage3.la 
+  359  /usr/bin/libtool --mode=link g++ -g -Wall -o ompAstConstruction ompAstConstruction.lo libsage3.la 
+  360  /usr/bin/libtool --mode=link g++ -g -Wall -o ompAstConstruction ompASTConstruction.lo libsage3.la 
+  361  cd
+  362  cd rose/rose-0.9.5a-19065/src/frontend/SageIII/
+  363  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c -o ompAstConstruction.lo ompAstConstruction.cpp 
+  364  locate generateProjectName
+  365  cd sageInterface/
+  366  make -f Makefile
+  367  nautilus
+  368  cd rose/rose_build/src/frontend/SageIII/sageInterface/
+  369  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c -o ompAstConstruction.lo ompAstConstruction.cpp 
+  370  cd ..
+  371  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c -o ompAstConstruction.lo ompAstConstruction.cpp 
+  372  /usr/bin/libtool --mode=link g++ -g -Wall -o ompAstConstruction ompASTConstruction.lo libsage3.la 
+  373  cd
+  374  cd rose/rose-0.9.5a-19065/src/frontend/SageIII/
+  375  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c -o ompAstConstruction.lo ompAstConstruction.cpp 
+  376  locate generateProjectName
+  377  cd
+  378  cd project/rose-0.9.5a-19065/src/frontend/SageIII/
+  379  cd
+  380  cd rose/rose-0.9.5a-19065/src/frontend/SageIII/
+  381  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c -o ompAstConstruction.lo ompAstConstruction.cpp 
+  382  locate sageInterface.c
+  383  locate sageInterface.cpp
+  384  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c -o ompAstConstruction.lo ompAstConstruction.cpp 
+  385  /usr/bin/libtool --mode=link g++ -g -Wall -o ompAstConstruction ompASTConstruction.lo libsage3.la 
+  386  /usr/bin/libtool --mode=link g++ -g -Wall -o ompAstConstruction ompAstConstruction.lo libsage3.la 
+  387  /usr/bin/libtool --mode=link g++ -g -Wall -o ompAstConstruction ompAstConstruction.lo /home/kamna/rose/rose_build/lib/librose.la 
+  388  export LD_LIBRARY_PATH=/home/kamna/project/boost_install/lib:$LD_LIBRARY_PATH
+  389  export LD_LIBRARY_PATH=/home/kamna/project/boost_1_40_0/libs:$LD_LIBRARY_PATH
+  390  export
+  391  export LD_LIBRARY_PATH=/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/server:$LD_LIBRARY_PATH
+  392  /usr/bin/libtool --mode=link g++ -g -Wall -o ompAstConstruction ompAstConstruction.lo /home/kamna/rose/rose_build/lib/librose.la 
+  393  $LD_LIBRARY_PATH
+  394  /usr/bin/libtool --mode=link g++ -g -Wall -o ompAstConstruction ompAstConstruction.lo /home/kamna/rose/rose_build/lib/librose.la 
+  395  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c -o ompAstConstruction.lo ompAstConstruction.cpp 
+  396  cd sageInterface/
+  397  gcc sageInterface.c
+  398  gcc sageInterface.C
+  399  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c -o ompAstConstruction.lo ompAstConstruction.cpp 
+  400  cd ..
+  401  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c -o ompAstConstruction.lo ompAstConstruction.cpp 
+  402  nautilus
+  403  cd rose/rose-0.9.5a-19065/src/frontend/SageIII/sageInterface/
+  404  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c -o ompAstConstruction.lo ompAstConstruction.cpp cd
+  405  cd
+  406  cd rose/rose-0.9.5a-19065/src/midend/programTransformation/ompLowering/
+  407  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c -o ompAstConstruction.lo ompAstConstruction.cpp cd
+  408  vf ..
+  409  cd ..
+  410  cd frontend/SageIII/
+  411  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c -o ompAstConstruction.lo ompAstConstruction.cpp cd
+  412  clear
+  413  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c -o ompL
+  414  cd
+  415  cd rose/rose_build/src/frontend/SageIII/
+  416  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c -o ompAstConstruction.lo ompAstConstruction.cpp 
+  417  cd
+  418  cd rose/rose_build/tests/roseTests/ompLoweringTests/
+  419  make roseompacc
+  420  make -f Makefile 
+  421  ./roseomp -c testCode.c 
+  422  locate libjvm.so
+  423  $LD_LIBRARY_PATH
+  424  echo $LD_LIBRARY_PATH
+  425  export LD_LIBRARY_PATH=/home/kamna/project/boost_install/lib:$LD_LIBRARY_PATH
+  426  echo $LD_LIBRARY_PATH
+  427  $LD_LIBRARY_PATH
+  428  export LD_LIBRARY_PATH=/home/kamna/project/boost_1_40_0/libs:$LD_LIBRARY_PATH
+  429  export LD_LIBRARY_PATH=/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/server:$LD_LIBRARY_PATH
+  430  ./roseomp -c testCode.c 
+  431  cd
+  432  cd rose/rose_build/src/midend/programTransformation/ompLowering/
+  433  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c -o ompAstConstruction.lo ompAstConstruction.cpp 
+  434  /usr/bin/libtool --mode=link g++ -g -Wall -o ompAstConstruction omp_lowering.lo /home/kamna/rose/rose_build/lib/librose.la 
+  435  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c -o omp_lowering omp_lowering.cpp 
+  436  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c -o omp_lowering.lo omp_lowering.cpp 
+  437  nautilus
+  438  nautilus
+  439  nautilus
+  440  cd rose/rose_build/src/frontend/SageIII/
+  441  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c -o ompAstConstruction.lo ompAstConstruction.cpp 
+  442  clea
+  443  clear
+  444  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c -o ompAstConstruction.lo ompAstConstruction.cpp 
+  445  cd rose/rose-0.9.5a-19065/src/frontend/SageIII/
+  446  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c -o omp_lowering ompAstConstruction.cpp
+  447  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c -o omp_lowering.lo ompAstConstruction.cpp
+  448  less /home/kamna/rose/rose_build/include/sageInterface.h
+  449  vi /home/kamna/rose/rose_build/include/sageInterface.h
+  450  less /home/kamna/rose/rose_build/include/AstDOTGenerationImpl.C
+  451  less /home/kamna/rose/rose_build/include/sageInterface.h
+  452  less /home/kamna/rose/rose_build/include/AstDOTGenerationImpl.C
+  453  g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c -o omp_lowering ompAstConstruction.cpp
+  454  g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c -o omp_lowering ompAstConstruction.cpp -E
+  455  less omp_lowering 
+  456  less /home/kamna/rose/rose_build/include/AstDOTGenerationImpl.C
+  457  less omp_lowering 
+  458  vi omp_lowering
+  459  g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c -o omp_lowering ompAstConstruction.cpp -H
+  460  less omp_lowering 
+  461  g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c -o omp_lowering ompAstConstruction.cpp -H | less
+  462  g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c -o omp_lowering ompAstConstruction.cpp -H 2>&1 > inccc
+  463  g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c -o omp_lowering ompAstConstruction.cpp -H 2> inccc
+  464  less inccc
+  465  less ompAstConstruction.cpp 
+  466  less inccc
+  467  less /home/kamna/rose/rose_build/include/rose.h
+  468  vi /home/kamna/rose/rose_build/include/rose.h
+  469  less /home/kamna/rose/rose_build/include/AstDOTGenerationImpl.C
+  470  vim /home/kamna/rose/rose_build/include/AstDOTGenerationImpl.C
+  471  vixm /home/kamna/rose/rose_build/include/AstDOTGenerationImpl.C
+  472  vi /home/kamna/rose/rose_build/include/AstDOTGenerationImpl.C
+  473  g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include/ -c -o omp_lowering ompAstConstruction.cpp
+  474  ls
+  475  ls docs/
+  476  less docs/README 
+  477  cd ../../..\
+  478  cd ..
+  479  ls
+  480  cd rose_build/
+  481  ls
+  482  ls src/
+  483  ls lib
+  484  ls
+  485  cd tests/roseTests/ompLoweringTests/
+  486  make roseompacc
+  487  cd ~/rose/rose-0.9.5a-19065/tests/roseTests/ompLoweringTests/
+  488  make roseompacc
+  489  less Makefile.
+  490  ls
+  491  cd -
+  492  cd ../../..
+  493  ls
+  494  make roseompacc
+  495  cd tests/
+  496  make roseompacc
+  497  cd roseTests/
+  498  make roseompacc
+  499  cd rose/rose_build/
+  500  ls
+  501  make
+  502  ls
+  503  ls ..
+  504  less rose.docs 
+  505  cd src/frontend/SageIII/
+  506  ls
+  507  make
+  508  make clean
+  509  cd
+  510  cd rose/own/
+  511  /usr/bin/libtool --mode=compile g++ -g-Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include -c -o abc.lo add_fun_var/addVar.c
+  512  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include -c -o abc.lo add_fun_var/addVar.c
+  513  /usr/bin/libtool --mode=link g++ -g -Wall -o exampleTranslators
+  514  exampleTranslators.lo /home/kamna/rose/rose_build/lib/librose.la 
+  515  /usr/bin/libtool --mode=link g++ -g -Wall -o exampleTranslators
+  516  /usr/bin/libtool --mode=link g++ -g -Wall -o exampleTranslators/usr/bin/libtool --mode=link g++ -g -Wall -o exampleTranslators add_fun_var/addVar.lo /home/kamna/rose/rose_build/lib/librose.la 
+  517  /usr/bin/libtool --mode=link g++ -g -Wall -o exampleTranslators add_fun_var/addVar.lo /home/kamna/rose/rose_build/lib/librose.la 
+  518  export LD_LIBRARY_PATH=/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/server:$LD_LIBRARY_PATH
+  519  vim /home/kamna/.bashrc 
+  520  vi /home/kamna/.bashrc 
+  521  . /home/kamna/.bashrc
+  522  /usr/bin/libtool --mode=link g++ -g -Wall -o exampleTranslators add_fun_var/addVar.lo /home/kamna/rose/rose_build/lib/librose.la 
+  523  ./exampleTranslators -o add_fun_var/testCode.c
+  524  ./exampleTranslators -o add_fun_var/testCode.C
+  525  cat add_fun_var/testCode.c
+  526  ./exampleTranslators -o add_fun_var/testCode.o add_fun_var/testCode.c
+  527  ls
+  528  cat rose_testCode.c 
+  529  locate sageInterface.h
+  530  cat /home/kamna/rose/rose-0.9.5a-19065/src/frontend/SageIII/sageInterface/sageInterface.h
+  531  less /home/kamna/rose/rose-0.9.5a-19065/src/frontend/SageIII/sageInterface/sageInterface.h
+  532  less /home/kamna/rose/rose-0.9.5a-19065/src/frontend/SageIII/sageInterface/sageInterface.C
+  533  locate sageInterface.o
+  534  nm /home/kamna/rose/rose_build/src/frontend/SageIII/sageInterface/.libs/sageInterface.o | less
+  535  c++filt _ZN13SageInterface19generateProjectNameEPK9SgProjectb
+  536  nautilus
+  537  locate librose.so
+  538  cd rose/rose_build/src/
+  539  ls
+  540  cd
+  541  cd rose/rose_build/tests/roseTests/ompLoweringTests/
+  542  make roseomp
+  543  ./roseomp -c testCode.
+  544  ./roseomp -c testCode.c
+  545  cd
+  546  cd rose/rose-0.9.5a-19065/tests/roseTests/ompLoweringTests/
+  547  make -f Makefile.am
+  548  make -f Makefile.in
+  549  /usr/bin/libtool --mode=compile g++ -g -Wall -I
+  550  /home/kamna/rose/rose_build/include -pthread
+  551  -I/home/kamna/rose/boost_build/include -c -o exampleTranslators.lo
+  552  history
+  553  /usr/bin/libtool --mode=link g++ -g -Wall roseomp roseomp.lo /home/kamna/rose/rose_build/lib/librose.so 
+  554  /usr/bin/libtool --mode=link g++ -g -Wall -o roseomp roseomp.lo /home/kamna/rose/rose_build/lib/librose.so 
+  555  ./roseomp -o testCode.c 
+  556  ./roseomp -c testCode.c 
+  557  /usr/bin/libtool --mode=link g++ -g -Wall -o roseomp roseomp.lo /home/kamna/rose/rose_build/lib/librose.la 
+  558  ./roseomp -c testCode.c 
+  559  make -f Makefile.am 
+  560  cd
+  561  cd rose/rose_build/projects/mint/src/
+  562  ./mint -c testCode.c
+  563  scp mint_testCode.cu kamna@gpu02.cc.iitk.ac.in:
+  564  ./mint -c testCode.c
+  565  scp mint_testCode.cu kamna@gpu02.cc.iitk.ac.in:
+  566  nautilus
+  567  cd rose/rose_build/projects/autoParallelization/
+  568  ./autoPar in.c
+  569  cd rose/
+  570  cd own/
+  571  cd adding_variable/
+  572  ./buildV -help\
+  573  ./buildV -help
+  574  ./buildV -rose:openmp:lower inputFile.C
+  575  ./a.out 
+  576  ./buildV -rose:openmp
+  577  ./buildV -rose:openmp inputFile.C
+  578  cd ..
+  579  cd add_fun_var/
+  580  ./addVar -rose:openmp testCode.
+  581  ./addVar -rose:openmp testCode.c
+  582  ./addVar -rose:openmp:parse_only testCode.c
+  583  ./addVar -rose:openmp:ast_only testCode.c
+  584  ./addVar -rose:openmp:lowering testCode.c
+  585  cd
+  586  cd rose/rose_build/projects/autoParallelization/
+  587  ./autoPar -c testCode.c 
+  588  cd
+  589  cd rose/rose_build/projects/mint/
+  590  cd src/
+  591  ./mint -c rose_testCode.c 
+  592  scp mint_rose_testCode.cu kamna@gpu02.cc.iitk.ac.in:
+  593  ./mint -c rose_testCode.c 
+  594  cd rose/rose_build/projects/autoParallelization/
+  595  cd
+  596  cd rose/rose_build/projects/autoParallelization/
+  597  ./autoPar -c in.c
+  598  cd
+  599  cd rose/rose_build/projects/mint/src/
+  600  cd
+  601  cd rose/rose_build/projects/mint/src
+  602  ls
+  603  ./mint rose_in.c 
+  604  cd
+  605  cd rose/rose_build/projects/autoParallelization/
+  606  ./autoPar in.c
+  607  ./autoPar -c  in.c
+  608  cd ..
+  609  cd mint/
+  610  cd src/
+  611  ./mint rose_in.c
+  612  cd ..
+  613  cd autoParallelization/
+  614  ./autoPar rose_in.c
+  615  ./autoPar -c rose_in.c
+  616  ./autoPar -c in.
+  617  ./autoPar -c in.c
+  618  cd ..
+  619  cd mint/
+  620  cd src/
+  621  ./mint -c rose_in.c
+  622  cd ..
+  623  cd autoParallelization/
+  624  ./autoPar -c in.c
+  625  cd
+  626  cd rose/rose_build/projects/mint/
+  627  cd src/
+  628  ./mint rose_in.c
+  629  ./mint -c rose_in.c
+  630  ./identityTranslator -c -rose:openmp:parse_only rose_in.c
+  631  ./identityTranslator -c -rose:openmp:ast_only rose_in.c
+  632  ./mint -c rose_rose_in.c 
+  633  ./identityTranslator -c -rose:openmp:omplowering rose_in.c
+  634  ./identityTranslator -c -rose:openmp:lowering rose_in.c
+  635  ./identityTranslator -c -rose:openmp:parse_only rose_in.c
+  636  ./mint -c rose_rose_in.c 
+  637  ./identityTranslator -c -rose:openmp:ast_only rose_in.c
+  638  ./identityTranslator -c -rose:openmp:parse_only rose_in.c
+  639  ./identityTranslator -c -rose:openmp:ast_only rose_in.c
+  640  ./identityTranslator -c -rose:openmp:lowering rose_in.c
+  641  ./identityTranslator -c -rose:openmp:parse_only rose_in.c
+  642  ./mint -c rose_rose_in.c 
+  643  ./identityTranslator -c -rose:openmp:ast_only rose_in.c
+  644  ./mint -c rose_rose_in.c 
+  645  ./identityTranslator -c -rose:openmp:lowering rose_in.c
+  646  ./mint -c rose_rose_in.c 
+  647  ./mint -c rose_
+  648  ./mint -c rose_in.c
+  649  clear
+  650  ./mint -c rose_in.c
+  651  ./autoPar -c testCode.c
+  652  ./mint -c rose_testCode.c
+  653  ./mint -c rose_in.c
+  654  cd
+  655  cd rose/rose_build/projects/OpenMP_Analysis/
+  656  ./ompAnalyzer -c rose_testCode.c 
+  657  cd ..
+  658  cd OpenMP_Translator/
+  659  ./ompTranslator rose_testCode.c 
+  660  cd ..
+  661  cd pragmaParsing/
+  662  ./hcpragma -c rose_testCode.c 
+  663  ./testParserBuilder -c rose_testCode.c 
+  664  ./buildFromString -c rose_testCode.c 
+  665  cd
+  666  cd rose/rose_build/mint-1.0.0/bin/
+  667  ./mint -c rose_testCode.c 
+  668  nautilus
+  669  cd rose/own/adding_variable/
+  670  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include -c -o avein.lo avein.c 
+  671  /usr/bin/libtool --mode=link g++ -g -Wall -o avein avein.lo /home/kamna/rose/rose_build/lib/librose.la 
+  672  ./avein -c rose_inputFile.C
+  673  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include -c -o avein.lo avein.c 
+  674  /usr/bin/libtool --mode=link g++ -g -Wall -o avein avein.lo /home/kamna/rose/rose_build/lib/librose.la 
+  675  ./avein -c rose_inputFile.C
+  676  /usr/bin/libtool --mode=link g++ -g -Wall -o avein avein.lo /home/kamna/rose/rose_build/lib/librose.la 
+  677  ./avein -c rose_inputFile.C
+  678  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include -c -o avein.lo avein.c 
+  679  /usr/bin/libtool --mode=link g++ -g -Wall -o avein avein.lo /home/kamna/rose/rose_build/lib/librose.la 
+  680  ./avein -c rose_inputFile.C
+  681  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include -c -o avein.lo avein.c 
+  682  /usr/bin/libtool --mode=link g++ -g -Wall -o avein avein.lo /home/kamna/rose/rose_build/lib/librose.la 
+  683  ./avein -c rose_inputFile.C
+  684  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include -c -o avein.lo avein.c 
+  685  /usr/bin/libtool --mode=link g++ -g -Wall -o avein avein.lo /home/kamna/rose/rose_build/lib/librose.la 
+  686  ./avein -c rose_inputFile.C
+  687  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include -c -o avein.lo avein.c 
+  688  /usr/bin/libtool --mode=link g++ -g -Wall -o avein avein.lo /home/kamna/rose/rose_build/lib/librose.la 
+  689  ./avein -c rose_inputFile.C
+  690  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include -c -o avein.lo avein.c 
+  691  /usr/bin/libtool --mode=link g++ -g -Wall -o avein avein.lo /home/kamna/rose/rose_build/lib/librose.la 
+  692  ./avein -c rose_inputFile.C
+  693  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include -c -o avein.lo avein.c 
+  694  /usr/bin/libtool --mode=link g++ -g -Wall -o avein avein.lo /home/kamna/rose/rose_build/lib/librose.la 
+  695  ./avein -c rose_inputFile.C
+  696  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include -c -o avein.lo avein.c 
+  697  /usr/bin/libtool --mode=link g++ -g -Wall -o avein avein.lo /home/kamna/rose/rose_build/lib/librose.la 
+  698  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include -c -o avein.lo avein.c 
+  699  /usr/bin/libtool --mode=link g++ -g -Wall -o avein avein.lo /home/kamna/rose/rose_build/lib/librose.la 
+  700  ./avein -c rose_inputFile.C
+  701  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include -c -o avein.lo avein.c 
+  702  cd
+  703  cd rose/rose_build/mint-1.0.0/
+  704  cd bin/
+  705  ./mint -c rose_testCode.c
+  706  cd
+  707  cd rose/rose-0.9.5a-19065/projects/OpenMP_Translator/
+  708  gmake makefile 
+  709  gmake translator
+  710  g++ -g -I /home/kamna/rose/rose_build/include -c -o ompTranslator ompTranslator.C 
+  711  locate iterate.hpp
+  712  g++ -g -I /home/kamna/rose/rose_build/include -c -o ompTranslator ompTranslator.C 
+  713  export $LD_LIBRARY_PATH=/home/kamna/boost:$LD_LIBRARY_PATH
+  714  export LD_LIBRARY_PATH=/home/kamna/boost:$LD_LIBRARY_PATH
+  715  g++ -g -I /home/kamna/rose/rose_build/include -c -o ompTranslator ompTranslator.C 
+  716  g++ -g -o roseomp ompTranslator.o -L /home/kamna/rose/rose_build/src -Wl -rpath /home/kamna/rose/rose_build/src -lrose -ledg -lfl -lm /home/kamna/rose/rose_build/lib
+  717  ls
+  718  g++ -g -o roseomp ompTranslator -L /home/kamna/rose/rose_build/src -Wl -rpath /home/kamna/rose/rose_build/src -lrose -ledg -lfl -lm /home/kamna/rose/rose_build/lib
+  719  history
+  720  nautilus
+  721  cd rose/own/
+  722  /usr/bin/libtool --mode=compile g++ -g-Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include -c -o a adding_variable/avein.lo adding_variable/avein.c
+  723  /usr/bin/libtool --mode=compile g++ -g-Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include -c -o  adding_variable/avein.lo adding_variable/avein.c
+  724  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include -c -o  adding_variable/avein.lo adding_variable/avein.c
+  725  /usr/bin/libtool --mode=link g++ -g -Wall -o adding_variable/avein adding_variable/avein.lo /home/kamna/rose/rose_build/lib/librose.la 
+  726  adding_variable/
+  727  ./avein -c rose_inputFile.
+  728  ./avein -c rose_inputFile.C
+  729  cd ..
+  730  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include -c -o  adding_variable/avein.lo adding_variable/avein.c
+  731  /usr/bin/libtool --mode=link g++ -g -Wall -o adding_variable/avein adding_variable/avein.lo /home/kamna/rose/rose_build/lib/librose.la 
+  732  cd adding_variable/
+  733  ./avein -c rose_inputFile.C
+  734  cd ..
+  735  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include
+  736  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include -c -o  adding_variable/avein.lo adding_variable/avein.c
+  737  /usr/bin/libtool --mode=link g++ -g -Wall -o adding_variable/avein adding_variable/avein.lo /home/kamna/rose/rose_build/lib/librose.la 
+  738  cd adding_variable/
+  739  ./avein -c rose_inputFile.C
+  740  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include -c -o  adding_variable/avein.lo adding_variable/avein.c
+  741  cd ..
+  742  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include -c -o  adding_variable/avein.lo adding_variable/avein.c
+  743  /usr/bin/libtool --mode=link g++ -g -Wall -o adding_variable/avein adding_variable/avein.lo /home/kamna/rose/rose_build/lib/librose.la 
+  744  cd adding_variable/
+  745  ./avein -c rose_inputFile.C
+  746  nautilus
+  747  cd rose/own/
+  748  /usr/bin/libtool --mode=link g++ -g -Wall -o adding_variable/avein adding_variable/avein.lo /home/kamna/rose/rose_build/lib/librose.la 
+  749  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include -c -o  adding_variable/avein.lo adding_variable/avein.c
+  750  /usr/bin/libtool --mode=link g++ -g -Wall -o adding_variable/avein adding_variable/avein.lo /home/kamna/rose/rose_build/lib/librose.la 
+  751  cd adding_variable/
+  752  ./avein -c rose_inputFile.C
+  753  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include -c -o  avein.lo avein.c
+  754  /usr/bin/libtool --mode=link g++ -g -Wall -o avein avein.lo /home/kamna/rose/rose_build/lib/librose.la 
+  755  ./avein -c rose_inputFile.C
+  756  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include -c -o  avein.lo avein.c
+  757  /usr/bin/libtool --mode=link g++ -g -Wall -o avein avein.lo /home/kamna/rose/rose_build/lib/librose.la 
+  758  ./avein -c rose_inputFile.C
+  759  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include -c -o  avein.lo avein.c
+  760  /usr/bin/libtool --mode=link g++ -g -Wall -o avein avein.lo /home/kamna/rose/rose_build/lib/librose.la 
+  761  ./avein -c rose_inputFile.C
+  762  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include -c -o  avein.lo avein.c
+  763  /usr/bin/libtool --mode=link g++ -g -Wall -o avein avein.lo /home/kamna/rose/rose_build/lib/librose.la 
+  764  ./avein -c rose_inputFile.C
+  765  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include -c -o  avein.lo avein.c
+  766  /usr/bin/libtool --mode=link g++ -g -Wall -o avein avein.lo /home/kamna/rose/rose_build/lib/librose.la 
+  767  ./avein -c rose_inputFile.C
+  768  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include -c -o  avein.lo avein.c
+  769  /usr/bin/libtool --mode=link g++ -g -Wall -o avein avein.lo /home/kamna/rose/rose_build/lib/librose.la 
+  770  ./avein -c rose_inputFile.C
+  771  /usr/bin/libtool --mode=compile g++ -g -Wall -I /home/kamna/rose/rose_build/include -pthread -I /home/kamna/rose/boost_build/include -c -o  avein.lo avein.c
+  772  /usr/bin/libtool --mode=link g++ -g -Wall -o avein avein.lo /home/kamna/rose/rose_build/lib/librose.la 
+  773  ./avein -c rose_inputFile.C
+  774  nautilus
+  775  cd rose/own/adding_variable/
+  776  -rose:openmp
+  777  --rose:openmp
+  778  history
+  779  history >history.txt
