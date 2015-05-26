@@ -1,19 +1,32 @@
 ***********************************************************************
-***********************************************************************
-Useful files : affine.cpp,CodeGen_Cycle_Shrink.cpp,cycle_shrinking.cpp,dependency.cpp,extShrinking.cpp,gcd_banerjee.cpp,new_loop_normalization.cpp,readWrie.cpp,main_file.cpp
+************************About files************************************
+*********affinec.cpp************
+Used to check whether loop is affine or not.
+***new_loop_normalization.cpp***
+Used to normalize the loop.
+*******gcd_banerjee.cpp*********
+Used to find whether dependency exists or not.
+*******dependency.cpp***********
+Used to find RAW WAR WAW.
+*******readWrie.cpp*************
+used to collect variables involved in dependency.
+*******cycle_shrinking.cpp******
+used to apply simple cycle shrinking.
+*******extShrinking.cpp*********
+Used to apply shrinking when variable dependency exists.
+***CodeGen_Cycle_Shrinking.cpp***
+used for final code generation(in form of cuda file).
+***********main_file.cpp*********
+finally execute the all files.
 
 
 *******************************Usage***********************************
 ***********************************************************************
-Compilation (Do for each file)  :
-/usr/bin/libtool --mode=compile g++ -g -Wall -I <path_to_rose_build_include> -pthread -I /home/kamna/rose/boost_build/include -c -o <file_name>.lo <filename>.cpp
+Firstly install the rose compiler with the help of steps give in rose maunal
+Then run the C2Cuda.sh script.
 
-
-Link:
-/usr/bin/libtool --mode=link g++ -g -Wall -o main_file dependency.lo gcd_banerjee.lo  new_loop_normalization.lo cycle_shrinking.lo readWrie.lo main_file.lo extShrinking.lo <path_to_rose_build>/lib/librose.la
-
-Execution:
-./main_file -c <input_file_name>
-
+****************how to run the script**************************************
 ***********************************************************************
-***********************************************************************
+./main_file benchmarks/[name of the input file] [gcd/banerjee] [simple/extShrinking1/extShrinking2]
+
+After this cuda file is generated named [name of the input file].cu
