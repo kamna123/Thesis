@@ -1,4 +1,5 @@
 #include "rose.h"
+#include "ds.hpp"
 using namespace std;
 using namespace SageBuilder;
 using namespace SageInterface;
@@ -57,7 +58,8 @@ bool isPotentiallyAffine(SgExpression* expr)
     }
     return false;
 }
-int main(int argc, char * argv[])
+
+/*int main(int argc, char * argv[])
 {
 
     SgProject *project = frontend (argc, argv);
@@ -87,4 +89,4 @@ int main(int argc, char * argv[])
 
     }
     return backend(project);
-}
+}*/

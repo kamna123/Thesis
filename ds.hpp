@@ -11,6 +11,8 @@ struct dep_data
    dep_data* next;
 };
 extern std::string store_upper[];
+extern std::ofstream outputfile;
+extern std::ifstream  inputfile;
 struct  StringNode
 {
 	char* a;

@@ -1,0 +1,16 @@
+#ifndef CODEGEN_CYCLE_SHRINK
+#define CODEGEN_CYCLE_SHRINK
+void var_loop(SgNode* forloop,std::string loop_id);
+std::string process(std::string const& s);
+void  SimpleSelective_kernel_declaration_DEPENDENCY(SgNode* forloop,std::string loop_id);
+void cuda_kernel_declaration_NO_DEPENDENCY();
+void ExtendedShrinking_kernel_declaration_DEPENDENCY();
+void simple_loop_shrinking_AFFINE(SgNode* forloop,string loop_id,int i);
+void cuda_kernel_call_NO_DEPENDENCY(SgNode* forloop,string loop_id,int i);
+void extCS_ConstantDistance_AFFINE(string loop_id,SgNode* forloop,int i);
+void extCS_VariableDistance_AFFINE(string loop_id,SgNode* forloop,int i);
+void SimpleSelective_kernel_definition_DEPENDENCY(char *shrinking_type,string loop_id,SgNode* forloop,SgFunctionDefinition *defn,int i);
+void cuda_kernel_definition_NO_DEPENDENCY(string loop_id,SgNode* forloop,SgFunctionDefinition *defn,int i);
+void ExtendedShrinking_kernel_definition_DEPENDENCY(string loop_id,SgNode* forloop,SgFunctionDefinition *defn,int i);
+
+#endif

@@ -109,7 +109,7 @@ void loop_normalization(SgNode* n,set<string> var)
     StringNode* temp3=NULL;
     StringNode* temp4=NULL;
     StringNode* curr=NULL;
-    char VariableDependenceDist='n';
+   // char VariableDependenceDist='n';
     if (isAssignmentStatement(init1, &ivarast, &lbast))
     {
         SgVarRefExp* var = isSgVarRefExp(ivarast);
@@ -130,7 +130,7 @@ void loop_normalization(SgNode* n,set<string> var)
     char* loop_id = strdup(loop_id_string.c_str());
     SgBinaryOp* test = isSgBinaryOp(ab->get_test_expr());
     ubast = test->get_rhs_operand();
-    cout<<" loop upper bound= "<<(test)->unparseToString()<<"\n";
+   // cout<<" loop upper bound= "<<(test)->unparseToString()<<"\n";
     string b1=(ubast)->unparseToString();
     b=b1.c_str();
     // cout<<"b ="<<b<<endl;
@@ -160,10 +160,10 @@ void loop_normalization(SgNode* n,set<string> var)
 
     SgBinaryOp* test1 = isSgBinaryOp(test->get_rhs_operand());
     //   cout<<" loop operator= "<<(testvar)->unparseToString()<<"\n";
-    cout<<" loop test= "<<(test)->unparseToString()<<"\n";
-    cout<<" op ="<<op<<endl;
-    cout<<"b_val "<<b_val<<endl;
-    cout<<"a_val "<<a_val<<endl;
+   // cout<<" loop test= "<<(test)->unparseToString()<<"\n";
+    //cout<<" op ="<<op<<endl;
+    //cout<<"b_val "<<b_val<<endl;
+    //cout<<"a_val "<<a_val<<endl;
     if(op.compare("+")==0)
     {
         //cout<<"true"<<endl;
@@ -187,8 +187,8 @@ void loop_normalization(SgNode* n,set<string> var)
     }
     if(loop_test.find("<=")!=string::npos)
         rel_op="<=";
-    cout<<"rel_op "<<rel_op<<endl;
-    cout<<"b_val "<<b_val<<endl;
+   // cout<<"rel_op "<<rel_op<<endl;
+    //cout<<"b_val "<<b_val<<endl;
     stringstream ss;
     ss << b_val;
     string str = ss.str();
@@ -235,13 +235,13 @@ void loop_normalization(SgNode* n,set<string> var)
                 flag=0;
                 while(stmt_string!=NULL)
                 {
-                    printf("stmt_size->a:%s\n",stmt_string->a);
+                   // printf("stmt_size->a:%s\n",stmt_string->a);
                     while(stmt_string!=NULL && occ==0 && stmt_string->next!=NULL)
                     {
                         // cout<<stmt_string->a<<endl<<stmt_string->next->a<<endl<<stmt_string->next->next->a<<endl;
                         if(((strcmp(stmt_string->next->a,"*")==0) &&(stmt_string->next->next && strcmp(stmt_string->next->next->a,loop_id)==0) )||((strcmp(stmt_string->next->a,"*")==0) &&(strcmp(stmt_string->a,loop_id)==0) ))
                         {
-                            cout<<"----------b---------"<<endl;
+                         //   cout<<"----------b---------"<<endl;
                             break;
 
 
@@ -250,16 +250,16 @@ void loop_normalization(SgNode* n,set<string> var)
                         else
                         {
                             strcat (front,stmt_string->a);
-                            cout<<"----------a---------"<<endl;
+                         //   cout<<"----------a---------"<<endl;
                             if(!strcmp(stmt_string->a,"+"))
                             {
                                 sign=1;
-                                printf("sign=1\n");
+                             //   printf("sign=1\n");
                             }
                             else if(!strcmp(stmt_string->a,"-"))
                             {
                                 sign=-1;
-                                printf("sign=-1\n");
+                             //   printf("sign=-1\n");
                             }
 
                             stmt_string=stmt_string->next;
@@ -267,27 +267,28 @@ void loop_normalization(SgNode* n,set<string> var)
                         // cout<<"out of loop "<<endl;
                     }
                     occ=1;
-                    cout<<":front"<<front<<endl;
+                  //  cout<<":front"<<front<<endl;
                     if(!strcmp(stmt_string->a,"+"))
                     {
                         sign=1;
-                        printf("sign=1\n");
+                        //printf("sign=1\n");
                     }
                     else if(!strcmp(stmt_string->a,"-"))
                     {
                         sign=-1;
-                        printf("sign=-1\n");
+                       // printf("sign=-1\n");
                     }
                     if(stmt_string->next&&(!strcmp(stmt_string->next->a,"*"))) //comes when stmt_string2 points to 2*i
                     {
-                        printf("sign=*\n");
+                       // printf("sign=*\n");
                         occ=1;
                         if((strcmp(stmt_string->a,loop_id))&&(strcmp(stmt_string->a,"*"))&&(strcmp(stmt_string->a,"+"))&&(strcmp(stmt_string->a,"-"))&&(!strcmp(stmt_string->next->next->a,loop_id)))
                         {
 
                             //   printf("stmt_string2->string= %s,loop_temp->loopIndex->string= %s,stmt_string2->next->next->string=%s\n",stmt_string->a,loop_id,stmt_string->next->next->a);
-                            //     cout<<"----------1st cond----------"<<endl;
+                                 cout<<"----------1st cond read----------"<<endl;
                             VariableDependenceDist='y';
+                             cout<<"VariableDependenceDist "<<VariableDependenceDist<<endl;
                             prev_val=atoi(stmt_string->a);                     // pre_val: 2 (out of 2*i)
                             //    printf("prev_val = %d\n",prev_val);
                             if(a_val)
@@ -332,8 +333,9 @@ void loop_normalization(SgNode* n,set<string> var)
                         else    if(!(strcmp(stmt_string->a,loop_id))&&(strcmp(stmt_string->next->next->a,"*"))&&(strcmp(stmt_string->next->next->a,"+"))&&(strcmp(stmt_string->next->next->a,"-"))&&(strcmp(stmt_string->next->next->a,loop_id)))
                         {
                             //   printf("stmt_string2->string= %s,loop_temp->loopIndex->string= %s,stmt_string2->next->next->string=%s\n",stmt_string->a,loop_id,stmt_string->next->next->a);
-                            cout<<"----------2nd cond----------"<<endl;
+                           cout<<"----------2nd cond read----------"<<endl;
                             VariableDependenceDist='y';
+                            cout<<"VariableDependenceDist "<<VariableDependenceDist<<endl;
                             prev_val=atoi(stmt_string->next->next->a);                     // pre_val: 2 (out of 2*i)
                             //  printf("prev_val = %d\n",prev_val);
                             if(a_val)
@@ -387,7 +389,7 @@ void loop_normalization(SgNode* n,set<string> var)
                     else  if(!(strcmp(stmt_string->a,loop_id)))
                     {
                         occ=1;
-                        cout<<"----------3rd cond----------"<<endl;
+                       // cout<<"----------3rd cond----------"<<endl;
                         if(a_val)
                         {
                             curr=(struct StringNode*)malloc(sizeof(struct StringNode));
@@ -442,11 +444,11 @@ void loop_normalization(SgNode* n,set<string> var)
                     if(curr!=NULL && isdigit(front[0] ))
                     {
                         temp4->a=front;
-                        cout<<"temp->a"<<temp4->a<<endl;
+                     //   cout<<"temp->a"<<temp4->a<<endl;
                         flag=1;
                         temp4->next=curr;
                         temp3=temp4;
-                        cout<<"string is (curr!=NULL)"<<endl;
+                      //  cout<<"string is (curr!=NULL)"<<endl;
                         result=store(temp3);
                         cout<<result<<endl;
                         SgExpression* exp= buildVarRefExp(result);
@@ -473,7 +475,7 @@ void loop_normalization(SgNode* n,set<string> var)
                 }
                 if(flag==0)
                 {
-                    cout<<"string is "<<endl;
+                   // cout<<"string is "<<endl;
                     result=store(temp3);
                     SgExpression* exp= buildVarRefExp(result);
                     replaceExpression(rhs,exp);
@@ -510,13 +512,13 @@ void loop_normalization(SgNode* n,set<string> var)
                 flag=0;
                 while(stmt_string!=NULL)
                 {
-                    printf("stmt_size->a:%s\n",stmt_string->a);
+                   // printf("stmt_size->a:%s\n",stmt_string->a);
                     while(stmt_string!=NULL && occ==0 && stmt_string->next!=NULL)
                     {
                         // cout<<stmt_string->a<<endl<<stmt_string->next->a<<endl<<stmt_string->next->next->a<<endl;
                         if(((strcmp(stmt_string->next->a,"*")==0) &&(stmt_string->next->next && strcmp(stmt_string->next->next->a,loop_id)==0) )||((strcmp(stmt_string->next->a,"*")==0) &&(strcmp(stmt_string->a,loop_id)==0) ))
                         {
-                            cout<<"----------b---------"<<endl;
+                          //  cout<<"----------b---------"<<endl;
                             break;
 
 
@@ -525,16 +527,16 @@ void loop_normalization(SgNode* n,set<string> var)
                         else
                         {
                             strcat (front,stmt_string->a);
-                            cout<<"----------a---------"<<endl;
+                            //cout<<"----------a---------"<<endl;
                             if(!strcmp(stmt_string->a,"+"))
                             {
                                 sign=1;
-                                printf("sign=1\n");
+                               // printf("sign=1\n");
                             }
                             else if(!strcmp(stmt_string->a,"-"))
                             {
                                 sign=-1;
-                                printf("sign=-1\n");
+                               // printf("sign=-1\n");
                             }
 
                             stmt_string=stmt_string->next;
@@ -542,27 +544,28 @@ void loop_normalization(SgNode* n,set<string> var)
                         // cout<<"out of loop "<<endl;
                     }
                     occ=1;
-                    cout<<":front"<<front<<endl;
+                   // cout<<":front"<<front<<endl;
                     if(!strcmp(stmt_string->a,"+"))
                     {
                         sign=1;
-                        printf("sign=1\n");
+                      //  printf("sign=1\n");
                     }
                     else if(!strcmp(stmt_string->a,"-"))
                     {
                         sign=-1;
-                        printf("sign=-1\n");
+                       // printf("sign=-1\n");
                     }
                     if(stmt_string->next&&(!strcmp(stmt_string->next->a,"*"))) //comes when stmt_string2 points to 2*i
                     {
-                        printf("sign=*\n");
+                      //  printf("sign=*\n");
                         occ=1;
                         if((strcmp(stmt_string->a,loop_id))&&(strcmp(stmt_string->a,"*"))&&(strcmp(stmt_string->a,"+"))&&(strcmp(stmt_string->a,"-"))&&(!strcmp(stmt_string->next->next->a,loop_id)))
                         {
 
                             //   printf("stmt_string2->string= %s,loop_temp->loopIndex->string= %s,stmt_string2->next->next->string=%s\n",stmt_string->a,loop_id,stmt_string->next->next->a);
-                            //     cout<<"----------1st cond----------"<<endl;
+                                cout<<"----------1st cond write----------"<<endl;
                             VariableDependenceDist='y';
+                             cout<<"VariableDependenceDist "<<VariableDependenceDist<<endl;
                             prev_val=atoi(stmt_string->a);                     // pre_val: 2 (out of 2*i)
                             //    printf("prev_val = %d\n",prev_val);
                             if(a_val)
@@ -607,8 +610,9 @@ void loop_normalization(SgNode* n,set<string> var)
                         else    if(!(strcmp(stmt_string->a,loop_id))&&(strcmp(stmt_string->next->next->a,"*"))&&(strcmp(stmt_string->next->next->a,"+"))&&(strcmp(stmt_string->next->next->a,"-"))&&(strcmp(stmt_string->next->next->a,loop_id)))
                         {
                             //   printf("stmt_string2->string= %s,loop_temp->loopIndex->string= %s,stmt_string2->next->next->string=%s\n",stmt_string->a,loop_id,stmt_string->next->next->a);
-                            cout<<"----------2nd cond----------"<<endl;
+                            cout<<"----------2nd cond write----------"<<endl;
                             VariableDependenceDist='y';
+                             cout<<"VariableDependenceDist "<<VariableDependenceDist<<endl;
                             prev_val=atoi(stmt_string->next->next->a);                     // pre_val: 2 (out of 2*i)
                             //  printf("prev_val = %d\n",prev_val);
                             if(a_val)
@@ -662,7 +666,7 @@ void loop_normalization(SgNode* n,set<string> var)
                     else  if(!(strcmp(stmt_string->a,loop_id)))
                     {
                         occ=1;
-                        //   cout<<"----------3rd cond----------"<<endl;
+                           cout<<"----------3rd cond----------"<<endl;
                         if(a_val)
                         {
                             curr=(struct StringNode*)malloc(sizeof(struct StringNode));
@@ -717,11 +721,11 @@ void loop_normalization(SgNode* n,set<string> var)
                     if(curr!=NULL && isdigit(front[0] ))
                     {
                         temp4->a=front;
-                        cout<<"temp->a"<<temp4->a<<endl;
+                       // cout<<"temp->a"<<temp4->a<<endl;
                         flag=1;
                         temp4->next=curr;
                         temp3=temp4;
-                        cout<<"string is (curr!=NULL)"<<endl;
+                      //  cout<<"string is (curr!=NULL)"<<endl;
                         result=store(temp3);
                         cout<<result<<endl;
                         SgExpression* exp= buildVarRefExp(result);
@@ -748,11 +752,11 @@ void loop_normalization(SgNode* n,set<string> var)
                 }
                 if(flag==0)
                 {
-                    cout<<"string is "<<endl;
+                    //cout<<"string is "<<endl;
                     result=store(temp3);
                     SgExpression* exp= buildVarRefExp(result);
                     replaceExpression(rhs,exp);
-                    cout<<result<<endl;
+                   // cout<<result<<endl;
                     // display(temp3);
                 }
                 // result.clear();

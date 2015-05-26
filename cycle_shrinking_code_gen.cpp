@@ -112,15 +112,15 @@ void var_loop(SgNode* forloop,string loop_id)
                     token=buff;
                 int k;
                 SgArrayType *arrT = isSgArrayType(a->get_type());
-                /* if(arrT)
+                 if(arrT)
                  {  k=getArrayElementCount(arrT);
                     cout<<k<<endl;
-                 SgName varName = a->get_symbol()->get_name();*/
+                 SgName varName = a->get_symbol()->get_name();
 
 //  cout<<(&varName)->getString()<<endl; }
                 // cout<<token<<endl;
                 int flag=0;
-                if((a)->unparseToString().compare(loop_id))
+                if((a)->unparseToString().compare(loop_id) && arrT!=NULL)
                 {
                     //mymap.insert(pair<string,lo>(a->unparseToString(),token));
                     mymap[a->unparseToString()].data_type=token;
@@ -193,6 +193,7 @@ void  SimpleSelective_kernel_declaration_DEPENDENCY(SgNode* forloop,string loop_
     std::map<string ,loop_var >::iterator it;
     for (it=mymap.begin(); it!=mymap.end(); ++it)
     {
+        cout<<"it->second.data_type "<<it->second.data_type<<endl;
         outputfile<<it->second.data_type;
         outputfile<<"*";
         outputfile<<" ";

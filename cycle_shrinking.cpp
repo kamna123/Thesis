@@ -1,6 +1,8 @@
 
 #include "rose.h"
 #include "ds.hpp"
+#include "cycle_shrinking.hpp"
+#include "extShrinking.hpp"
 #include <iostream>
 #include <set>
 #include <vector>
@@ -198,4 +200,35 @@ struct Phi_Values *Simple_Loops_Code_Gen(loop* write,SgNode* n,int loop_number,s
     cout<< ">"<<endl;
     cout<<"-------------------- total phi: <"<<Total_Phi<<endl;
     return lambda;
+}
+void CycleShrinking( char *shrinking,loop* write,SgNode* n,int loop_number,set<string> var)
+{
+    if(VariableDependenceDist=='n')
+    {
+        if((!strcmp(shrinking,"simple")))
+           
+            {
+                  lambda_var=Simple_Loops_Code_Gen(write, n,loop_number, var); printf("-------------------total phi=  %d-------------------------\n",Total_Phi);}
+       
+        else if(!strcmp(shrinking,"extShrinking1"))
+            {lambda_var=Simple_Loops_Code_Gen(write, n,loop_number, var); printf("-------------------total phi=  %d-------------------------\n",Total_Phi);}
+            //extCS_ConstantDistance_Lambda(read_var,write_var,loop_index_new,stmt_var);
+        else
+        {
+           cout<< "Oops!! Wrong input. Please give simple or extShrinking1 as input"<<endl;
+            exit(0);
+        }
+     }
+     else 
+     {
+        if(!strcmp(shrinking,"extShrinking2"))
+            { cout<<"ext shrinking applied on Single nested loop\n";
+            extCS_VariableDistance_Lambda( write,n,loop_number,var); printf("-------------------total phi=  %d-------------------------\n",Total_Phi);}
+        else
+        {
+           cout<< "Oops!! Code Generation for Variable Dependence Distance can only happen through Extended Cycle Shrinking \n";
+            exit(0);
+        }
+        
+     }
 }
