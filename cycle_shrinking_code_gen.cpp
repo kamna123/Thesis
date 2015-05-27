@@ -112,285 +112,286 @@ void var_loop(SgNode* forloop,string loop_id)
                     token=buff;
                 int k;
                 SgArrayType *arrT = isSgArrayType(a->get_type());
-                 if(arrT)
-                 {  k=getArrayElementCount(arrT);
+                if(arrT)
+                {
+                    k=getArrayElementCount(arrT);
                     cout<<k<<endl;
-                 SgName varName = a->get_symbol()->get_name();
+                    SgName varName = a->get_symbol()->get_name();
 
 //  cout<<(&varName)->getString()<<endl; }
-                // cout<<token<<endl;
-                int flag=0;
-                if((a)->unparseToString().compare(loop_id) && arrT!=NULL)
-                {
-                    //mymap.insert(pair<string,lo>(a->unparseToString(),token));
-                    mymap[a->unparseToString()].data_type=token;
-                    mymap[a->unparseToString()].name=a->unparseToString();
-                    mymap[a->unparseToString()].size=getArrayElementCount(arrT);
+                    // cout<<token<<endl;
+                    int flag=0;
+                    if((a)->unparseToString().compare(loop_id) && arrT!=NULL)
+                    {
+                        //mymap.insert(pair<string,lo>(a->unparseToString(),token));
+                        mymap[a->unparseToString()].data_type=token;
+                        mymap[a->unparseToString()].name=a->unparseToString();
+                        mymap[a->unparseToString()].size=getArrayElementCount(arrT);
 
-                    flag=1;
+                        flag=1;
+                    }
+                    //mymap.insert(make_pair(a->unparseToString(),make_pair(token,k)));
+                    /* if(flag==1)
+                      { loop_var* node=new loop_var;
+                       node->next=NULL;
+                        if(head_var==NULL)
+                        {
+                          head_var=node;
+                          node->name=a->unparseToString();
+                          node->data_type=token;
+                          node->size=getArrayElementCount(arrT);
+                        }
+                        else
+                        {
+                          loop_var* temp=head_var;
+                          while(temp->next)
+                           temp=temp->next;
+                         temp->next=node;
+                          node->name=a->unparseToString();
+                          node->data_type=token;
+                          node->size=getArrayElementCount(arrT);
+                        }
+                        flag=0;
+                      }*/
+                    // mymap[a->unparseToString()]=make_pair(token,k);
                 }
-                //mymap.insert(make_pair(a->unparseToString(),make_pair(token,k)));
-                /* if(flag==1)
-                  { loop_var* node=new loop_var;
-                   node->next=NULL;
-                    if(head_var==NULL)
-                    {
-                      head_var=node;
-                      node->name=a->unparseToString();
-                      node->data_type=token;
-                      node->size=getArrayElementCount(arrT);
-                    }
-                    else
-                    {
-                      loop_var* temp=head_var;
-                      while(temp->next)
-                       temp=temp->next;
-                     temp->next=node;
-                      node->name=a->unparseToString();
-                      node->data_type=token;
-                      node->size=getArrayElementCount(arrT);
-                    }
-                    flag=0;
-                  }*/
-                // mymap[a->unparseToString()]=make_pair(token,k);
-            }
-            //mymap.insert(pair<string ,pair<string,int> >((a)->unparseToString()),token,k);
+                //mymap.insert(pair<string ,pair<string,int> >((a)->unparseToString()),token,k);
 
+
+            }
 
         }
 
-    }
 
-
-    std::cout << "mymap contains:\n";
-    for (it=mymap.begin(); it!=mymap.end(); ++it)
-        std::cout << it->first << " =" << it->second.name<<it->second.data_type<<it->second.size<<'\n';
-    /* loop_var* temp=head_var;
-    while(temp)
-    {
-     cout<<"display "<<temp->name<<" "<<temp->size<<" "<<temp->data_type<<endl;
-     temp=temp->next;
-    }*/
-}
-std::string process(std::string const& s)
-{
-    std::string::size_type pos = s.find(';');
-    if (pos != std::string::npos)
-    {
-        return s.substr(0, pos);
-    }
-    else
-    {
-        return s;
-    }
-}
-
-void  SimpleSelective_kernel_declaration_DEPENDENCY(SgNode* forloop,string loop_id)
-{
-
-    outputfile<<"#define _NTHREAD 512"<<endl<<"#define _NBLOCK 65535"<<endl<<"#include<cuda.h>"<<endl<<endl;
-    outputfile<< "__global__ void _AFFINE_KERNEL(";
-    std::map<string ,loop_var >::iterator it;
-    for (it=mymap.begin(); it!=mymap.end(); ++it)
-    {
-        cout<<"it->second.data_type "<<it->second.data_type<<endl;
-        outputfile<<it->second.data_type;
-        outputfile<<"*";
-        outputfile<<" ";
-        outputfile<<",";
-        outputfile<<"int ,";
-    }
-    outputfile<<"int ,";
-    for(i=0; i<Total_Phi; i++)
-
-        outputfile<<"int );"<<endl<<endl;
-}
-
-
-void simple_loop_shrinking_AFFINE(SgNode* forloop,string loop_id)
-{
-    std::map<string ,loop_var >::iterator it;
-    string loop=process(forloop->unparseToString());
-    cout<<"for loop is "<<loop;
-
-    int i=1,x=1,j,temp_size=1,id_max=0;
-    int max_array_size=1;   //contains the array with maximum size like 'a' for declaration like int a[20][30],b[2][10][10]
-    int max_dimension_size=1;
-    int max_size,sz;
-    for (it=mymap.begin(); it!=mymap.end(); ++it)
-    {
-        temp_size=1;
-        //for(i=x;i>0;i--)
+        std::cout << "mymap contains:\n";
+        for (it=mymap.begin(); it!=mymap.end(); ++it)
+            std::cout << it->first << " =" << it->second.name<<it->second.data_type<<it->second.size<<'\n';
+        /* loop_var* temp=head_var;
+        while(temp)
         {
+         cout<<"display "<<temp->name<<" "<<temp->size<<" "<<temp->data_type<<endl;
+         temp=temp->next;
+        }*/
+    }
+    std::string process(std::string const& s)
+    {
+        std::string::size_type pos = s.find(';');
+        if (pos != std::string::npos)
+        {
+            return s.substr(0, pos);
+        }
+        else
+        {
+            return s;
+        }
+    }
 
+    void  SimpleSelective_kernel_declaration_DEPENDENCY(SgNode* forloop,string loop_id)
+    {
+
+        outputfile<<"#define _NTHREAD 512"<<endl<<"#define _NBLOCK 65535"<<endl<<"#include<cuda.h>"<<endl<<endl;
+        outputfile<< "__global__ void _AFFINE_KERNEL(";
+        std::map<string ,loop_var >::iterator it;
+        for (it=mymap.begin(); it!=mymap.end(); ++it)
+        {
+            cout<<"it->second.data_type "<<it->second.data_type<<endl;
+            outputfile<<it->second.data_type;
+            outputfile<<"*";
+            outputfile<<" ";
+            outputfile<<",";
+            outputfile<<"int ,";
+        }
+        outputfile<<"int ,";
+        for(i=0; i<Total_Phi; i++)
+
+            outputfile<<"int );"<<endl<<endl;
+    }
+
+
+    void simple_loop_shrinking_AFFINE(SgNode* forloop,string loop_id)
+    {
+        std::map<string ,loop_var >::iterator it;
+        string loop=process(forloop->unparseToString());
+        cout<<"for loop is "<<loop;
+
+        int i=1,x=1,j,temp_size=1,id_max=0;
+        int max_array_size=1;   //contains the array with maximum size like 'a' for declaration like int a[20][30],b[2][10][10]
+        int max_dimension_size=1;
+        int max_size,sz;
+        for (it=mymap.begin(); it!=mymap.end(); ++it)
+        {
+            temp_size=1;
+            //for(i=x;i>0;i--)
+            {
+
+                outputfile<< "\t"<<it->second.data_type;
+
+                outputfile<<"_SZ_"<<(it->second.name)<<"_"<<i<<" = " ;
+                outputfile<<it->second.size;
+                temp_size=it->second.size;
+                outputfile<<";"<<endl;
+                max_array_size=(temp_size>max_array_size)?temp_size:max_array_size;
+                if(id_max<x)
+                {
+                    id_max=x;
+                    max_size=it->second.size;
+                    printf("in id max\n");
+                }
+                printf("max_array_size=%d",max_array_size);
+                printf( "id_max: %d\n",id_max);
+
+
+            }
+        }
+        sz=max_size;
+
+        temp_size=sz;
+        printf("sz=%d\n",temp_size);
+        max_dimension_size=(temp_size>max_dimension_size)?temp_size:max_dimension_size;
+        printf("max_dim_size=%d\n",max_dimension_size);
+        int tempVar=id_max;
+        printf("tempvar=%d\n",tempVar);
+        max_array_size=1;
+        while(tempVar)
+        {
+            max_array_size*=max_dimension_size;
+            tempVar--;
+        }
+        for (it=mymap.begin(); it!=mymap.end(); ++it)
+        {
             outputfile<< "\t"<<it->second.data_type;
 
-            outputfile<<"_SZ_"<<(it->second.name)<<"_"<<i<<" = " ;
-            outputfile<<it->second.size;
-            temp_size=it->second.size;
-            outputfile<<";"<<endl;
-            max_array_size=(temp_size>max_array_size)?temp_size:max_array_size;
-            if(id_max<x)
-            {
-                id_max=x;
-                max_size=it->second.size;
-                printf("in id max\n");
-            }
-            printf("max_array_size=%d",max_array_size);
-            printf( "id_max: %d\n",id_max);
+            outputfile<<"*_DEV_"<<(it->second.name)<<";"<<endl;
+            outputfile<<"\tcudaMalloc((void**) &_DEV_"<<(it->second.name)<<","<<"sizeof(";
+            outputfile<<it->second.data_type;
+            outputfile<< ")";
+            sz = it->second.size;
+            x = 1;
+
+            i=1;
+            outputfile<< "*_SZ_"<<it->second.name<<"_"<<i;
+            outputfile<< ");"<<endl;
+
+            outputfile<<"\tcudaMemcpy(_DEV_"<<it->second.name<<","<<it->second.name<< ","<<"sizeof(";
+            outputfile<<it->second.data_type;
+            outputfile<< ")";
+            sz = it->second.size;
+            x = 1;
+
+
+            outputfile<<"*_SZ_"<<it->second.name<<"_"<<i;
+
+            outputfile<< ", cudaMemcpyHostToDevice);"<<endl;
+
 
 
         }
-    }
-    sz=max_size;
+        outputfile<<"\tint _NUM_THREADS = "<< max_array_size<<";"<<endl;
+        outputfile<<"\tfloat _NUM_BLOCKS=1;"<<endl<<"\tint _NUM_TILE=1;"<<endl;
+        outputfile<<"\tdim3 _THREADS(512);"<<endl<<"\tdim3 _BLOCKS(1);"<<endl;
+        outputfile<< "\tif(_NUM_THREADS < _NTHREAD)"<<endl;
+        if(id_max==1)
+            outputfile<<"\t{"<<endl<<"\t\t_THREADS.x=_NUM_THREADS;"<<endl<<"\t}"<<endl;
+        /*else if(id_max==2)
+            fprintf(out, "\t{\n\t\t_THREADS.x=%d;\n\t\t_THREADS.y=%d;\n\t}\n",max_dimension_size,max_dimension_size);
+        else
+            fprintf(out, "\t{\n\t\t_THREADS.x=%d;\n\t\t_THREADS.y=%d;\n\t\t_THREADS.z=%d;\n\t}\n",max_dimension_size,max_dimension_size,max_dimension_size);*/
 
-    temp_size=sz;
-    printf("sz=%d\n",temp_size);
-    max_dimension_size=(temp_size>max_dimension_size)?temp_size:max_dimension_size;
-    printf("max_dim_size=%d\n",max_dimension_size);
-    int tempVar=id_max;
-    printf("tempvar=%d\n",tempVar);
-    max_array_size=1;
-    while(tempVar)
-    {
-        max_array_size*=max_dimension_size;
-        tempVar--;
-    }
-    for (it=mymap.begin(); it!=mymap.end(); ++it)
-    {
-        outputfile<< "\t"<<it->second.data_type;
+        outputfile<< "\telse {"<<endl;
+        if(id_max==1)
+            outputfile<< "\t\t _THREADS.x=_NTHREAD;"<<endl<<"\t\t_NUM_BLOCKS=(_NUM_THREADS % _NTHREAD == 0)?(_NUM_THREADS/_NTHREAD):((_NUM_THREADS/_NTHREAD)+1);"<<endl<<"\t\tif(_NUM_BLOCKS<_NBLOCK)"<<endl<<"\t\t\t_BLOCKS.x=_NUM_BLOCKS;"<<endl<<"\t\telse {"<<endl<<"\t\t\t_BLOCKS.x=_NBLOCK;"<<endl<<"\t\t\tint temp=_NUM_BLOCKS;"<<endl<<"\t\t\t_NUM_TILE=(temp % _NBLOCK == 0)?(_NUM_BLOCKS/_NBLOCK):((_NUM_BLOCKS/_NBLOCK)+1);"<<endl<<"\t\t}"<<endl<<"\t}"<<endl;
+        /*else if(id_max==2)
+            fprintf(out, "\t\t_NUM_BLOCKS=(_NUM_THREADS*1.0)/256;\n\t\t_BLOCKS.x=_BLOCKS.y=ceil(sqrt(_NUM_BLOCKS));\n\t\t_THREADS.x=_THREADS.y=ceil(sqrt(%d.0/(_BLOCKS.x*_BLOCKS.y)));\n\t\tint temp=_NUM_BLOCKS;\n\t\tif(_NUM_BLOCKS>_NBLOCK)\n\t\t\t_NUM_TILE=(temp %% _NBLOCK == 0)?(_NUM_BLOCKS/_NBLOCK):((_NUM_BLOCKS/_NBLOCK)+1);\n\t}\n",max_array_size);
+        else
+            fprintf(out, "\t\t_NUM_BLOCKS=(_NUM_THREADS*1.0)/512;\n\t\t_BLOCKS.x=_BLOCKS.y=_BLOCKS.z=ceil(cbrtf(_NUM_BLOCKS));\n\t\t_THREADS.x=_THREADS.y=_THREADS.z=ceil(cbrtf(%d.0/(_BLOCKS.x*_BLOCKS.y*_BLOCKS.z)));\n\t\tint temp=_NUM_BLOCKS;\n\t\tif(_NUM_BLOCKS>_NBLOCK)\n\t\t\t_NUM_TILE=(temp %% _NBLOCK == 0)?(_NUM_BLOCKS/_NBLOCK):((_NUM_BLOCKS/_NBLOCK)+1);\n\t}\n",max_array_size);*/
 
-        outputfile<<"*_DEV_"<<(it->second.name)<<";"<<endl;
-        outputfile<<"\tcudaMalloc((void**) &_DEV_"<<(it->second.name)<<","<<"sizeof(";
-        outputfile<<it->second.data_type;
-        outputfile<< ")";
-        sz = it->second.size;
-        x = 1;
-
-        i=1;
-        outputfile<< "*_SZ_"<<it->second.name<<"_"<<i;
-        outputfile<< ");"<<endl;
-
-        outputfile<<"\tcudaMemcpy(_DEV_"<<it->second.name<<","<<it->second.name<< ","<<"sizeof(";
-        outputfile<<it->second.data_type;
-        outputfile<< ")";
-        sz = it->second.size;
-        x = 1;
-
-
-        outputfile<<"*_SZ_"<<it->second.name<<"_"<<i;
-
-        outputfile<< ", cudaMemcpyHostToDevice);"<<endl;
-
-
-
-    }
-    outputfile<<"\tint _NUM_THREADS = "<< max_array_size<<";"<<endl;
-    outputfile<<"\tfloat _NUM_BLOCKS=1;"<<endl<<"\tint _NUM_TILE=1;"<<endl;
-    outputfile<<"\tdim3 _THREADS(512);"<<endl<<"\tdim3 _BLOCKS(1);"<<endl;
-    outputfile<< "\tif(_NUM_THREADS < _NTHREAD)"<<endl;
-    if(id_max==1)
-        outputfile<<"\t{"<<endl<<"\t\t_THREADS.x=_NUM_THREADS;"<<endl<<"\t}"<<endl;
-    /*else if(id_max==2)
-        fprintf(out, "\t{\n\t\t_THREADS.x=%d;\n\t\t_THREADS.y=%d;\n\t}\n",max_dimension_size,max_dimension_size);
-    else
-        fprintf(out, "\t{\n\t\t_THREADS.x=%d;\n\t\t_THREADS.y=%d;\n\t\t_THREADS.z=%d;\n\t}\n",max_dimension_size,max_dimension_size,max_dimension_size);*/
-
-    outputfile<< "\telse {"<<endl;
-    if(id_max==1)
-        outputfile<< "\t\t _THREADS.x=_NTHREAD;"<<endl<<"\t\t_NUM_BLOCKS=(_NUM_THREADS % _NTHREAD == 0)?(_NUM_THREADS/_NTHREAD):((_NUM_THREADS/_NTHREAD)+1);"<<endl<<"\t\tif(_NUM_BLOCKS<_NBLOCK)"<<endl<<"\t\t\t_BLOCKS.x=_NUM_BLOCKS;"<<endl<<"\t\telse {"<<endl<<"\t\t\t_BLOCKS.x=_NBLOCK;"<<endl<<"\t\t\tint temp=_NUM_BLOCKS;"<<endl<<"\t\t\t_NUM_TILE=(temp % _NBLOCK == 0)?(_NUM_BLOCKS/_NBLOCK):((_NUM_BLOCKS/_NBLOCK)+1);"<<endl<<"\t\t}"<<endl<<"\t}"<<endl;
-    /*else if(id_max==2)
-        fprintf(out, "\t\t_NUM_BLOCKS=(_NUM_THREADS*1.0)/256;\n\t\t_BLOCKS.x=_BLOCKS.y=ceil(sqrt(_NUM_BLOCKS));\n\t\t_THREADS.x=_THREADS.y=ceil(sqrt(%d.0/(_BLOCKS.x*_BLOCKS.y)));\n\t\tint temp=_NUM_BLOCKS;\n\t\tif(_NUM_BLOCKS>_NBLOCK)\n\t\t\t_NUM_TILE=(temp %% _NBLOCK == 0)?(_NUM_BLOCKS/_NBLOCK):((_NUM_BLOCKS/_NBLOCK)+1);\n\t}\n",max_array_size);
-    else
-        fprintf(out, "\t\t_NUM_BLOCKS=(_NUM_THREADS*1.0)/512;\n\t\t_BLOCKS.x=_BLOCKS.y=_BLOCKS.z=ceil(cbrtf(_NUM_BLOCKS));\n\t\t_THREADS.x=_THREADS.y=_THREADS.z=ceil(cbrtf(%d.0/(_BLOCKS.x*_BLOCKS.y*_BLOCKS.z)));\n\t\tint temp=_NUM_BLOCKS;\n\t\tif(_NUM_BLOCKS>_NBLOCK)\n\t\t\t_NUM_TILE=(temp %% _NBLOCK == 0)?(_NUM_BLOCKS/_NBLOCK):((_NUM_BLOCKS/_NBLOCK)+1);\n\t}\n",max_array_size);*/
-
-    outputfile<<"\tint _CUDA_TILE;"<<endl;
+        outputfile<<"\tint _CUDA_TILE;"<<endl;
 //for loop data insertion
-    /*      if(DependencyExists=='y')
-    {
-    loop_index_temp = loop_index_new;
-    struct Phi_Values *lambda_temp=lambda_var;
-    while(loop_index_temp!=NULL)
-    {
-        fprintf(out, "\tfor(%s=%s;%s",loop_index_temp->loopIndex->string,loop_index_temp->L->string,loop_index_temp->loopIndex->string);
-        int ch=loop_index_temp->relop;
-        switch(ch)
+        /*      if(DependencyExists=='y')
         {
-            case 1:fprintf(out, "<"); break;
-            case 2:fprintf(out, ">"); break;
-            case 3:fprintf(out, "<="); break;
-            case 4:fprintf(out, ">="); break;
-            default:fprintf(out, "wrong choice"); break;
+        loop_index_temp = loop_index_new;
+        struct Phi_Values *lambda_temp=lambda_var;
+        while(loop_index_temp!=NULL)
+        {
+            fprintf(out, "\tfor(%s=%s;%s",loop_index_temp->loopIndex->string,loop_index_temp->L->string,loop_index_temp->loopIndex->string);
+            int ch=loop_index_temp->relop;
+            switch(ch)
+            {
+                case 1:fprintf(out, "<"); break;
+                case 2:fprintf(out, ">"); break;
+                case 3:fprintf(out, "<="); break;
+                case 4:fprintf(out, ">="); break;
+                default:fprintf(out, "wrong choice"); break;
+            }
+            fprintf(out, "%s;%s+=%d)\n",loop_index_temp->U->string,loop_index_temp->loopIndex->string,lambda_temp->phi_val);
+            lambda_temp=lambda_temp->next;
+            loop_index_temp=loop_index_temp->next;
         }
-        fprintf(out, "%s;%s+=%d)\n",loop_index_temp->U->string,loop_index_temp->loopIndex->string,lambda_temp->phi_val);
-        lambda_temp=lambda_temp->next;
-        loop_index_temp=loop_index_temp->next;
-    }
-    }*/
+        }*/
 
-    outputfile<<"\tfor(_CUDA_TILE=0;_CUDA_TILE<_NUM_TILE;_CUDA_TILE++)"<<endl<<"\t{";
-    outputfile<<"\t\t_AFFINE_KERNEL<<<_BLOCKS,_THREADS>>>(";
-    stmt_var_temp = stmt_var;
-    for (it=mymap.begin(); it!=mymap.end(); ++it)
+        outputfile<<"\tfor(_CUDA_TILE=0;_CUDA_TILE<_NUM_TILE;_CUDA_TILE++)"<<endl<<"\t{";
+        outputfile<<"\t\t_AFFINE_KERNEL<<<_BLOCKS,_THREADS>>>(";
+        stmt_var_temp = stmt_var;
+        for (it=mymap.begin(); it!=mymap.end(); ++it)
+        {
+
+            outputfile <<"_DEV_";
+            outputfile << it->first;
+            x=1;
+            i=1;
+            outputfile<<"_SZ_"<<it->first<<"_"<<i;
+
+        }
+
+
+
+
+
+
+    }
+    int main(int argc, char * argv[])
     {
-
-        outputfile <<"_DEV_";
-        outputfile << it->first;
-        x=1;
-        i=1;
-        outputfile<<"_SZ_"<<it->first<<"_"<<i;
-
-    }
-
-
-
-
-
-
-}
-int main(int argc, char * argv[])
-{
-    SgProject *project = frontend (argc, argv);
-    SgFunctionDeclaration* func = SageInterface::findMain(project);
-    SgFunctionDefinition *defn = func->get_definition();
-    SgFunctionParameterTypeList* param_type_list;
+        SgProject *project = frontend (argc, argv);
+        SgFunctionDeclaration* func = SageInterface::findMain(project);
+        SgFunctionDefinition *defn = func->get_definition();
+        SgFunctionParameterTypeList* param_type_list;
 //SgProject *project = frontend (argc, argv);
-    SgSourceFile*   file = isSgSourceFile(project->get_fileList()[0]);
+        SgSourceFile*   file = isSgSourceFile(project->get_fileList()[0]);
 //setOutputFileName(isSgFile(file));
 //fprintf(file, "#define _NTHREAD 512\n#define _NBLOCK 65535\n#include<cuda.h>\n\n");
-    Rose_STL_Container<SgNode*> forLoops = NodeQuery::querySubTree(defn,V_SgForStatement);
-    for(Rose_STL_Container<SgNode*>::iterator iter = forLoops.begin(); iter!= forLoops.end(); iter++ )
-    {
-        SgExpression* ivarast=NULL, *lbast=NULL, *ubast=NULL, *stepast=NULL;
-        SgForStatement* ab=isSgForStatement(*iter);
-        SgStatementPtrList & init=(ab)->get_init_stmt();
-        SgStatement* init1 = init.front();
-        SgInitializedName* ivarname=NULL;
-        visitorTraversal exampleTraversal;
+        Rose_STL_Container<SgNode*> forLoops = NodeQuery::querySubTree(defn,V_SgForStatement);
+        for(Rose_STL_Container<SgNode*>::iterator iter = forLoops.begin(); iter!= forLoops.end(); iter++ )
+        {
+            SgExpression* ivarast=NULL, *lbast=NULL, *ubast=NULL, *stepast=NULL;
+            SgForStatement* ab=isSgForStatement(*iter);
+            SgStatementPtrList & init=(ab)->get_init_stmt();
+            SgStatement* init1 = init.front();
+            SgInitializedName* ivarname=NULL;
+            visitorTraversal exampleTraversal;
 
-        // Call the traversal starting at the project node of the AST
-        // Traverse all header files and source file (the -rose:collectAllCommentsAndDirectives
-        // commandline option controls if comments and CPP directives are separately extracted
-        // from header files).
-        exampleTraversal.traverse(project,preorder);
+            // Call the traversal starting at the project node of the AST
+            // Traverse all header files and source file (the -rose:collectAllCommentsAndDirectives
+            // commandline option controls if comments and CPP directives are separately extracted
+            // from header files).
+            exampleTraversal.traverse(project,preorder);
 //fprintf(file,"int main () {");
 
-        if (isAssignmentStatement(init1, &ivarast, &lbast))
-        {
-            SgVarRefExp* var = isSgVarRefExp(ivarast);
-            if (var)
+            if (isAssignmentStatement(init1, &ivarast, &lbast))
             {
+                SgVarRefExp* var = isSgVarRefExp(ivarast);
+                if (var)
+                {
 
-                ivarname = var->get_symbol()->get_declaration();
+                    ivarname = var->get_symbol()->get_declaration();
+                }
             }
+            string loop_id=(ivarname)->unparseToString();
+            var_loop(*iter,loop_id);
+            SimpleSelective_kernel_declaration_DEPENDENCY(*iter,loop_id);
+            simple_loop_shrinking_AFFINE(*iter,loop_id);
         }
-        string loop_id=(ivarname)->unparseToString();
-        var_loop(*iter,loop_id);
-        SimpleSelective_kernel_declaration_DEPENDENCY(*iter,loop_id);
-        simple_loop_shrinking_AFFINE(*iter,loop_id);
-    }
 
-    return backend(project);
-}
+        return backend(project);
+    }
 
 

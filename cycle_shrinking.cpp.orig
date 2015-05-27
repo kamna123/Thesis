@@ -206,37 +206,29 @@ void CycleShrinking( char *shrinking,loop* write,SgNode* n,int loop_number,set<s
     if(VariableDependenceDist=='n')
     {
         if((!strcmp(shrinking,"simple")))
-
-        {
-            lambda_var=Simple_Loops_Code_Gen(write, n,loop_number, var);
-            printf("-------------------total phi=  %d-------------------------\n",Total_Phi);
-        }
-
+           
+            {
+                  lambda_var=Simple_Loops_Code_Gen(write, n,loop_number, var); printf("-------------------total phi=  %d-------------------------\n",Total_Phi);}
+       
         else if(!strcmp(shrinking,"extShrinking1"))
-        {
-            lambda_var=Simple_Loops_Code_Gen(write, n,loop_number, var);
-            printf("-------------------total phi=  %d-------------------------\n",Total_Phi);
-        }
-        //extCS_ConstantDistance_Lambda(read_var,write_var,loop_index_new,stmt_var);
+            {lambda_var=Simple_Loops_Code_Gen(write, n,loop_number, var); printf("-------------------total phi=  %d-------------------------\n",Total_Phi);}
+            //extCS_ConstantDistance_Lambda(read_var,write_var,loop_index_new,stmt_var);
         else
         {
-            cout<< "Oops!! Wrong input. Please give simple or extShrinking1 as input"<<endl;
+           cout<< "Oops!! Wrong input. Please give simple or extShrinking1 as input"<<endl;
             exit(0);
         }
-    }
-    else
-    {
+     }
+     else 
+     {
         if(!strcmp(shrinking,"extShrinking2"))
-        {
-            cout<<"ext shrinking applied on Single nested loop\n";
-            extCS_VariableDistance_Lambda( write,n,loop_number,var);
-            printf("-------------------total phi=  %d-------------------------\n",Total_Phi);
-        }
+            { cout<<"ext shrinking applied on Single nested loop\n";
+            extCS_VariableDistance_Lambda( write,n,loop_number,var); printf("-------------------total phi=  %d-------------------------\n",Total_Phi);}
         else
         {
-            cout<< "Oops!! Code Generation for Variable Dependence Distance can only happen through Extended Cycle Shrinking \n";
+           cout<< "Oops!! Code Generation for Variable Dependence Distance can only happen through Extended Cycle Shrinking \n";
             exit(0);
         }
-
-    }
+        
+     }
 }
