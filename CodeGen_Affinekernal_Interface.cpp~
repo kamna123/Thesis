@@ -7,7 +7,7 @@ void cuda_kernel_declaration_AFFINE(char *shrinking,SgNode* forloop,string loop_
 {
     if((DependencyExists=='y')&&((!strcmp(shrinking,"extShrinking1"))||(!strcmp(shrinking,"extShrinking2"))))
     {
-        // cout<<" 1 "<<endl;
+        cout<<" 1 "<<endl;
         ExtendedShrinking_kernel_declaration_DEPENDENCY(loop_num);
     }
     else if((DependencyExists=='y')&&((!strcmp(shrinking,"simple"))||(!strcmp(shrinking,"selective"))))

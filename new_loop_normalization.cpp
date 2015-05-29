@@ -149,6 +149,7 @@ void loop_normalization(SgNode* n,set<string> var)
     ab->set_increment( buildVarRefExp((ivarname)->unparseToString()+"="+(ivarname)->unparseToString()+"+"+"1", scope));
     string b2=(stepast1)->unparseToString();
     c=b2.c_str();
+
     //  cout<<"c ="<<c<<endl;
     b_val=atoi(b);
 

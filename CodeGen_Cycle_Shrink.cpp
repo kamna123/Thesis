@@ -743,29 +743,29 @@ void SimpleSelective_kernel_definition_DEPENDENCY(char *shrinking_type,string lo
     std::map<string ,loop_var >::iterator it;
     string loop=process(forloop->unparseToString());
     cout<<"for loop is "<<loop;
-    outputfile<<"\n\n__global__ void _AFFINE_KERNEL_"<<i<<"(";
+    outputfile1<<"\n\n__global__ void _AFFINE_KERNEL_"<<i<<"(";
     for (it=mymap.begin(); it!=mymap.end(); ++it)
     {
-        outputfile<<it->second.data_type;
-        outputfile<<"*";
-        outputfile<<" ";
-        outputfile<<it->second.name <<",";
+        outputfile1<<it->second.data_type;
+        outputfile1<<"*";
+        outputfile1<<" ";
+        outputfile1<<it->second.name <<",";
 
-        outputfile<<"int ";
-        outputfile<< " _SZ_"<<it->second.name<<"_"<<i<<",";
+        outputfile1<<"int ";
+        outputfile1<< " _SZ_"<<it->second.name<<"_"<<i<<",";
     }
-    outputfile<<"int phi_count, ";
+    outputfile1<<"int phi_count, ";
     int temp=Total_Phi;
-    outputfile<<"int CUDA_"<<loop_id<<"," ;
-    outputfile<<"int CUDA_L_"<<loop_id<<","<<"int CUDA_U_"<<loop_id<<",";
-    outputfile<<"int _CUDA_TILE)"<<endl<<"{"<<endl;
-    outputfile<<"\tint "<< loop_id<<" = gridDim.x*blockDim.x*_CUDA_TILE + blockDim.x*blockIdx.x + threadIdx.x;"<<endl;
+    outputfile1<<"int CUDA_"<<loop_id<<"," ;
+    outputfile1<<"int CUDA_L_"<<loop_id<<","<<"int CUDA_U_"<<loop_id<<",";
+    outputfile1<<"int _CUDA_TILE)"<<endl<<"{"<<endl;
+    outputfile1<<"\tint "<< loop_id<<" = gridDim.x*blockDim.x*_CUDA_TILE + blockDim.x*blockIdx.x + threadIdx.x;"<<endl;
     int lambda_k=1;
 
     struct Phi_Values *lambda_temp=lambda_var;
-    outputfile<<"\tif((CUDA_"<<loop_id<<"<="<<loop_id<<")&&("<<loop_id<<"<(CUDA_"<<loop_id<<"+"<<lambda_temp->phi_val<<"))&&("<<loop_id;
-    outputfile<<rel_op;
-    outputfile<<"CUDA_U_"<<loop_id<<")){"<<endl;
+    outputfile1<<"\tif((CUDA_"<<loop_id<<"<="<<loop_id<<")&&("<<loop_id<<"<(CUDA_"<<loop_id<<"+"<<lambda_temp->phi_val<<"))&&("<<loop_id;
+    outputfile1<<rel_op;
+    outputfile1<<"CUDA_U_"<<loop_id<<")){"<<endl;
     if(lambda_temp->phi_val>=1)
         lambda_k=0;
     SgForStatement* forLoop=isSgForStatement(forloop);
@@ -773,14 +773,14 @@ void SimpleSelective_kernel_definition_DEPENDENCY(char *shrinking_type,string lo
     Rose_STL_Container<SgStatement*> forLoops = loopBody->get_statements();
     for(Rose_STL_Container<SgStatement*>::iterator iter = forLoops.begin(); iter!= forLoops.end(); iter++ )
     {
-        outputfile<< (*iter)->unparseToString()<<"\n";
+        outputfile1<< (*iter)->unparseToString()<<"\n";
     }
     temp=Total_Phi;
     while(temp--)
     {
-        outputfile<< "}";
+        outputfile1<< "}";
     }
-    outputfile<<"}"<<endl<<endl;
+    outputfile1<<"}"<<endl<<endl;
 }
 void cuda_kernel_definition_NO_DEPENDENCY(string loop_id,SgNode* forloop,SgFunctionDefinition *defn,int i)
 {
@@ -788,32 +788,32 @@ void cuda_kernel_definition_NO_DEPENDENCY(string loop_id,SgNode* forloop,SgFunct
     std::map<string ,loop_var >::iterator it;
     string loop=process(forloop->unparseToString());
     cout<<"for loop is "<<loop;
-    outputfile<<"\n\n__global__ void _AFFINE_KERNEL_"<<i<<"(";
+    outputfile1<<"\n\n__global__ void _AFFINE_KERNEL_"<<i<<"(";
     for (it=mymap.begin(); it!=mymap.end(); ++it)
     {
-        outputfile<<it->second.data_type;
-        outputfile<<"*";
-        outputfile<<" ";
-        outputfile<<it->second.name<<",";
+        outputfile1<<it->second.data_type;
+        outputfile1<<"*";
+        outputfile1<<" ";
+        outputfile1<<it->second.name<<",";
 
-        outputfile<<"int ";
-        outputfile<< " _SZ_"<<it->second.name<<"_"<<i<<",";
+        outputfile1<<"int ";
+        outputfile1<< " _SZ_"<<it->second.name<<"_"<<i<<",";
     }
-    outputfile<<"int CUDA_L_"<<loop_id<<","<<"int CUDA_U_"<<loop_id<<",";
-    outputfile<<"int _CUDA_TILE)"<<endl<<"{"<<endl;
-    outputfile<<"\tint "<< loop_id<<" = gridDim.x*blockDim.x*_CUDA_TILE + blockDim.x*blockIdx.x + threadIdx.x;"<<endl;
+    outputfile1<<"int CUDA_L_"<<loop_id<<","<<"int CUDA_U_"<<loop_id<<",";
+    outputfile1<<"int _CUDA_TILE)"<<endl<<"{"<<endl;
+    outputfile1<<"\tint "<< loop_id<<" = gridDim.x*blockDim.x*_CUDA_TILE + blockDim.x*blockIdx.x + threadIdx.x;"<<endl;
     struct Phi_Values *lambda_temp=lambda_var;
 
-    outputfile<<"\tif((CUDA_L_"<<loop_id<<"<="<<loop_id<<")&&("<<loop_id<<"<=CUDA_U_"<<loop_id<<")){"<<endl;
+    outputfile1<<"\tif((CUDA_L_"<<loop_id<<"<="<<loop_id<<")&&("<<loop_id<<"<=CUDA_U_"<<loop_id<<")){"<<endl;
     SgForStatement* forLoop=isSgForStatement(forloop);
     SgBasicBlock* loopBody = isSgBasicBlock(forLoop->get_loop_body());
     Rose_STL_Container<SgStatement*> forLoops = loopBody->get_statements();
     for(Rose_STL_Container<SgStatement*>::iterator iter = forLoops.begin(); iter!= forLoops.end(); iter++ )
     {
-        outputfile<< (*iter)->unparseToString()<<"\n";
+        outputfile1<< (*iter)->unparseToString()<<"\n";
     }
-    outputfile<<"}";
-    outputfile<<"}"<<endl<<endl;
+    outputfile1<<"}";
+    outputfile1<<"}"<<endl<<endl;
 }
 void ExtendedShrinking_kernel_definition_DEPENDENCY(string loop_id,SgNode* forloop,SgFunctionDefinition *defn,int i)
 {
@@ -821,30 +821,30 @@ void ExtendedShrinking_kernel_definition_DEPENDENCY(string loop_id,SgNode* forlo
     std::map<string ,loop_var >::iterator it;
     string loop=process(forloop->unparseToString());
     cout<<"for loop is "<<loop;
-    outputfile<<"\n\n__global__ void _AFFINE_KERNEL_"<<i<<"(";
+    outputfile1<<"\n\n__global__ void _AFFINE_KERNEL_"<<i<<"(";
     for (it=mymap.begin(); it!=mymap.end(); ++it)
     {
-        outputfile<<it->second.data_type;
-        outputfile<<"*";
-        outputfile<<" ";
-        outputfile<<it->second.name<<",";
+        outputfile1<<it->second.data_type;
+        outputfile1<<"*";
+        outputfile1<<" ";
+        outputfile1<<it->second.name<<",";
 
-        outputfile<<"int ";
-        outputfile<< " _SZ_"<<it->second.name<<"_"<<i<<",";
+        outputfile1<<"int ";
+        outputfile1<< " _SZ_"<<it->second.name<<"_"<<i<<",";
     }
-    outputfile<<"int CUDA_L_"<<loop_id<<","<<"int CUDA_U_"<<loop_id<<",";
-    outputfile<<"int _CUDA_TILE)"<<endl<<"{"<<endl;
-    outputfile<<"\tint "<< loop_id<<" = gridDim.x*blockDim.x*_CUDA_TILE + blockDim.x*blockIdx.x + threadIdx.x;"<<endl;
+    outputfile1<<"int CUDA_L_"<<loop_id<<","<<"int CUDA_U_"<<loop_id<<",";
+    outputfile1<<"int _CUDA_TILE)"<<endl<<"{"<<endl;
+    outputfile1<<"\tint "<< loop_id<<" = gridDim.x*blockDim.x*_CUDA_TILE + blockDim.x*blockIdx.x + threadIdx.x;"<<endl;
     struct Phi_Values *lambda_temp=lambda_var;
 
-    outputfile<<"\tif((CUDA_L_"<<loop_id<<"<="<<loop_id<<")&&("<<loop_id<<"<=CUDA_U_"<<loop_id<<")){"<<endl;
+    outputfile1<<"\tif((CUDA_L_"<<loop_id<<"<="<<loop_id<<")&&("<<loop_id<<"<=CUDA_U_"<<loop_id<<")){"<<endl;
     SgForStatement* forLoop=isSgForStatement(forloop);
     SgBasicBlock* loopBody = isSgBasicBlock(forLoop->get_loop_body());
     Rose_STL_Container<SgStatement*> forLoops = loopBody->get_statements();
     for(Rose_STL_Container<SgStatement*>::iterator iter = forLoops.begin(); iter!= forLoops.end(); iter++ )
     {
-        outputfile<< (*iter)->unparseToString()<<"\n";
+        outputfile1<< (*iter)->unparseToString()<<"\n";
     }
-    outputfile<<"}";
-    outputfile<<"}"<<endl<<endl;
+    outputfile1<<"}";
+    outputfile1<<"}"<<endl<<endl;
 }

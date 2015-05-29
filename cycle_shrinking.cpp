@@ -41,7 +41,7 @@ struct Phi_Values *find_phi_values(string dep_string,struct Phi_Values *lambda,s
         }
         lambda=lambda->next;
     }
-// cout<<"dep_ size = "<<dep_string<<endl;
+//cout<<"dep_ size = "<<dep_string<<endl;
     int constt=0,var,sign=1;
     string loop_id;
     lambda_temp=phi_value;
@@ -64,43 +64,50 @@ struct Phi_Values *find_phi_values(string dep_string,struct Phi_Values *lambda,s
             ss>>s;
             j++;
         }
-        //   cout<<"string in coef "<<s<<endl;
+        j--;
+        /// cout<<"string in coef and j "<<s<<" "<<j<<endl;
         if(!loop_id_string.compare(s))
 
         {
-
+            // cout<<"-----cond 1-----"<<endl;
             loop_id=s;
             stringstream a;
             string b;
-            a<<dep_string[j];
+            a<<dep_string[j+1];
             a>>b;
-            if(!b.compare("*") || dep_string[j]!='\0')
-                j++;
+            if(!b.compare("*") && dep_string[j+1]!='\0')
+                //  {cout<<"-----cond 2-----"<<endl;}
+                j=j+2;
         }
-        else if(!(s.compare("*")));
+        else if(!(s.compare("*")));//{cout<<"-----cond 3-----"<<endl;}
         else if(!(s.compare("+")))
         {
+            //cout<<"-----cond 4-----"<<endl;
             sign=1;
         }
         else if(!(s.compare("-")))
         {
+            //cout<<"-----cond 5-----"<<endl;
             sign=-1;
         }
         else
         {
+            //cout<<"-----cond 6-----"<<endl;
             const char *cstr = s.c_str();
             var=atoi(cstr);
             stringstream a;
             string b;
-            a<<dep_string[j];
+            a<<dep_string[j+1];
             a>>b;
-            if((b.compare("*") &&  dep_string[j]!='\0') || dep_string[j]=='\0')
+            if((b.compare("*") &&  dep_string[j+1]!='\0') || dep_string[j+1]=='\0')
             {
+                //  cout<<"b is "<<b<<" "<<"dep_string[j+1 ]= "<<dep_string[j+1]<<endl;
+                // cout<<"-----cond 7-----"<<endl;
                 constt=constt+(var*sign);
             }
 
         }
-
+        j++;
 
     }
     while(lambda_temp!=NULL)
@@ -157,19 +164,21 @@ struct Phi_Values *Simple_Loops_Code_Gen(loop* write,SgNode* n,int loop_number,s
     // cout<<"in sgnode"<<write->dep->write_ref->unparseToString();
     while(dep)
     {
+        cout<<"-------------------in dep ---------------"<<endl;
         SgExpression* rhs_read;
         SgExpression* rhs_write;
         rhs_read = isSgBinaryOp(dep->read_ref[0])->get_rhs_operand();
         rhs_write = isSgBinaryOp(dep->write_ref[0])->get_rhs_operand();
         string write_size=rhs_write->unparseToString();
         string read_size=rhs_read->unparseToString();
-        // cout<<"write_size in cycle"<<write_size<<endl;
-        //cout<<"read_size in cycle"<<read_size<<endl;
+        //    cout<<"write_size in cycle"<<write_size<<endl;
+        // cout<<"read_size in cycle"<<read_size<<endl;
         write_phi_values=find_phi_values(write_size,lambda,loop_id_string);
+        //  printf("write_phi_values = %d\n",write_phi_values->phi_val);
+        //    printf("lambda_write_phi_values = %d\n",lambda->phi_val);
         read_phi_values=find_phi_values(read_size,lambda,loop_id_string);
-        //   printf("write_phi_values = %d\n",write_phi_values->phi_val);
-        //   printf("lambda_write_phi_values = %d\n",lambda->phi_val);
-        //  printf("read_phi_values = %d\n",read_phi_values->phi_val);
+
+        //   printf("read_phi_values = %d\n",read_phi_values->phi_val);
         //  printf("lambda_read_phi_values = %d\n",lambda->phi_val);
         lambda_temp=lambda;
         write_phi_values_temp=write_phi_values;
@@ -177,7 +186,7 @@ struct Phi_Values *Simple_Loops_Code_Gen(loop* write,SgNode* n,int loop_number,s
         while(read_phi_values!=NULL)
         {
             constt=abs((read_phi_values->phi_val)-(write_phi_values_temp->phi_val));
-            // printf("%d,%s: %d,%s %d\n",constt,read_phi_values->loop_index,read_phi_values->phi_val,write_phi_values->loop_index,write_phi_values->phi_val);
+            //  printf("in read_phi_values=%d,%s: %d,%s %d\n",constt,read_phi_values->loop_index,read_phi_values->phi_val,write_phi_values->loop_index,write_phi_values->phi_val);
             lambda_temp->phi_val=(lambda_temp->phi_val==0||lambda_temp->phi_val>constt)?constt:lambda_temp->phi_val;
             read_phi_values=read_phi_values->next;
             write_phi_values_temp=write_phi_values_temp->next;

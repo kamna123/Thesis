@@ -12,6 +12,7 @@ struct dep_data
 };
 extern std::string store_upper[];
 extern std::ofstream outputfile;
+extern std::ofstream outputfile1;
 extern std::ifstream  inputfile;
 struct  StringNode
 {

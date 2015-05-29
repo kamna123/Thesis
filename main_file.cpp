@@ -33,11 +33,28 @@ struct DDV *DDVvector=NULL;
 Phi_Values* lambda_var=NULL;
 ofstream outputfile;
 ifstream inputfile;
+ofstream outputfile1;
+set<string> var;
 class visitorTraversal : public AstSimpleProcessing
 {
 public:
     virtual void visit(SgNode* n);
 };
+void visitorTraversal::visit(SgNode* n)
+{
+    SgVariableDeclaration* forLoop=isSgVariableDeclaration(n);
+    if(forLoop)
+    {
+        SgInitializedNamePtrList ptrList = forLoop->get_variables();
+        SgInitializedNamePtrList::const_iterator i;
+        for(i=ptrList.begin(); i!=ptrList.end(); i++)
+        {
+            // cout<<" val "<<(*i)->unparseToString()<<endl;
+            var.insert((*i)->unparseToString());
+        }
+
+    }
+}
 loop_data* head_loop=NULL;
 loop* intersect_RAW=NULL;
 loop* intersect_WAW=NULL;
@@ -45,6 +62,7 @@ loop* intersect_RAW_shrinking=NULL;
 loop* head=NULL;
 char var_dep_dist[100];
 char dep_exists[100];
+ifstream fin;
 /*void abc(SgNode* for_loop)
 { vector<SgNode*> reads;
    vector<SgNode*> writes;
@@ -79,8 +97,82 @@ void ref_function1(SgNode* for_loop,SgFunctionDefinition *defn )
 
         cout<<" statements are "<< (*iter)->unparseToString()<<"\n";
     }
-}
 
+}
+void display_start(int startLine)
+{
+    int i=1;
+    char c;
+    while(!fin.eof() && i<startLine  )
+    {
+
+        fin.get(c);
+        //  cout<<"i = "<<i<<"startLine = "<<startLine<<"c= "<<c<<endl;
+        if(c=='\n')
+        {
+            i++;
+            outputfile<<endl;
+        }
+        else
+            outputfile<<c;
+    }
+}
+void display_mid(int startLine_pre,int endline_pre,int startLine)
+{
+    int i=startLine_pre;
+    int k=endline_pre;
+    char c;
+    while(i<=k && !fin.eof())
+    {
+        //   cout<<"k = "<<k<<"c = "<<c<< "i= "<<i<<endl;
+        fin.get(c);
+        if(c=='\n')
+        {
+            i++;
+            if(i>k) break;
+        }
+    }
+    while(!fin.eof() && i<startLine)
+    {
+
+        fin.get(c);
+        //   cout<<"i in inner loop "<<i<<"c= "<<c<<endl;
+        if(c=='\n')
+        {
+            i++;
+            outputfile<<endl;
+        }
+        else outputfile<<c;
+    }
+}
+void end(int i,int k)
+{
+    char c;
+    while(i<=k && !fin.eof())
+    {
+        // cout<<"k = "<<k<<"c = "<<c<< "i= "<<i<<endl;
+        fin.get(c);
+        if(c=='\n')
+        {
+            i++;
+            if(i>k) break;
+        }
+    }
+    while(!fin.eof() )
+    {
+
+        fin.get(c);
+        //  cout<<"i in inner loop "<<i<<"c= "<<c<<endl;
+        if(c=='\n')
+        {
+            i++;
+            outputfile<<endl;
+        }
+        else outputfile<<c;
+    }
+}
+static int loop_num=0;
+static int var_dep_dist_count=0;
 int main(int argc, char * argv[])
 {
     /* cout<<"abc";
@@ -91,67 +183,53 @@ int main(int argc, char * argv[])
          cout<<"arg "<<argv[--q]<<endl;
 
        }*/
+
     char* outfile;
     char* infile, *fileName;
+    char* dependence_test,*shrinking,*verbosity_no;
     SgProject *project = frontend (argc, argv);
     SgFunctionDeclaration* func = SageInterface::findMain(project);
     SgSourceFile* file = isSgSourceFile((*project)[0]);
     cout<<"file = "<<file->getFileName();
     const char* file_name=(file->getFileName()).c_str();
-    ifstream fin;
-    fin.open(file_name,ios::in);
-    char* dependence_test,*shrinking,*verbosity_no;
-    dependence_test = (char*)malloc(sizeof(char)*20);
     shrinking = (char*)malloc(sizeof(char)*20);
+    vector<string> argvList(argv, argv+argc);
+
+    if ( CommandlineProcessing::isOption(argvList,"-test:","(gcd|banerjee)",false)  )
+    {
+        cout<<"------------test--------------"<<endl;
+        char * S = new char[argvList[3].length() + 1];
+        std::strcpy(S,argvList[3].c_str());
+        dependence_test=S;
+        cout<<"test= "<<dependence_test<<endl;
+    }
+    if ( CommandlineProcessing::isOption(argvList,"-shrink:","(simple|extShrinking1|extShrinking2)",false)  )
+    {
+        cout<<"------------test1--------------"<<endl;
+        char * S = new char[argvList[4].length() + 1];
+        std::strcpy(S,argvList[4].c_str());
+        shrinking=S;
+        cout<<"shrinking= "<<shrinking<<endl;
+    }
+    fin.open(file_name,ios::in);
+
+    dependence_test = (char*)malloc(sizeof(char)*20);
+
     infile = (char*)malloc(sizeof(char)*50);
     fileName = (char*)malloc(sizeof(char)*50);
     strcpy(infile,"input/");
     outfile = (char*)malloc(sizeof(char)*50);
+    //shrinking=arg[4];
+    // dependence_test=arg[3];
     strcpy(outfile,"output/");
     strcpy(dependence_test, "gcd");
     strcpy(shrinking, "simple");
-    /* static struct option long_options[] = {
-         {"fileName", required_argument,       0,  'f' },
-         {"depTest",    required_argument, 0,  'd' },
-         {"cycleShrink",   required_argument, 0,  'c' },
-         {0,           0,                 0,  0   }
-         };
-         int long_index =0, opt;
-     while ((opt = getopt_long(argc, argv,"f:d:c:",
-                    long_options, &long_index )) != -1) {
-         switch (opt) {
 
-              case 'f' :
-                    strcpy(fileName, optarg);
-                    strcat(infile, optarg);
-                    strcat(outfile, optarg);
-                    strcat(outfile, "u");
-                    break;
-              case 'd' :
-                    strcpy(dependence_test, optarg);
-                    break;
-              case 'c' :
-                    strcpy(shrinking, optarg);
-                    break;
-             default:
-                     fprintf(stderr, "Usage: %s [--fileName=name.c] [--depTest=gcd/banerjee] [--cycleShrink=simple/extShrinking1/extShrinking2]\n", argv[0]);
-                 }}
-
-
-     if(strcmp(fileName,"")==0)
-     {
-         strcat(infile, "input.c");
-         strcat(outfile, "input.cu");
-     }
-     if(strcmp(dependence_test,"")==0)
-             strcpy(dependence_test,"gcd");
-     if(strcmp(shrinking,"")==0)
-             strcpy(shrinking,"simple");
-     */
     inputfile.open(file_name, ifstream::in);
     string file_name_output=strcat(strdup(file_name),"u");
     //  cout<<"output file "<<file_name_output<<endl;
     outputfile.open(strcat(strdup(file_name),"u"), ios::out );
+    outputfile1.open(strcat(strdup(file_name),"u1"), ios::out );
 
     outputfile<<"#ifndef DATASET"<<endl<<"\t#define _NTHREAD 512"<<endl<<"\t#define _NBLOCK 65535"<<endl<<"#endif"<<endl<<endl;
     outputfile<<"#include<cuda.h>"<<endl<<"#include<time.h>"<<endl;
@@ -186,193 +264,261 @@ int main(int argc, char * argv[])
     string newFilename_output = "new_source_file.c";
     // outputfile.open (newFilename_output.c_str(), ios::out );
 
-    /*visitorTraversal ae;
-    ae.traverseInputFiles(project,preorder);
-     display1(head_loop);*/
-    set<string> var;
+    // visitorTraversal ae;
+    //ae.traverseInputFiles(project,preorder);
+    // display1(head_loop);*/
+
     // set<string> :: iterator i;
+    if(func)
+        SgFunctionDefinition *defn = func->get_definition();
 
-    SgFunctionDefinition *defn = func->get_definition();
+    /* set<SgInitializedName*> readNames, writeNames;
+     if (!SageInterface::collectReadWriteVariables(func,readNames,writeNames))
+     {
+         ROSE_ASSERT(false);
+     }
+     set<SgInitializedName*>::iterator iter;
+     for (iter=readNames.begin(); iter!=readNames.end(); iter++)
+     {
+          cout<<"read variable:"<<(*iter)->unparseToString()<<endl;
+         var.insert((*iter)->unparseToString());
+     }
 
-    set<SgInitializedName*> readNames, writeNames;
-    if (!SageInterface::collectReadWriteVariables(func,readNames,writeNames))
-    {
-        ROSE_ASSERT(false);
-    }
-    set<SgInitializedName*>::iterator iter;
-    for (iter=readNames.begin(); iter!=readNames.end(); iter++)
-    {
-        // cout<<"read variable:"<<(*iter)->unparseToString()<<endl;
-        var.insert((*iter)->unparseToString());
-    }
+    // ROSE_ASSERT(writeNames.size() ==4);
 
-// ROSE_ASSERT(writeNames.size() ==4);
+     for (iter=writeNames.begin(); iter!=writeNames.end(); iter++)
+     {
+           cout<<"written variable:"<<(*iter)->unparseToString()<<endl;
+         var.insert((*iter)->unparseToString());
+     }*/
 
-    for (iter=writeNames.begin(); iter!=writeNames.end(); iter++)
-    {
-        //   cout<<"written variable:"<<(*iter)->unparseToString()<<endl;
-        var.insert((*iter)->unparseToString());
-    }
-    //for(i=var.begin();i!=var.end();i++)
-    // cout<<" "<<*i ;
-    Rose_STL_Container<SgNode*> forLoops = NodeQuery::querySubTree(defn,V_SgForStatement);
-    int var_dep_dist_count=0;
-    for(Rose_STL_Container<SgNode*>::iterator iter = forLoops.begin(); iter!= forLoops.end(); iter++ )
-    {
-        cout<<"------------------loop normalization ---------------------------"<<endl;
-        loop_normalization(*iter,var);
-        cout<<"VariableDependenceDist "<<VariableDependenceDist<<endl;
-        var_dep_dist[var_dep_dist_count++]=VariableDependenceDist;
-        VariableDependenceDist='n';
-        // cout<<"after normalization "<<(*iter)->unparseToString();
-
-    }
-    cout<<"-----------done with normalization----------"<<endl;
-    for(Rose_STL_Container<SgNode*>::iterator iter = forLoops.begin(); iter!= forLoops.end(); iter++ )
-    {
-        // printf ("Found a SgForStatement \n");
-        // abc(*iter);
-
-
-        // printf ("Found a SgForStatement \n");
-
-
-        ref_function(*iter,defn);
-        // ref_function1(*iter,defn);
-
-    }
-
-
-    cout<<"display head"<<endl;
-    display(head);
-
-    calculate_intersection_RAW(head);
-    cout<<"after intersection  RAW"<<"\n";
-    display(intersect_RAW);
-    calculate_intersection_WAW(head);
-    cout<<"after intersection  WAW"<<"\n";
-    display(intersect_WAW);
-    calculate_intersection_RAW_for_srinking(head);
-    cout<<"after intersection  RAW for cycle shrinking"<<"\n";
-    display(intersect_RAW_shrinking);
-    int loop_num=0;
-    int i=1,k,f;
-    char c;
-    int endline ;
+    //for(ij=var.begin();ij!=var.end();ij+)
+    // cout<<" vars are "<<*ij <<endl;
+    Rose_STL_Container<SgNode*> nodeList= NodeQuery::querySubTree(project, V_SgFunctionDefinition);
+    Rose_STL_Container<SgNode*>::const_iterator i = nodeList.begin();
+    int k,f;
+    // char c;
+    int endline=0 ;
     int startLine;
     int m=0;
     int count1=0;
-    for(Rose_STL_Container<SgNode*>::iterator iter = forLoops.begin(); iter!= forLoops.end(); iter++ )
+    for (; i!=nodeList.end(); ++i)
     {
 
-        loop* temp=intersect_RAW;
-        loop* temp1=intersect_RAW_shrinking;
-        while(temp1->loop_number!=loop_num)
-            temp1=temp1->next;
+        head_loop=NULL;
+        intersect_RAW=NULL;
+        intersect_WAW=NULL;
+        intersect_RAW_shrinking=NULL;
+        head=NULL;
 
+        SgFunctionDefinition* defn=isSgFunctionDefinition(*i);
+        //  visitorTraversal ae;
+        // ae.traverseInputFiles(defn,preorder);
+        set<string> :: iterator jk;
 
-        while(temp->loop_number!=loop_num)
-            temp=temp->next;
-        SgForStatement* node=isSgForStatement(*iter);
-//if(node) DeleteSgTree(node);
-        Sg_File_Info * startInfo = node->get_startOfConstruct();
-        Sg_File_Info * endInfo = node->get_endOfConstruct();
-        if(startInfo && endInfo)
+        Rose_STL_Container<SgNode*> loopvar= NodeQuery::querySubTree(*i, V_SgVariableDeclaration);
+        Rose_STL_Container<SgNode*>::const_iterator ijk = loopvar.begin();
+
+        for(; ijk!=loopvar.end(); ijk++)
         {
-            startLine = startInfo->get_line();
-            endline = endInfo->get_line();
-            int startCol= startInfo->get_col();
-            int endCol=endInfo->get_col();
+            SgVariableDeclaration* a=isSgVariableDeclaration(*ijk);
+            SgInitializedNamePtrList ptrList = (a)->get_variables();
+            SgInitializedNamePtrList::const_iterator j;
+            for(j=ptrList.begin(); j!=ptrList.end(); j++)
+            {
+                cout<<" val "<<(*j)->unparseToString()<<endl;
+                var.insert((*j)->unparseToString());
+            }
+
+        }
+
+        for(jk=var.begin(); jk!=var.end(); jk++)
+            cout<<"var = "<<(*jk)<<endl;
+        cout<<"--------------------------found funcion---------------------"<<endl;
+
+        Rose_STL_Container<SgNode*> forLoops = NodeQuery::querySubTree(defn,V_SgForStatement);
+
+        for(Rose_STL_Container<SgNode*>::iterator iter = forLoops.begin(); iter!= forLoops.end(); iter++ )
+        {
+            cout<<"------------------loop normalization ---------------------------"<<endl;
+            loop_normalization(*iter,var);
+            cout<<"VariableDependenceDist during normalization "<<VariableDependenceDist<<endl;
+            var_dep_dist[var_dep_dist_count++]=VariableDependenceDist;
+            VariableDependenceDist='n';
+            cout<<"after normalization "<<(*iter)->unparseToString();
+
+        }
+        cout<<"-----------done with normalization----------"<<endl;
+        for(Rose_STL_Container<SgNode*>::iterator iter = forLoops.begin(); iter!= forLoops.end(); iter++ )
+        {
+            // printf ("Found a SgForStatement \n");
+            // abc(*iter);
+
+
+            // printf ("Found a SgForStatement \n");
+
+
+            ref_function(*iter,defn);
+            // ref_function1(*iter,defn);
+
+        }
+
+
+        cout<<"display head"<<endl;
+        display(head);
+
+        calculate_intersection_RAW(head);
+        cout<<"after intersection  RAW"<<"\n";
+        display(intersect_RAW);
+        calculate_intersection_WAW(head);
+        cout<<"after intersection  WAW"<<"\n";
+        display(intersect_WAW);
+        calculate_intersection_RAW_for_srinking(head);
+        cout<<"after intersection  RAW for cycle shrinking"<<"\n";
+        display(intersect_RAW_shrinking);
+
+
+        for(Rose_STL_Container<SgNode*>::iterator iter = forLoops.begin(); iter!= forLoops.end(); iter++ )
+        {
+            m=endline;
+            k=startLine;
+            loop* temp=intersect_RAW;
+            loop* temp1=intersect_RAW_shrinking;
+            while(temp1->loop_number!=loop_num)
+                temp1=temp1->next;
+
+
+            while(temp->loop_number!=loop_num)
+                temp=temp->next;
+            SgForStatement* node=isSgForStatement(*iter);
+//if(node) DeleteSgTree(node);
+            Sg_File_Info * startInfo = node->get_startOfConstruct();
+            Sg_File_Info * endInfo = node->get_endOfConstruct();
+            if(startInfo && endInfo)
+            {
+                startLine = startInfo->get_line();
+                endline = endInfo->get_line();
+                int startCol= startInfo->get_col();
+                int endCol=endInfo->get_col();
+                if(loop_num==0)
+                    display_start(startLine);
+                else
+                    display_mid(k,m,startLine);
 // if at least one line is referenced then we can't delete it
 //for(int i = startLine; i <= endline ; i++) {
-            // cout<<"Start = "<<startLine<<"end = "<<endline<<endl;
+                // cout<<"Start = "<<startLine<<"end = "<<endline<<endl;
+
+            }
+            VariableDependenceDist=var_dep_dist[loop_num];
+            Dependence_Testing_Interface(dependence_test, temp,*iter,loop_num);
+            CycleShrinking( shrinking, temp1,*iter,loop_num, var);
+            //Simple_Loops_Code_Gen(temp,*iter,m,var);
+
+            cout<<"DependencyExists  1= "<<DependencyExists<<endl;
+            cout<<"VariableDependenceDist "<<VariableDependenceDist<<endl;
+            var_loop(*iter,"i");
+            //    outputfile<<"--------------------------loop number ------------ "<<loop_num<<endl;
+            cuda_kernel_declaration_AFFINE(shrinking,*iter,"i",loop_num);
+            cuda_kernel_call_AFFINE(shrinking,*iter,"i",loop_num);
+
+            cuda_kernel_definition_AFFINE(shrinking,"i",*iter,defn,loop_num);
+            DependencyExists='n';
+            VariableDependenceDist='n';
+            Total_Phi=0;
+            RefPair=NULL;
+            DDVvector=NULL;
+            lambda_var=NULL;
 
 
+            loop_num++;
 
-            i=1;
+        }
 
-            //   cout<<"i= "<<i<<endl;
+        //   cout<<"i= "<<i<<endl;
 //fprintf(out, "start ");
-            if(count1==0 && m==0)
-            {
-                while(!fin.eof() && i<startLine  )
-                {
+        /*  if(count1==0 && m==0)
+          {
+              while(!fin.eof() && i<startLine  )
+              {
 
-                    fin.get(c);
-                    //  cout<<"i = "<<i<<"startLine = "<<startLine<<"c= "<<c<<endl;
-                    if(c=='\n')
-                    {
-                        i++;
-                        outputfile<<endl;
-                    }
-                    else
-                        outputfile<<c;
-                }
-                count1++;
-                m++;
-                VariableDependenceDist=var_dep_dist[loop_num];
-                Dependence_Testing_Interface(dependence_test, temp,*iter,loop_num);
-                CycleShrinking( shrinking, temp1,*iter,loop_num, var);
-                //Simple_Loops_Code_Gen(temp,*iter,m,var);
+                  fin.get(c);
+                  //  cout<<"i = "<<i<<"startLine = "<<startLine<<"c= "<<c<<endl;
+                  if(c=='\n')
+                  {
+                      i++;
+                      outputfile<<endl;
+                  }
+                  else
+                      outputfile<<c;
+              }
+              count1++;
+              m++;
+              VariableDependenceDist=var_dep_dist[loop_num];
+              Dependence_Testing_Interface(dependence_test, temp,*iter,loop_num);
+              CycleShrinking( shrinking, temp1,*iter,loop_num, var);
+              //Simple_Loops_Code_Gen(temp,*iter,m,var);
 
-                cout<<"DependencyExists = "<<DependencyExists<<endl;
-                cout<<"VariableDependenceDist "<<VariableDependenceDist<<endl;
-                var_loop(*iter,"i");
-                cuda_kernel_declaration_AFFINE(shrinking,*iter,"i",loop_num);
-                cuda_kernel_call_AFFINE(shrinking,*iter,"i",loop_num);
-                // cuda_kernel_definition_AFFINE(shrinking,"i",*iter,defn,loop_num);
-                DependencyExists='n';
-                VariableDependenceDist='n';
-                Total_Phi=0;
-                RefPair=NULL;
-                DDVvector=NULL;
-                lambda_var=NULL;
-            }
-            //   cout<<"for loop is "<<(*iter)->unparseToString()<<endl;
-            else if(m!=0 && count1!=0)
-            {
-                i=f;
+              cout<<"DependencyExists  1= "<<DependencyExists<<endl;
+              cout<<"VariableDependenceDist "<<VariableDependenceDist<<endl;
+              var_loop(*iter,"i");
+              cuda_kernel_declaration_AFFINE(shrinking,*iter,"i",loop_num);
+              cuda_kernel_call_AFFINE(shrinking,*iter,"i",loop_num);
+              // cuda_kernel_definition_AFFINE(shrinking,"i",*iter,defn,loop_num);
+              DependencyExists='n';
+              VariableDependenceDist='n';
+              Total_Phi=0;
+              RefPair=NULL;
+              DDVvector=NULL;
+              lambda_var=NULL;
 
-                while(i<=k && !fin.eof())
-                {
-                    //   cout<<"k = "<<k<<"c = "<<c<< "i= "<<i<<endl;
-                    fin.get(c);
-                    if(c=='\n')
-                    {
-                        i++;
-                        if(i>k) break;
-                    }
-                }
-                while(!fin.eof() && i<startLine)
-                {
+          }
+          //   cout<<"for loop is "<<(*iter)->unparseToString()<<endl;
+          else if(m!=0 && count1!=0)
+          {
+              i=f;
 
-                    fin.get(c);
-                    //   cout<<"i in inner loop "<<i<<"c= "<<c<<endl;
-                    if(c=='\n')
-                    {
-                        i++;
-                        outputfile<<endl;
-                    }
-                    else outputfile<<c;
-                }
-                VariableDependenceDist=var_dep_dist[loop_num];
-                Dependence_Testing_Interface(dependence_test, temp,*iter,loop_num);
-                CycleShrinking( shrinking, temp1,*iter,loop_num, var);
+              while(i<=k && !fin.eof())
+              {
+                  //   cout<<"k = "<<k<<"c = "<<c<< "i= "<<i<<endl;
+                  fin.get(c);
+                  if(c=='\n')
+                  {
+                      i++;
+                      if(i>k) break;
+                  }
+              }
+              while(!fin.eof() && i<startLine)
+              {
 
-                cout<<"DependencyExists = "<<DependencyExists<<endl;
-                cout<<"VariableDependenceDist "<<VariableDependenceDist<<endl;
-                //Simple_Loops_Code_Gen(temp,*iter,m,var);
-                var_loop(*iter,"i");
-                cuda_kernel_declaration_AFFINE(shrinking,*iter,"i",loop_num);
-                cuda_kernel_call_AFFINE(shrinking,*iter,"i",loop_num);
-                // cuda_kernel_definition_AFFINE(shrinking,"i",*iter,defn,loop_num);
-                DependencyExists='n';
-                Total_Phi=0;
-                VariableDependenceDist='n';
-                RefPair=NULL;
-                DDVvector=NULL;
-                lambda_var=NULL;
-            }
+                  fin.get(c);
+                  //   cout<<"i in inner loop "<<i<<"c= "<<c<<endl;
+                  if(c=='\n')
+                  {
+                      i++;
+                      outputfile<<endl;
+                  }
+                  else outputfile<<c;
+              }
+
+              VariableDependenceDist=var_dep_dist[loop_num];
+              Dependence_Testing_Interface(dependence_test, temp,*iter,loop_num);
+              CycleShrinking( shrinking, temp1,*iter,loop_num, var);
+
+              cout<<"DependencyExists 2 = "<<DependencyExists<<endl;
+              cout<<"VariableDependenceDist "<<VariableDependenceDist<<endl;
+              //Simple_Loops_Code_Gen(temp,*iter,m,var);
+              var_loop(*iter,"i");
+              cuda_kernel_declaration_AFFINE(shrinking,*iter,"i",loop_num);
+              cuda_kernel_call_AFFINE(shrinking,*iter,"i",loop_num);
+              // cuda_kernel_definition_AFFINE(shrinking,"i",*iter,defn,loop_num);
+              DependencyExists='n';
+              Total_Phi=0;
+              VariableDependenceDist='n';
+              RefPair=NULL;
+              DDVvector=NULL;
+              lambda_var=NULL;
+
+          }
 
 
 
@@ -381,62 +527,47 @@ int main(int argc, char * argv[])
         k=endline;
         f=startLine;
         loop_num++;
-    }
-    i=f;
-    while(i<=k && !fin.eof())
-    {
-        // cout<<"k = "<<k<<"c = "<<c<< "i= "<<i<<endl;
-        fin.get(c);
-        if(c=='\n')
-        {
-            i++;
-            if(i>k) break;
-        }
-    }
-    while(!fin.eof() )
-    {
+        }*/
+        // i=f;
 
-        fin.get(c);
-        //  cout<<"i in inner loop "<<i<<"c= "<<c<<endl;
-        if(c=='\n')
-        {
-            i++;
-            outputfile<<endl;
-        }
-        else outputfile<<c;
+        var.clear();
     }
-    loop_num=0;
-    for(Rose_STL_Container<SgNode*>::iterator iter = forLoops.begin(); iter!= forLoops.end(); iter++ )
-    {
 
-        loop* temp=intersect_RAW;
-        loop* temp1=intersect_RAW_shrinking;
-        while(temp1->loop_number!=loop_num)
-            temp1=temp1->next;
+    /* loop_num=0;
+     for(Rose_STL_Container<SgNode*>::iterator iter = forLoops.begin(); iter!= forLoops.end(); iter++ )
+     {
 
 
-        while(temp->loop_number!=loop_num)
-            temp=temp->next;
-        VariableDependenceDist=var_dep_dist[loop_num];
-        Dependence_Testing_Interface(dependence_test, temp,*iter,loop_num);
-        CycleShrinking( shrinking, temp1,*iter,loop_num, var);
-        //  cout<<"DependencyExists = "<<DependencyExists<<endl;
-        // cout<<"VariableDependenceDist "<<var_dep_dist[loop_num]<<endl;
-        //Simple_Loops_Code_Gen(temp,*iter,m,var);
-        var_loop(*iter,"i");
-        // cuda_kernel_declaration_AFFINE(shrinking,*iter,"i",loop_num);
-        // cuda_kernel_call_AFFINE(shrinking,*iter,"i",loop_num);
-        cout<<"DependencyExists = "<<DependencyExists<<endl;
-        cout<<"VariableDependenceDist "<<VariableDependenceDist<<endl;
-        cuda_kernel_definition_AFFINE(shrinking,"i",*iter,defn,loop_num);
-        DependencyExists='n';
-        Total_Phi=0;
-        VariableDependenceDist='n';
-        RefPair=NULL;
-        DDVvector=NULL;
-        lambda_var=NULL;
-        loop_num++;
-    }
+         loop* temp=intersect_RAW;
+         loop* temp1=intersect_RAW_shrinking;
+         while(temp1->loop_number!=loop_num)
+             temp1=temp1->next;
+
+
+         while(temp->loop_number!=loop_num)
+             temp=temp->next;
+
+         VariableDependenceDist=var_dep_dist[loop_num];
+         Dependence_Testing_Interface(dependence_test, temp,*iter,loop_num);
+         CycleShrinking( shrinking, temp1,*iter,loop_num, var);
+         //  cout<<"DependencyExists = "<<DependencyExists<<endl;
+         // cout<<"VariableDependenceDist "<<var_dep_dist[loop_num]<<endl;
+         //Simple_Loops_Code_Gen(temp,*iter,m,var);
+         var_loop(*iter,"i");
+         // cuda_kernel_declaration_AFFINE(shrinking,*iter,"i",loop_num);
+         // cuda_kernel_call_AFFINE(shrinking,*iter,"i",loop_num);
+         cout<<"DependencyExists code generatiopn= "<<DependencyExists<<endl;
+         cout<<"VariableDependenceDist "<<VariableDependenceDist<<endl;
+         cuda_kernel_definition_AFFINE(shrinking,"i",*iter,defn,loop_num);
+         DependencyExists='n';
+         Total_Phi=0;
+         VariableDependenceDist='n';
+         RefPair=NULL;
+         DDVvector=NULL;
+         lambda_var=NULL;
+
+         loop_num++;
+     }*/
     /* for(Rose_STL_Container<SgNode*>::iterator iter = forLoops.begin(); iter!= forLoops.end(); iter++ )
      {
          loop* temp=intersect_RAW_shrinking;
@@ -461,6 +592,27 @@ int main(int argc, char * argv[])
     extCS_VariableDistance_Lambda(temp,*iter,m,var);
      // temp=temp->next;
     m++;
+
     }*/
+    end(startLine,endline);
+    std::ofstream pt;
+    std::ifstream ab;
+    pt.open(strcat(strdup(file_name),"u"),ios::app);
+    ab.open(strcat(strdup(file_name),"u1"),ios::in);
+    char c;
+    while(!ab.eof() )
+    {
+
+        ab.get(c);
+        //cout<<"char is "<<c<<endl;
+        //  cout<<"i in inner loop "<<i<<"c= "<<c<<endl;
+        if(c=='\n')
+        {
+
+            //  i++;
+            outputfile<<endl;
+        }
+        else outputfile<<c;
+    }
     return backend(project);
 }

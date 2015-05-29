@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
-int main()
+int mgcd()
 {
     int x[20];
     int w[20],i,j,k;
@@ -19,4 +19,3 @@ int main()
     
     return 0;
 }
-

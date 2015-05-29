@@ -1,0 +1,10 @@
+
+
+__global__ void _AFFINE_KERNEL_0(int* block,int  _SZ_block_0,int* quadrant,int  _SZ_quadrant_0,int CUDA_L_i,int CUDA_U_i,int _CUDA_TILE)
+{
+	int i = gridDim.x*blockDim.x*_CUDA_TILE + blockDim.x*blockIdx.x + threadIdx.x;
+	if((CUDA_L_i<=i)&&(i<=CUDA_U_i)){
+block[15+1+i] = block[1+i];
+quadrant[15+1+i] = 0;
+}}
+

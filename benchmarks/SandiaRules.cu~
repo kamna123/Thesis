@@ -7,7 +7,7 @@
 #include<time.h>
 #include<stdio.h>
 #include<stdlib.h>
-int mgcd()
+int main()
 {
     int x[20];
     int w[20],i,j,k;
@@ -15,6 +15,10 @@ __global__ void _AFFINE_KERNEL_0(int* ,int ,int* ,int ,int ,int ,int );
 
 
 	#ifdef DATASET
+	         #ifdef DATASET
+                #define _NTHREAD atoi(argv[1])
+                #define _NBLOCK atoi(argv[2])
+                #define N atoi(argv[3])
 		char* outfile = (char*)malloc(sizeof(char)*(strlen(readfile)+50));
 		strcpy(outfile, readfile);
 		strcat(outfile, ".data");
@@ -95,7 +99,7 @@ __global__ void _AFFINE_KERNEL_0(int* ,int ,int* ,int ,int ,int ,int );
 		fclose(f);
 	#else
 	#ifdef TIME
-		printf("Runtime:%%f\n",runTime_0);
+		printf("Runtime0:%f\n",runTime_0);
 	#endif
 	#endif
     // PARALLELIZE IN CUDA START
@@ -105,6 +109,10 @@ __global__ void _AFFINE_KERNEL_1(int* ,int ,int* ,int ,int ,int ,int );
 #include<cuda.h>
 
 	#ifdef DATASET
+	         #ifdef DATASET
+                #define _NTHREAD atoi(argv[1])
+                #define _NBLOCK atoi(argv[2])
+                #define N atoi(argv[3])
 		char* outfile = (char*)malloc(sizeof(char)*(strlen(readfile)+50));
 		strcpy(outfile, readfile);
 		strcat(outfile, ".data");
@@ -157,9 +165,9 @@ __global__ void _AFFINE_KERNEL_1(int* ,int ,int* ,int ,int ,int ,int );
 	#endif
 
 	int _CUDA_TILE_1;
-	int Phi_1[1]={19};
+	int Phi_1[1]={17};
 	int loopUpperLimits_1[1]={9};
-	for(ID_1_1=1;ID_1_1<=9/19+1;ID_1_1++)
+	for(ID_1_1=1;ID_1_1<=9/17+1;ID_1_1++)
 	{
 		for(ID_2_1=0;ID_2_1<1;ID_2_1++)
 		{
@@ -170,7 +178,7 @@ __global__ void _AFFINE_KERNEL_1(int* ,int ,int* ,int ,int ,int ,int );
 		}
 	for(_CUDA_TILE_1=0;_CUDA_TILE_1<_NUM_TILE_1;_CUDA_TILE_1++)
 	{
-		_AFFINE_KERNEL_1<<<_BLOCKS_1,_THREADS_1>>>( _DEV_w_1, _SZ_w_1, _DEV_x_1, _SZ_x_1,START[0], MIN(START[0]+19, 9), _CUDA_TILE_1);
+		_AFFINE_KERNEL_1<<<_BLOCKS_1,_THREADS_1>>>( _DEV_w_1, _SZ_w_1, _DEV_x_1, _SZ_x_1,START[0], MIN(START[0]+17, 9), _CUDA_TILE_1);
 			cudaDeviceSynchronize();
 	}
 	}
@@ -197,7 +205,7 @@ __global__ void _AFFINE_KERNEL_1(int* ,int ,int* ,int ,int ,int ,int );
 		fclose(f);
 	#else
 	#ifdef TIME
-		printf("Runtime:%%f\n",runTime_1);
+		printf("Runtime1:%f\n",runTime_1);
 	#endif
 	#endif
     // PARALLELIZE IN CUDA END
@@ -207,12 +215,13 @@ __global__ void _AFFINE_KERNEL_1(int* ,int ,int* ,int ,int ,int ,int );
 
 
 
+
 __global__ void _AFFINE_KERNEL_0(int* w,int  _SZ_w_0,int* x,int  _SZ_x_0,int CUDA_L_i,int CUDA_U_i,int _CUDA_TILE)
 {
 	int i = gridDim.x*blockDim.x*_CUDA_TILE + blockDim.x*blockIdx.x + threadIdx.x;
 	if((CUDA_L_i<=i)&&(i<=CUDA_U_i)){
-x[1+i] =(2 * i);
-w[1+i] =(2 * i);
+x[1+i] =(2 *(i + 1));
+w[1+i] =(2 *(i + 1));
 }}
 
 
@@ -224,5 +233,4 @@ __global__ void _AFFINE_KERNEL_1(int* w,int  _SZ_w_1,int* x,int  _SZ_x_1,int CUD
 x[1+i-1] = -x[20-1-i];
 w[1+i-1] = w[20-1-i];
 }}
-
 
