@@ -12,7 +12,7 @@ int main()
    //fasdf
 k=5;
 
-  for(i=1;i<=46;i=i+1)
+  for(i=1;i<46;i=i+2)
     {
        a[i+10]=a[i+2];
        b[i+1]=a[i];

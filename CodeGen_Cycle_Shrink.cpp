@@ -148,7 +148,7 @@ void simple_loop_shrinking_AFFINE(SgNode* forloop,string loop_id,int i)
     string loop=process(forloop->unparseToString());
     //cout<<"for loop is "<<loop;
 
-    int x=1,j,temp_size=1,id_max=0;
+    int x=1,j,temp_size=1,id_max=1;
     int max_array_size=1;   //contains the array with maximum size like 'a' for declaration like int a[20][30],b[2][10][10]
     int max_dimension_size=1;
     int max_size,sz;
@@ -273,7 +273,7 @@ void cuda_kernel_call_NO_DEPENDENCY(SgNode* forloop,string loop_id,int i)
     string loop=process(forloop->unparseToString());
     cout<<"for loop is "<<loop;
 
-    int x=1,j,temp_size=1,id_max=0;
+    int x=1,j,temp_size=1,id_max=1;
     int max_array_size=1;   //contains the array with maximum size like 'a' for declaration like int a[20][30],b[2][10][10]
     int max_dimension_size=1;
     int max_size,sz;
@@ -387,7 +387,7 @@ void extCS_ConstantDistance_AFFINE(string loop_id,SgNode* forloop,int i)
     string loop=process(forloop->unparseToString());
 // cout<<"for loop is "<<loop;
     noOfNestedLoops=1;
-    int x=1,j,temp_size=1,id_max=0;
+    int x=1,j,temp_size=1,id_max=1;
     int max_array_size=1;   //contains the array with maximum size like 'a' for declaration like int a[20][30],b[2][10][10]
     int max_dimension_size=1;
     int max_size,sz;
@@ -547,7 +547,7 @@ void extCS_VariableDistance_AFFINE(string loop_id,SgNode* forloop,int i)
     string loop=process(forloop->unparseToString());
     //cout<<"for loop is "<<loop;
 
-    int x=1,j,temp_size=1,id_max=0;
+    int x=1,j,temp_size=1,id_max=1;
     int max_array_size=1;   //contains the array with maximum size like 'a' for declaration like int a[20][30],b[2][10][10]
     int max_dimension_size=1;
     int max_size,sz;

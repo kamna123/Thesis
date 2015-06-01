@@ -409,6 +409,26 @@ int main(int argc, char * argv[])
                 // cout<<"Start = "<<startLine<<"end = "<<endline<<endl;
 
             }
+            SgExpression* ivarast=NULL, *lbast=NULL, *ubast=NULL;
+            SgScopeStatement* scope=node->get_scope();
+            SgStatementPtrList & init=node->get_init_stmt();
+            SgStatement* init1 = init.front();
+            SgInitializedName* ivarname=NULL;
+            if (isAssignmentStatement(init1, &ivarast, &lbast))
+            {
+                SgVarRefExp* var = isSgVarRefExp(ivarast);
+                if (var)
+                {
+                    //cout<<"a"<<"\n";
+                    ivarname = var->get_symbol()->get_declaration();
+                    //   cout<<" loop lower bound= "<<(lbast)->unparseToString()<<"\n";
+                    string b=(lbast)->unparseToString();
+
+                    //  cout<<" loop variable= "<<(ivarname)->unparseToString()<<"\n";
+                    //  cout<<"a ="<<a<<endl;
+
+                }
+            }
             VariableDependenceDist=var_dep_dist[loop_num];
             Dependence_Testing_Interface(dependence_test, temp,*iter,loop_num);
             CycleShrinking( shrinking, temp1,*iter,loop_num, var);
@@ -418,10 +438,10 @@ int main(int argc, char * argv[])
             cout<<"VariableDependenceDist "<<VariableDependenceDist<<endl;
             var_loop(*iter,"i");
             //    outputfile<<"--------------------------loop number ------------ "<<loop_num<<endl;
-            cuda_kernel_declaration_AFFINE(shrinking,*iter,"i",loop_num);
-            cuda_kernel_call_AFFINE(shrinking,*iter,"i",loop_num);
+            cuda_kernel_declaration_AFFINE(shrinking,*iter,(ivarname)->unparseToString(),loop_num);
+            cuda_kernel_call_AFFINE(shrinking,*iter,(ivarname)->unparseToString(),loop_num);
 
-            cuda_kernel_definition_AFFINE(shrinking,"i",*iter,defn,loop_num);
+            cuda_kernel_definition_AFFINE(shrinking,(ivarname)->unparseToString(),*iter,defn,loop_num);
             DependencyExists='n';
             VariableDependenceDist='n';
             Total_Phi=0;

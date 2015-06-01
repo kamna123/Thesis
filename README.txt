@@ -23,10 +23,8 @@ finally execute the all files.
 *******************************Usage***********************************
 ***********************************************************************
 Firstly install the rose compiler with the help of steps give in rose maunal
-Then run the C2Cuda.sh script.
+Then run the makefile
 
-****************how to run the script**************************************
 ***********************************************************************
-./main_file benchmarks/[name of the input file] [gcd/banerjee] [simple/extShrinking1/extShrinking2]
 
 After this cuda file is generated named [name of the input file].cu
