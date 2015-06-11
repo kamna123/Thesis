@@ -186,34 +186,37 @@ int main(int argc, char * argv[])
 
     char* outfile;
     char* infile, *fileName;
-    char* dependence_test,*shrinking,*verbosity_no;
+    char *dependence_test,*shrinking,*verbosity_no;
     SgProject *project = frontend (argc, argv);
     SgFunctionDeclaration* func = SageInterface::findMain(project);
     SgSourceFile* file = isSgSourceFile((*project)[0]);
-    cout<<"file = "<<file->getFileName();
+    //  cout<<"file = "<<file->getFileName();
     const char* file_name=(file->getFileName()).c_str();
     shrinking = (char*)malloc(sizeof(char)*20);
+    dependence_test= (char*)malloc(sizeof(char)*20);
     vector<string> argvList(argv, argv+argc);
 
     if ( CommandlineProcessing::isOption(argvList,"-test:","(gcd|banerjee)",false)  )
     {
-        cout<<"------------test--------------"<<endl;
+        //  cout<<"------------test--------------"<<endl;
         char * S = new char[argvList[3].length() + 1];
         std::strcpy(S,argvList[3].c_str());
-        dependence_test=S;
+        dependence_test=strstr(S,":");
+        dependence_test=dependence_test+1;
         cout<<"test= "<<dependence_test<<endl;
     }
     if ( CommandlineProcessing::isOption(argvList,"-shrink:","(simple|extShrinking1|extShrinking2)",false)  )
     {
-        cout<<"------------test1--------------"<<endl;
+        //  cout<<"------------test1--------------"<<endl;
         char * S = new char[argvList[4].length() + 1];
         std::strcpy(S,argvList[4].c_str());
-        shrinking=S;
+        shrinking=strstr(S,":");
+        shrinking=shrinking+1;
         cout<<"shrinking= "<<shrinking<<endl;
     }
     fin.open(file_name,ios::in);
 
-    dependence_test = (char*)malloc(sizeof(char)*20);
+
 
     infile = (char*)malloc(sizeof(char)*50);
     fileName = (char*)malloc(sizeof(char)*50);
@@ -222,8 +225,8 @@ int main(int argc, char * argv[])
     //shrinking=arg[4];
     // dependence_test=arg[3];
     strcpy(outfile,"output/");
-    strcpy(dependence_test, "gcd");
-    strcpy(shrinking, "simple");
+    //  strcpy(dependence_test, "gcd");
+    //  strcpy(shrinking, "simple");
 
     inputfile.open(file_name, ifstream::in);
     string file_name_output=strcat(strdup(file_name),"u");
@@ -234,30 +237,30 @@ int main(int argc, char * argv[])
     outputfile<<"#ifndef DATASET"<<endl<<"\t#define _NTHREAD 512"<<endl<<"\t#define _NBLOCK 65535"<<endl<<"#endif"<<endl<<endl;
     outputfile<<"#include<cuda.h>"<<endl<<"#include<time.h>"<<endl;
     string line;
-    ifstream myfile ("config.txt");
-    int time=0;
-    if (myfile.is_open())
-    {
-        while (! myfile.eof() )
-        {
-            getline (myfile,line);
-            char *cstr = new char[line.length() + 1];
-            strcpy(cstr, line.c_str());
+    /* ifstream myfile ("config.txt");
+     int time=0;
+     if (myfile.is_open())
+     {
+         while (! myfile.eof() )
+         {
+             getline (myfile,line);
+             char *cstr = new char[line.length() + 1];
+             strcpy(cstr, line.c_str());
 
-            if(time==0)
-            {
-                dependence_test=cstr;
-            }
-            if(time==1)
-            {
-                shrinking=cstr;
-            }
-            time++;
+             if(time==0)
+             {
+                 dependence_test=cstr;
+             }
+             if(time==1)
+             {
+                 shrinking=cstr;
+             }
+             time++;
 
-        }
-    }
-    cout<<"shrinking "<<shrinking<<endl;
-    cout<<"dep "<<dependence_test<<endl;
+         }
+     }*/
+    //  cout<<"shrinking "<<shrinking<<endl;
+    //  cout<<"dep "<<dependence_test<<endl;
     vector<SgNode*> readRefs;
     vector<SgNode*> writeRefs;
     vector<SgNode*>:: iterator itr;
@@ -326,15 +329,15 @@ int main(int argc, char * argv[])
             SgInitializedNamePtrList::const_iterator j;
             for(j=ptrList.begin(); j!=ptrList.end(); j++)
             {
-                cout<<" val "<<(*j)->unparseToString()<<endl;
+                //   cout<<" val "<<(*j)->unparseToString()<<endl;
                 var.insert((*j)->unparseToString());
             }
 
         }
 
         for(jk=var.begin(); jk!=var.end(); jk++)
-            cout<<"var = "<<(*jk)<<endl;
-        cout<<"--------------------------found funcion---------------------"<<endl;
+            //   cout<<"var = "<<(*jk)<<endl;
+            cout<<"--------------------------found funcion---------------------"<<endl;
 
         Rose_STL_Container<SgNode*> forLoops = NodeQuery::querySubTree(defn,V_SgForStatement);
 
@@ -345,7 +348,7 @@ int main(int argc, char * argv[])
             cout<<"VariableDependenceDist during normalization "<<VariableDependenceDist<<endl;
             var_dep_dist[var_dep_dist_count++]=VariableDependenceDist;
             VariableDependenceDist='n';
-            cout<<"after normalization "<<(*iter)->unparseToString();
+            //   cout<<"after normalization "<<(*iter)->unparseToString();
 
         }
         cout<<"-----------done with normalization----------"<<endl;
@@ -434,8 +437,8 @@ int main(int argc, char * argv[])
             CycleShrinking( shrinking, temp1,*iter,loop_num, var);
             //Simple_Loops_Code_Gen(temp,*iter,m,var);
 
-            cout<<"DependencyExists  1= "<<DependencyExists<<endl;
-            cout<<"VariableDependenceDist "<<VariableDependenceDist<<endl;
+            //  cout<<"DependencyExists  1= "<<DependencyExists<<endl;
+            //  cout<<"VariableDependenceDist "<<VariableDependenceDist<<endl;
             var_loop(*iter,"i");
             //    outputfile<<"--------------------------loop number ------------ "<<loop_num<<endl;
             cuda_kernel_declaration_AFFINE(shrinking,*iter,(ivarname)->unparseToString(),loop_num);

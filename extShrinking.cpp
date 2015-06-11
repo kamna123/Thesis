@@ -40,7 +40,7 @@ void CalculateLambda(string a,int *lambda,string loop_id_string)
             j++;
         }
         j--;
-        cout<<"depstring is "<<s<<endl;
+        //     cout<<"depstring is "<<s<<endl;
         if(!(s.compare("*")));
         else if(!(s.compare("+")))
         {
@@ -53,7 +53,7 @@ void CalculateLambda(string a,int *lambda,string loop_id_string)
         else  if(!loop_id_string.compare(s))
         {
             index=1;
-            printf("index=%d\n",index);
+            //    printf("index=%d\n",index);
             stringstream k,m;
             string b,c;
             k<<a[j+1];
@@ -86,7 +86,7 @@ void CalculateLambda(string a,int *lambda,string loop_id_string)
             if(b!="\0" && (!b.compare("*") ) && (!loop_id_string.compare(c)) )
             {
                 index=1;
-                printf("index 1=%d\n",index);
+                //    printf("index 1=%d\n",index);
                 lambda[index]=constt;
                 j=j+2;
             }
@@ -94,7 +94,7 @@ void CalculateLambda(string a,int *lambda,string loop_id_string)
             {
                 lambda[0]=lambda[0]+constt;
 
-                printf(" value:%d, const=%d\n",lambda[0],constt);
+                //  printf(" value:%d, const=%d\n",lambda[0],constt);
             }
         }
 
@@ -135,8 +135,8 @@ void extCS_VariableDistance_Lambda(loop* write,SgNode* n,int loop_number,set<str
         rhs_write = isSgBinaryOp(dep->write_ref[0])->get_rhs_operand();
         string write_size=rhs_write->unparseToString();
         string read_size=rhs_read->unparseToString();
-        cout<<"write size "<<write_size<<endl;
-        cout<<"read size"<<read_size<<endl;
+        //  cout<<"write size "<<write_size<<endl;
+        //  cout<<"read size"<<read_size<<endl;
         refPairTemp=(struct ReferencePair*)malloc(sizeof(struct ReferencePair));
         refPairTemp->next=NULL;
         refPairTemp->ddv=NULL;
@@ -168,7 +168,7 @@ void extCS_VariableDistance_Lambda(loop* write,SgNode* n,int loop_number,set<str
             noOfNestedLoops++;
             // loopTemp=loopTemp->next;
         }
-        printf("  noOfNestedLoops=%d\n",  noOfNestedLoops);
+        // printf("  noOfNestedLoops=%d\n",  noOfNestedLoops);
         tailRefPair->ddv=headDDV;
         DDVtemp=headDDV;
         while(DDVtemp)
@@ -209,8 +209,8 @@ void extCS_VariableDistance_Lambda(loop* write,SgNode* n,int loop_number,set<str
         rhs_write = isSgBinaryOp(dep->write_ref[0])->get_rhs_operand();
         string write_size=rhs_write->unparseToString();
         string read_size=rhs_read->unparseToString();
-        cout<<"write size "<<write_size<<endl;
-        cout<<"read size"<<read_size<<endl;
+        // cout<<"write size "<<write_size<<endl;
+        // cout<<"read size"<<read_size<<endl;
         int i;
         for( i=0; i<=(noOfNestedLoops+1); i++)
         {
@@ -220,19 +220,19 @@ void extCS_VariableDistance_Lambda(loop* write,SgNode* n,int loop_number,set<str
         CalculateLambda(rhs_read->unparseToString(),Gvalue,loop_id_string);
         CalculateLambda(rhs_write->unparseToString(),Fvalue,loop_id_string);
         //  cout<<"back "<<endl;
-        printf("noOfNestedLoops=%d",noOfNestedLoops);
+        //  printf("noOfNestedLoops=%d",noOfNestedLoops);
         Fvalue[noOfNestedLoops+1]=Gvalue[temp];
         for(i=0; i<=noOfNestedLoops; i++)
         {
             Fvalue[i]=Fvalue[i]-Gvalue[i] ;
-            printf("fvalue[%d]=%d\n",i,Fvalue[i]);
+            //  printf("fvalue[%d]=%d\n",i,Fvalue[i]);
         }
         DDVvaluesTemp=DDVtemp->ddv_values;
         i=0;
         while(DDVvaluesTemp)
         {
             DDVvaluesTemp->value=Fvalue[i++];
-            printf(" DDVvaluesTemp->value=%d\n", DDVvaluesTemp->value);
+            //  printf(" DDVvaluesTemp->value=%d\n", DDVvaluesTemp->value);
             DDVvaluesTemp=DDVvaluesTemp->next;
 
         }

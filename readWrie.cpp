@@ -158,7 +158,7 @@ void display1(loop_data* loop)
 {
     while(loop)
     {
-        cout<<"loop data"<<"\n";
+        // cout<<"loop data"<<"\n";
         cout<<loop->lb<<" "<<loop->ub<<" "<<loop->loop_variable<<" "<<loop->step<<"\n";
         loop=loop->next;
     }

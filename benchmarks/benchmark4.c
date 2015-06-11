@@ -3,11 +3,16 @@
 # include <string.h>
 # include <math.h>
 # include <time.h>
-int main()
-{
-  int i;
-int bvec[10];
- /*Purpose:
+
+# include "sandia_rules.h"
+
+/******************************************************************************/
+
+void binary_vector_next ( int n, int bvec[] )
+
+/******************************************************************************/
+/*
+  Purpose:
 
     BINARY_VECTOR_NEXT generates the next binary vector.
 
@@ -64,12 +69,21 @@ int bvec[10];
     Input, int N, the dimension of the vectors.
 
     Input/output, int BVEC[N], on output, the successor 
-    to the input vector.*/
+    to the input vector.
+*/
+{
+  int i;
+
   for ( i = 1; i <=10; i=i+1 )
   {  
   bvec[i]=bvec[i+1];
   }
-  /******************************************************************************/
+  return;
+}
+/******************************************************************************/
+void chebyshev1_compute ( int order, double x[], double w[] )
+
+/******************************************************************************/
 /*
   Purpose:
 
@@ -119,8 +133,9 @@ int bvec[10];
 
     Output, double W[ORDER], the weights.
 */
-
- int order,x[20],w[20];
+{
+  int i;
+ 
 
   if ( order < 1 )
   {
@@ -142,7 +157,17 @@ int bvec[10];
   {
     x[(order-1)/2] = 0.0;
   }
-/* Purpose:
+
+  return;
+}
+/******************************************************************************/
+
+void chebyshev1_compute_np ( int order, int np, double p[], double x[], 
+  double w[] )
+
+/******************************************************************************/
+/*
+  Purpose:
 
     CHEBYSHEV1_COMPUTE_NP computes a Chebyshev type 1 quadrature rule.
 
@@ -194,7 +219,16 @@ int bvec[10];
 
     Output, double W[ORDER], the weights.
 */
-    /*
+{
+  chebyshev1_compute ( order, x, w );
+
+  return;
+}
+/******************************************************************************/
+void chebyshev1_compute_points ( int order, double x[] )
+
+/******************************************************************************/
+/*
   Purpose:
 
     CHEBYSHEV1_COMPUTE_POINTS computes Chebyshev type 1 quadrature points.
@@ -227,7 +261,9 @@ int bvec[10];
 
     Output, double X[ORDER], the abscissas.
 */
-
+{
+  int i;
+ 
 
   if ( order < 1 )
   {
@@ -245,7 +281,14 @@ int bvec[10];
   {
     x[(10-1)/2] = 0.0;
   }
-  /*
+
+  return;
+}
+/******************************************************************************/
+void chebyshev1_compute_points_np ( int order, int np, double p[], double x[] )
+
+/******************************************************************************/
+/*
   Purpose:
 
     CHEBYSHEV1_COMPUTE_POINTS_NP computes Chebyshev type 1 quadrature points.
@@ -282,7 +325,15 @@ int bvec[10];
 
     Output, double X[ORDER], the abscissas.
 */
-    /******************************************************************************/
+{
+  chebyshev1_compute_points ( order, x );
+
+  return;
+}
+/******************************************************************************/
+void chebyshev1_compute_weights ( int order, double w[] )
+
+/******************************************************************************/
 /*
   Purpose:
 
@@ -314,8 +365,8 @@ int bvec[10];
     Input, int ORDER, the order of the rule.
     1 <= ORDER.
 */
-
-
+{
+  int i;
  
 
   if ( order < 1 )
@@ -331,6 +382,13 @@ int bvec[10];
     w[i] =w[i+1]+ 3.14 / ( double ) ( 10 );
   }
 
+  return;
+}
+/******************************************************************************/
+
+void chebyshev1_compute_weights_np ( int order, int np, double p[], double w[] )
+
+/******************************************************************************/
 /*
   Purpose:
 
@@ -368,7 +426,18 @@ int bvec[10];
 
     Output, double W[ORDER], the weights.
 */
-    /******************************************************************************/
+{
+  chebyshev1_compute_weights ( order, w );
+
+  return;
+}
+/******************************************************************************/
+
+
+/******************************************************************************/
+void chebyshev2_compute ( int order, double x[], double w[] )
+
+/******************************************************************************/
 /*
   Purpose:
 
@@ -418,7 +487,10 @@ int bvec[10];
 
     Output, double W[ORDER], the weights.
 */
-
+{
+  
+  int i;
+  
 
   if ( order < 1 )
   {
@@ -439,7 +511,15 @@ int bvec[10];
   {
     x[(order-1)/2] = 0.0;
   }
-/*******************************************************************************/
+
+  return;
+}
+/******************************************************************************/
+
+void chebyshev2_compute_np ( int order, int np, double p[], double x[], 
+  double w[] )
+
+/******************************************************************************/
 /*
   Purpose:
 
@@ -493,7 +573,19 @@ int bvec[10];
 
     Output, double W[ORDER], the weights.
 */
-    /******************************************************************************/
+{
+  chebyshev2_compute ( order, x, w );
+
+  return;
+}
+/******************************************************************************/
+
+
+/******************************************************************************/
+
+void chebyshev2_compute_points_np ( int order, int np, double p[], double x[] )
+
+/******************************************************************************/
 /*
   Purpose:
 
@@ -531,7 +623,15 @@ int bvec[10];
 
     Output, double X[ORDER], the abscissas.
 */
-    /******************************************************************************/
+{
+  chebyshev2_compute_points ( order, x );
+
+  return;
+}
+/******************************************************************************/
+void chebyshev2_compute_points ( int order, double x[] )
+
+/******************************************************************************/
 /*
   Purpose:
 
@@ -565,7 +665,9 @@ int bvec[10];
 
     Output, double X[ORDER], the abscissas.
 */
-
+{
+ 
+  int i;
   double pi = 3.141592653589793;
 
   if ( order < 1 )
@@ -586,7 +688,12 @@ int bvec[10];
   {
     x[(order-1)/2] = 0.0+pi;
   }
-  /******************************************************************************/
+
+  return;
+}
+void chebyshev2_compute_weights ( int order, double w[] )
+
+/******************************************************************************/
 /*
   Purpose:
 
@@ -620,7 +727,10 @@ int bvec[10];
 
     Output, double W[ORDER], the weights.
 */
+{
 
+  int i;
+ 
 
   if ( order < 1 )
   {
@@ -635,6 +745,7 @@ int bvec[10];
     //angle = 3.14 * ( double ) ( 10 - i ) /  ( 10 + 1 );
     w[i] = w[i+1]+3.14 / 10;
   }
-return 0;
-   }
-   
+
+  return;
+}
+

@@ -42,7 +42,7 @@ void setOutputFileName(SgFile* cur_file)
         string naked_name = StringUtility::stripFileSuffixFromFileName(orig_name);
         cur_file->set_unparse_output_filename(naked_name+".cu");
         string output_name =  cur_file->get_unparse_output_filename();
-        cout<<"output file name is :"<<output_name<<endl;
+        //  cout<<"output file name is :"<<output_name<<endl;
     }
 }
 void visitorTraversal::visit(SgNode* n)
@@ -163,7 +163,7 @@ void var_loop(SgNode* forloop,string loop_id)
         }
 
 
-        std::cout << "mymap contains:\n";
+        //    std::cout << "mymap contains:\n";
         for (it=mymap.begin(); it!=mymap.end(); ++it)
             std::cout << it->first << " =" << it->second.name<<it->second.data_type<<it->second.size<<'\n';
         /* loop_var* temp=head_var;
@@ -194,7 +194,7 @@ void var_loop(SgNode* forloop,string loop_id)
         std::map<string ,loop_var >::iterator it;
         for (it=mymap.begin(); it!=mymap.end(); ++it)
         {
-            cout<<"it->second.data_type "<<it->second.data_type<<endl;
+            //    cout<<"it->second.data_type "<<it->second.data_type<<endl;
             outputfile<<it->second.data_type;
             outputfile<<"*";
             outputfile<<" ";
@@ -212,7 +212,7 @@ void var_loop(SgNode* forloop,string loop_id)
     {
         std::map<string ,loop_var >::iterator it;
         string loop=process(forloop->unparseToString());
-        cout<<"for loop is "<<loop;
+        //  cout<<"for loop is "<<loop;
 
         int i=1,x=1,j,temp_size=1,id_max=0;
         int max_array_size=1;   //contains the array with maximum size like 'a' for declaration like int a[20][30],b[2][10][10]
@@ -235,10 +235,10 @@ void var_loop(SgNode* forloop,string loop_id)
                 {
                     id_max=x;
                     max_size=it->second.size;
-                    printf("in id max\n");
+                    //  printf("in id max\n");
                 }
-                printf("max_array_size=%d",max_array_size);
-                printf( "id_max: %d\n",id_max);
+                //  printf("max_array_size=%d",max_array_size);
+                // printf( "id_max: %d\n",id_max);
 
 
             }
@@ -246,11 +246,11 @@ void var_loop(SgNode* forloop,string loop_id)
         sz=max_size;
 
         temp_size=sz;
-        printf("sz=%d\n",temp_size);
+        //  printf("sz=%d\n",temp_size);
         max_dimension_size=(temp_size>max_dimension_size)?temp_size:max_dimension_size;
-        printf("max_dim_size=%d\n",max_dimension_size);
+        // printf("max_dim_size=%d\n",max_dimension_size);
         int tempVar=id_max;
-        printf("tempvar=%d\n",tempVar);
+        // printf("tempvar=%d\n",tempVar);
         max_array_size=1;
         while(tempVar)
         {

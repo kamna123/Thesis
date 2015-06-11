@@ -2,6 +2,13 @@
 # include <stdio.h>
 # include <math.h>
 # include <time.h>
+
+# include "ball_monte_carlo.h"
+
+/******************************************************************************/
+
+double ball01_monomial_integral ( int e[3] )
+
 /******************************************************************************/
 /*
   Purpose:
@@ -42,13 +49,12 @@
 
     Output, double BALL01_MONOMIAL_INTEGRAL, the integral.
 */
-int main()
 {
-	 int i;
+  int i;
   double integral;
-  const double u = 1.0;
+  const double r = 1.0;
   double s;
-  int e[10];
+
   if ( e[0] < 0 || e[1] < 0 || e[2] < 0 )
   {
     fprintf ( stderr, "\n" );
@@ -59,15 +65,23 @@ int main()
     fprintf ( stderr, "  E[2] = %d\n", e[2] );
     exit ( 1 );
   }
-for(i=1;i<=3;i=i+1)
+
+ for(i=1;i<=3;i=i+1)
   {e[i]=e[i+3];}
 /*
   The surface integral is now adjusted to give the volume integral.
 */
   s = e[0] + e[1] + e[2] + 3;
 
-  integral = integral * pow ( u, s  ) / ( double ) ( s );
-  /******************************************************************************/
+  integral = integral * pow ( r, s  ) / ( double ) ( s );
+
+  return integral;
+}
+/******************************************************************************/
+
+double *ball01_sample ( int n, int *seed )
+
+/******************************************************************************/
 /*
   Purpose:
 
@@ -109,20 +123,34 @@ for(i=1;i<=3;i=i+1)
 
     Output, double X[3*N], the points.
 */
-
-
+{
+  const double exponent = 1.0 / 3.0;
+  int i;
   int j;
+  double norm;
+  double r;
+  double x[100];
 
-
-int x[100];
   
 
     for ( i = 1; i <= 3; i=i+1 )
     {
       x[i+3] = x[i+3] / 10;
     }
-  /*  ******************************************************************************/
-/*  ******************************************************************************/
+/*
+  Now compute a value to map the point ON the sphere INTO the sphere.
+*/
+    r = r8_uniform_01 ( seed );
+
+   
+  
+  return x;
+}
+/******************************************************************************/
+
+double ball01_volume ( )
+
+/******************************************************************************/
 /*
   Purpose:
 
@@ -144,14 +172,20 @@ int x[100];
 
     Output, double BALL01_VOLUME, the volume of the unit ball.
 */
-
- 
+{
+  const double r = 1.0;
   const double r8_pi = 3.141592653589793;
   double volume;
 
-  volume = 4.0 * r8_pi * pow ( u, 3 ) / 3.0;
+  volume = 4.0 * r8_pi * pow ( r, 3 ) / 3.0;
 
- /******************************************************************************/
+  return volume;
+}
+/******************************************************************************/
+
+double *monomial_value ( int m, int n, int e[], double x[] )
+
+/******************************************************************************/
 /*
   Purpose:
 
@@ -192,7 +226,9 @@ int x[100];
 
     Output, double MONOMIAL_VALUE[N], the value of the monomial.
 */
-
+{
+  int i;
+  int j;
   double v[100];
 
   
@@ -201,6 +237,14 @@ int x[100];
   {
     v[i] = v[i+2]+1.0;
   }
+
+  
+
+  return v;
+}
+/******************************************************************************/
+double r8_uniform_01 ( int *seed )
+
 /******************************************************************************/
 /*
   Purpose:
@@ -270,10 +314,10 @@ int x[100];
     Output, double R8_UNIFORM_01, a new pseudorandom variate, strictly between
     0 and 1.
 */
-    int* seed;
+{
   int i4_huge = 2147483647;
   int k;
-
+  double r;
 
   k = *seed / 127773;
 
@@ -284,8 +328,15 @@ int x[100];
     *seed = *seed + i4_huge;
   }
 
-  
-  /******************************************************************************/
+  r = ( ( double ) ( *seed ) ) * 4.656612875E-10;
+
+  return r;
+}
+/******************************************************************************/
+
+double *r8mat_normal_01_new ( int m, int n, int *seed )
+
+/******************************************************************************/
 /*
   Purpose:
 
@@ -330,6 +381,16 @@ int x[100];
 
     Output, double R8MAT_NORMAL_01_NEW[M*N], the array of pseudonormal values.
 */
+{
+  double *r;
+
+  r = r8vec_normal_01_new ( m * n, seed );
+
+  return r;
+}
+/******************************************************************************/
+double *r8vec_normal_01_new ( int n, int *seed )
+
 /******************************************************************************/
 /*
   Purpose:
@@ -370,15 +431,16 @@ int x[100];
     Local, int X_LO, X_HI, records the range of entries of
     X that we need to compute.
 */
-
-  int n=10;
+{
+  int i;
   int m;
   const double pi = 3.141592653589793;
- 
+  double *r;
+  double *x;
   int x_hi;
   int x_lo;
 
-  
+  x = ( double * ) malloc ( n * sizeof ( double ) );
 /*
   Record the range of X we need to fill in.
 */
@@ -389,11 +451,11 @@ int x[100];
 */
   if ( x_hi - x_lo + 1 == 1 )
   {
-    
+    r = r8vec_uniform_01_new ( 2, seed );
 
-    x[x_hi-1] = sqrt ( - 2.0  * 2.0 * pi );
+    x[x_hi-1] = sqrt ( - 2.0 * log ( r[0] ) ) * cos ( 2.0 * pi * r[1] );
 
-   
+    free ( r );
   }
 /*
   If we require an even number of values, that's easy.
@@ -402,7 +464,7 @@ int x[100];
   {
     m = ( x_hi - x_lo + 1 ) / 2;
 
-    
+    r = r8vec_uniform_01_new ( 2*m, seed );
 
    
   }
@@ -416,12 +478,27 @@ int x[100];
 
     m = ( x_hi - x_lo + 1 ) / 2 + 1;
 
+    r = r8vec_uniform_01_new ( 2*m, seed );
+
+    
+
     i = 2*m - 2;
 
-    x[x_lo+i-1] = sqrt ( - 2.0  *  2.0 * pi );
-}
+    x[x_lo+i-1] = sqrt ( - 2.0 * log ( r[i] ) ) * cos ( 2.0 * pi * r[i+1] );
 
-   /******************************************************************************/
+    free ( r );
+  }
+
+  return x;
+}
+/******************************************************************************/
+
+
+/******************************************************************************/
+
+double *r8vec_uniform_01_new ( int n, int *seed )
+
+/******************************************************************************/
 /*
   Purpose:
 
@@ -486,8 +563,11 @@ int x[100];
 
     Output, double R8VEC_UNIFORM_01_NEW[N], the vector of pseudorandom values.
 */
-
-  
+{
+  int i;
+  int i4_huge = 2147483647;
+  int k;
+  double r[100];
 
   if ( *seed == 0 )
   {
@@ -498,12 +578,19 @@ int x[100];
   }
 
  
-int r[100];
+
   for ( i = 1; i <= 10; i=i+1 )
   {
 
-    r[i] =r[i+1]+ ( double ) ( 4) * 4.656612875E-10;
+    r[i] =r[i]+ ( double ) ( 4) * 4.656612875E-10;
   }
+
+  return r;
+}
+/******************************************************************************/
+
+void timestamp ( )
+
 /******************************************************************************/
 /*
   Purpose:
@@ -530,8 +617,22 @@ int r[100];
 
     None
 */
-return 0;
+{
+# define TIME_SIZE 40
 
- 
-  }
-  
+  static char time_buffer[TIME_SIZE];
+  const struct tm *tm;
+  size_t len;
+  time_t now;
+
+  now = time ( NULL );
+  tm = localtime ( &now );
+
+  len = strftime ( time_buffer, TIME_SIZE, "%d %B %Y %I:%M:%S %p", tm );
+
+  fprintf ( stdout, "%s\n", time_buffer );
+
+  return;
+# undef TIME_SIZE
+}
+

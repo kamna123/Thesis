@@ -287,9 +287,9 @@ void loop_normalization(SgNode* n,set<string> var)
                         {
 
                             //   printf("stmt_string2->string= %s,loop_temp->loopIndex->string= %s,stmt_string2->next->next->string=%s\n",stmt_string->a,loop_id,stmt_string->next->next->a);
-                            cout<<"----------1st cond read----------"<<endl;
+                            //      cout<<"----------1st cond read----------"<<endl;
                             VariableDependenceDist='y';
-                            cout<<"VariableDependenceDist "<<VariableDependenceDist<<endl;
+                            //    cout<<"VariableDependenceDist "<<VariableDependenceDist<<endl;
                             prev_val=atoi(stmt_string->a);                     // pre_val: 2 (out of 2*i)
                             //    printf("prev_val = %d\n",prev_val);
                             if(a_val)
@@ -334,9 +334,9 @@ void loop_normalization(SgNode* n,set<string> var)
                         else    if(!(strcmp(stmt_string->a,loop_id))&&(strcmp(stmt_string->next->next->a,"*"))&&(strcmp(stmt_string->next->next->a,"+"))&&(strcmp(stmt_string->next->next->a,"-"))&&(strcmp(stmt_string->next->next->a,loop_id)))
                         {
                             //   printf("stmt_string2->string= %s,loop_temp->loopIndex->string= %s,stmt_string2->next->next->string=%s\n",stmt_string->a,loop_id,stmt_string->next->next->a);
-                            cout<<"----------2nd cond read----------"<<endl;
+                            //      cout<<"----------2nd cond read----------"<<endl;
                             VariableDependenceDist='y';
-                            cout<<"VariableDependenceDist "<<VariableDependenceDist<<endl;
+                            //    cout<<"VariableDependenceDist "<<VariableDependenceDist<<endl;
                             prev_val=atoi(stmt_string->next->next->a);                     // pre_val: 2 (out of 2*i)
                             //  printf("prev_val = %d\n",prev_val);
                             if(a_val)
@@ -564,9 +564,9 @@ void loop_normalization(SgNode* n,set<string> var)
                         {
 
                             //   printf("stmt_string2->string= %s,loop_temp->loopIndex->string= %s,stmt_string2->next->next->string=%s\n",stmt_string->a,loop_id,stmt_string->next->next->a);
-                            cout<<"----------1st cond write----------"<<endl;
+                            //   cout<<"----------1st cond write----------"<<endl;
                             VariableDependenceDist='y';
-                            cout<<"VariableDependenceDist "<<VariableDependenceDist<<endl;
+                            //   cout<<"VariableDependenceDist "<<VariableDependenceDist<<endl;
                             prev_val=atoi(stmt_string->a);                     // pre_val: 2 (out of 2*i)
                             //    printf("prev_val = %d\n",prev_val);
                             if(a_val)
@@ -611,9 +611,9 @@ void loop_normalization(SgNode* n,set<string> var)
                         else    if(!(strcmp(stmt_string->a,loop_id))&&(strcmp(stmt_string->next->next->a,"*"))&&(strcmp(stmt_string->next->next->a,"+"))&&(strcmp(stmt_string->next->next->a,"-"))&&(strcmp(stmt_string->next->next->a,loop_id)))
                         {
                             //   printf("stmt_string2->string= %s,loop_temp->loopIndex->string= %s,stmt_string2->next->next->string=%s\n",stmt_string->a,loop_id,stmt_string->next->next->a);
-                            cout<<"----------2nd cond write----------"<<endl;
+                            //    cout<<"----------2nd cond write----------"<<endl;
                             VariableDependenceDist='y';
-                            cout<<"VariableDependenceDist "<<VariableDependenceDist<<endl;
+                            //   cout<<"VariableDependenceDist "<<VariableDependenceDist<<endl;
                             prev_val=atoi(stmt_string->next->next->a);                     // pre_val: 2 (out of 2*i)
                             //  printf("prev_val = %d\n",prev_val);
                             if(a_val)
@@ -667,7 +667,7 @@ void loop_normalization(SgNode* n,set<string> var)
                     else  if(!(strcmp(stmt_string->a,loop_id)))
                     {
                         occ=1;
-                        cout<<"----------3rd cond----------"<<endl;
+                        // cout<<"----------3rd cond----------"<<endl;
                         if(a_val)
                         {
                             curr=(struct StringNode*)malloc(sizeof(struct StringNode));

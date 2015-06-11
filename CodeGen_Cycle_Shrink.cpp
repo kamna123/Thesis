@@ -271,7 +271,7 @@ void cuda_kernel_call_NO_DEPENDENCY(SgNode* forloop,string loop_id,int i)
 {
     std::map<string ,loop_var >::iterator it;
     string loop=process(forloop->unparseToString());
-    cout<<"for loop is "<<loop;
+    // cout<<"for loop is "<<loop;
 
     int x=1,j,temp_size=1,id_max=1;
     int max_array_size=1;   //contains the array with maximum size like 'a' for declaration like int a[20][30],b[2][10][10]
@@ -292,18 +292,18 @@ void cuda_kernel_call_NO_DEPENDENCY(SgNode* forloop,string loop_id,int i)
         {
             id_max=x;
             max_size=it->second.size;
-            printf("in id max\n");
+            //  printf("in id max\n");
         }
         printf("max_array_size=%d",max_array_size);
         printf( "id_max: %d\n",id_max);
     }
     sz=max_size;
     temp_size=sz;
-    printf("sz=%d\n",temp_size);
+    // printf("sz=%d\n",temp_size);
     max_dimension_size=(temp_size>max_dimension_size)?temp_size:max_dimension_size;
-    printf("max_dim_size=%d\n",max_dimension_size);
+    // printf("max_dim_size=%d\n",max_dimension_size);
     int tempVar=id_max;
-    printf("tempvar=%d\n",tempVar);
+    //  printf("tempvar=%d\n",tempVar);
     max_array_size=1;
     while(tempVar)
     {
@@ -406,19 +406,19 @@ void extCS_ConstantDistance_AFFINE(string loop_id,SgNode* forloop,int i)
         {
             id_max=x;
             max_size=it->second.size;
-            printf("in id max\n");
+            // printf("in id max\n");
         }
-        printf("max_array_size=%d",max_array_size);
-        printf( "id_max: %d\n",id_max);
+        //    printf("max_array_size=%d",max_array_size);
+        //   printf( "id_max: %d\n",id_max);
     }
     sz=max_size;
 
     temp_size=sz;
-    printf("sz=%d\n",temp_size);
+    // printf("sz=%d\n",temp_size);
     max_dimension_size=(temp_size>max_dimension_size)?temp_size:max_dimension_size;
-    printf("max_dim_size=%d\n",max_dimension_size);
+    // printf("max_dim_size=%d\n",max_dimension_size);
     int tempVar=id_max;
-    printf("tempvar=%d\n",tempVar);
+    //printf("tempvar=%d\n",tempVar);
     max_array_size=1;
     while(tempVar)
     {
@@ -458,7 +458,7 @@ void extCS_ConstantDistance_AFFINE(string loop_id,SgNode* forloop,int i)
     if(id_max==1)
         outputfile<< "\t\t _THREADS_"<<i<< ".x=_NTHREAD;"<<endl<<"\t\t_NUM_BLOCKS_"<<i<< "=(_NUM_THREADS_"<<i<< " % _NTHREAD == 0)?(_NUM_THREADS_"<<i<< "/_NTHREAD):((_NUM_THREADS_"<<i<< "/_NTHREAD)+1);"<<endl<<"\t\tif(_NUM_BLOCKS_"<<i<< "<_NBLOCK)"<<endl<<"\t\t\t_BLOCKS_"<<i<< ".x=_NUM_BLOCKS_"<<i<< ";"<<endl<<"\t\telse {"<<endl<<"\t\t\t_BLOCKS_"<<i<< ".x=_NBLOCK;"<<endl<<"\t\t\tint temp_"<<i<< "=_NUM_BLOCKS_"<<i<< ";"<<endl<<"\t\t\t_NUM_TILE_"<<i<< "=(temp_"<<i<< " % _NBLOCK == 0)?(_NUM_BLOCKS_"<<i<< "/_NBLOCK):((_NUM_BLOCKS_"<<i<< "/_NBLOCK)+1);"<<endl<<"\t\t}"<<endl<<"\t}"<<endl;
     struct Phi_Values *lambda,*lambda_temp;
-    outputfile<<"\tint ID_1_"<<i<< ", ID_2_"<<i<< ", START["<<id_max<<"];"<<endl;
+    outputfile<<"\tint ID_1_"<<i<< ", ID_2_"<<i<< ", START_"<<i<<"["<<id_max<<"];"<<endl;
     outputfile<<endl<<"\t#ifdef TIME"<<endl<<"\t\tclock_gettime(CLOCK_MONOTONIC, &mid_start_"<<i<<");"<<endl<<"\t#endif"<<endl<<endl;
     outputfile<<"\tint _CUDA_TILE_"<<i<< ";"<<endl;
     outputfile<<"\tint Phi_"<<i<< "["<<noOfNestedLoops<<"]={";
@@ -483,7 +483,7 @@ void extCS_ConstantDistance_AFFINE(string loop_id,SgNode* forloop,int i)
     lambda=lambda->next;
     outputfile<<"+1;ID_1_"<<i<< "++)"<<endl<<"\t{"<<endl;
     outputfile<<"\t\tfor(ID_2_"<<i<< "=0;ID_2_"<<i<< "<"<<noOfNestedLoops<<";ID_2_"<<i<< "++)"<<endl<<"\t\t{"<<endl;
-    outputfile<<"\t\t\tif(Phi_"<<i<< "[ID_2_"<<i<< "]>=0)"<<endl<<"\t\t\t\tSTART[ID_2_"<<i<< "]=(ID_1_"<<i<< "-1)*Phi_"<<i<< "[ID_2_"<<i<< "];"<<endl<<"\t\t\telse"<<endl<<"\t\t\t\tSTART[ID_2_"<<i<< "]=loopUpperLimits_"<<i<< "[ID_2_"<<i<< "]+(ID_1_"<<i<< "-1)*Phi_"<<i<< "[ID_2_"<<i<< "];"<<endl;
+    outputfile<<"\t\t\tif(Phi_"<<i<< "[ID_2_"<<i<< "]>=0)"<<endl<<"\t\t\t\tSTART_"<<i<<"[ID_2_"<<i<< "]=(ID_1_"<<i<< "-1)*Phi_"<<i<< "[ID_2_"<<i<< "];"<<endl<<"\t\t\telse"<<endl<<"\t\t\t\tSTART_"<<i<<"[ID_2_"<<i<< "]=loopUpperLimits_"<<i<< "[ID_2_"<<i<< "]+(ID_1_"<<i<< "-1)*Phi_"<<i<< "[ID_2_"<<i<< "];"<<endl;
     outputfile<<"\t\t}"<<endl;
     int r=0;
     noOfNestedLoops=1;
@@ -505,11 +505,11 @@ void extCS_ConstantDistance_AFFINE(string loop_id,SgNode* forloop,int i)
         while(z<noOfNestedLoops)
         {
             if(z<r)
-                outputfile<<"START["<<i<<"]+"<<lambda_temp->phi_val<<", "<<b_val<<", ";
+                outputfile<<"START_"<<i<<"["<<i<<"]+"<<lambda_temp->phi_val<<", "<<b_val<<", ";
             else if(z>r)
-                outputfile<<"START["<<i<<"],"<<b_val<<", "<<endl;
+                outputfile<<"START_"<<i<<"["<<i<<"],"<<b_val<<", "<<endl;
             else
-                outputfile<<"START["<<r<<"], MIN(START["<<r<<"]+"<<lambda_temp->phi_val<<", "<<b_val<<"), ";
+                outputfile<<"START_"<<i<<"["<<r<<"], MIN(START_"<<i<<"["<<r<<"]+"<<lambda_temp->phi_val<<", "<<b_val<<"), ";
             lambda_temp=lambda_temp->next;
             z++;
         }
@@ -566,18 +566,18 @@ void extCS_VariableDistance_AFFINE(string loop_id,SgNode* forloop,int i)
         {
             id_max=x;
             max_size=it->second.size;
-            printf("in id max\n");
+            // printf("in id max\n");
         }
-        printf("max_array_size=%d",max_array_size);
-        printf( "id_max: %d\n",id_max);
+        // printf("max_array_size=%d",max_array_size);
+        // printf( "id_max: %d\n",id_max);
     }
     sz=max_size;
     temp_size=sz;
-    printf("sz=%d\n",temp_size);
+    //  printf("sz=%d\n",temp_size);
     max_dimension_size=(temp_size>max_dimension_size)?temp_size:max_dimension_size;
-    printf("max_dim_size=%d\n",max_dimension_size);
+    //  printf("max_dim_size=%d\n",max_dimension_size);
     int tempVar=id_max;
-    printf("tempvar=%d\n",tempVar);
+    // printf("tempvar=%d\n",tempVar);
     max_array_size=1;
     while(tempVar)
     {
@@ -742,7 +742,7 @@ void SimpleSelective_kernel_definition_DEPENDENCY(char *shrinking_type,string lo
     int x;
     std::map<string ,loop_var >::iterator it;
     string loop=process(forloop->unparseToString());
-    cout<<"for loop is "<<loop;
+    // cout<<"for loop is "<<loop;
     outputfile1<<"\n\n__global__ void _AFFINE_KERNEL_"<<i<<"(";
     for (it=mymap.begin(); it!=mymap.end(); ++it)
     {
@@ -787,7 +787,7 @@ void cuda_kernel_definition_NO_DEPENDENCY(string loop_id,SgNode* forloop,SgFunct
     int x;
     std::map<string ,loop_var >::iterator it;
     string loop=process(forloop->unparseToString());
-    cout<<"for loop is "<<loop;
+//   cout<<"for loop is "<<loop;
     outputfile1<<"\n\n__global__ void _AFFINE_KERNEL_"<<i<<"(";
     for (it=mymap.begin(); it!=mymap.end(); ++it)
     {
@@ -820,7 +820,7 @@ void ExtendedShrinking_kernel_definition_DEPENDENCY(string loop_id,SgNode* forlo
     int x;
     std::map<string ,loop_var >::iterator it;
     string loop=process(forloop->unparseToString());
-    cout<<"for loop is "<<loop;
+    //  cout<<"for loop is "<<loop;
     outputfile1<<"\n\n__global__ void _AFFINE_KERNEL_"<<i<<"(";
     for (it=mymap.begin(); it!=mymap.end(); ++it)
     {
