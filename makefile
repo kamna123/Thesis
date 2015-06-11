@@ -55,11 +55,7 @@ CodeGen_Affinekernal_Interface.lo:CodeGen_Affinekernal_Interface.cpp CodeGen_Aff
 Dependence_Testing_Interface.lo:Dependence_Testing_Interface.cpp Dependence_Testing_Interface.hpp ds.hpp                  
 	/usr/bin/libtool --mode=compile  $(CXX) $(CXXFLAGS)  $(CPPFLAGS) -w  -I$(ROSE_INCLUDE_DIR) $(BOOST_CPPFLAGS) -c -o Dependence_Testing_Interface.lo Dependence_Testing_Interface.cpp         
 	
-	
-# Rule used by make installcheck to verify correctness of installed libraries
-check:
-	./main_file -c -w $(ROSE_SOURCE_DIR)/in.c
-	
+
 	
 
 	

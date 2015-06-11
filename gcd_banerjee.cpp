@@ -153,7 +153,7 @@ int banerjee(loop* write,SgNode* loop,int loop_number)
     //ub=get_upper_bound(loop);
     string lb=get_lower_bound(loop);
     string line=store_upper[loop_number];
-    cout<<"----------upper bound ----------"<<line<<endl;
+//   cout<<"----------upper bound ----------"<<line<<endl;
     // string line=ub;
     line.erase(remove(line.begin(), line.end(),')'),line.end());
     line.erase(remove(line.begin(), line.end(),'('),line.end());
@@ -169,7 +169,7 @@ int banerjee(loop* write,SgNode* loop,int loop_number)
     lower_limits[i]=0;
     upper_limits[i]=atoi(c_ub);
 
-    cout<<"upper_limits[i] = "<<upper_limits[i]<<endl;
+//   cout<<"upper_limits[i] = "<<upper_limits[i]<<endl;
 
     vector<SgNode*>::iterator itr;
     SgExpression* rhs;
@@ -195,7 +195,7 @@ int banerjee(loop* write,SgNode* loop,int loop_number)
                   expr = expr->optimize();
                   string s=expr->toLaTeX();*/
             rhs=buildVarRefExp(line);
-            cout<<"rhs read "<<(rhs)->unparseToString()<<endl;
+            //       cout<<"rhs read "<<(rhs)->unparseToString()<<endl;
             write_size=rhs->unparseToString();
             read_size=find_corresponding_read_dep_var(lhs,write);
             line=read_size;
@@ -204,38 +204,38 @@ int banerjee(loop* write,SgNode* loop,int loop_number)
             /*   expr = ExpressionObject::parse(line, false);
                expr = expr->optimize();*/
             read_size=line;
-            cout<<"write_size "<<write_size<<"\n";
+            //    cout<<"write_size "<<write_size<<"\n";
 
-            cout<<"read size "<<read_size<<"\n";
+            //   cout<<"read size "<<read_size<<"\n";
             dependency=0,dimension=0;
             if(write_size!="\0" || read_size!="\0")
             {
                 a_i[i]=0;
                 b_i[i]=0;
                 c=fill_coeff_array(a_i,write_size,loop);
-                cout<<"c = "<<c<<endl;
+                //    cout<<"c = "<<c<<endl;
                 d=fill_coeff_array(b_i,read_size,loop);
 
-                cout<<"d = "<<d<<endl;
+                //   cout<<"d = "<<d<<endl;
                 LB_less=0,UB_less=0,LB_greater=0,UB_greater=0,LB_equal=0,UB_equal=0;
                 // Printing the obtained matrix
 
-                printf("Lower limits array\n");
+                //  printf("Lower limits array\n");
                 // for(i=0;i<no_of_loops;i++)
-                printf("%d ",lower_limits[i]);
-                printf("\n");
-                printf("Upper limits array\n");
-                //  for(i=0;i<no_of_loops;i++)
-                printf("%d ",upper_limits[i]);
-                printf("\n");
-                printf("a_i array\n");
-                //for(i=0;i<no_of_loops;i++)
-                printf("%d ",a_i[i]);
-                printf("\n");
-                printf("b_i array\n");
-                // for(i=0;i<no_of_loops;i++)
-                printf("%d ",b_i[i]);
-                printf("\nc=%d d=%d\n",c,d);
+                //   printf("%d ",lower_limits[i]);
+                /* printf("\n");
+                 printf("Upper limits array\n");
+                 //  for(i=0;i<no_of_loops;i++)
+                 printf("%d ",upper_limits[i]);
+                 printf("\n");
+                 printf("a_i array\n");
+                 //for(i=0;i<no_of_loops;i++)
+                 printf("%d ",a_i[i]);
+                 printf("\n");
+                 printf("b_i array\n");
+                 // for(i=0;i<no_of_loops;i++)
+                 printf("%d ",b_i[i]);
+                 printf("\nc=%d d=%d\n",c,d);*/
                 //////////////////////////////////
                 a_neg[i]=(a_i[i]<0)?-a_i[i]:0;              //negative function of a_i[]
                 a_pos[i]=(a_i[i]>0)?a_i[i]:0;               //positive function of a_i[]
@@ -289,7 +289,7 @@ void calculate_node(dep_data* node)
         i++;
         node=node->next;
     }
-    cout<<"i= "<<i<<"\n";
+//    cout<<"i= "<<i<<"\n";
 }
 int GCD_Test(loop* write,SgNode* loop)
 {
@@ -335,8 +335,8 @@ int GCD_Test(loop* write,SgNode* loop)
             /* expr = ExpressionObject::parse(line, false);
              expr = expr->optimize();*/
             read_size=line;
-            cout<<"write_size "<<write_size<<"\n";
-            cout<<"read size "<<read_size<<"\n";
+            //    cout<<"write_size "<<write_size<<"\n";
+            //    cout<<"read size "<<read_size<<"\n";
             dependency=0,dimension=0;
             int k;
             if(write_size!="\0" || read_size!="\0")
