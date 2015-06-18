@@ -273,11 +273,13 @@ void visit1(SgNode* n)
 
         setLoopUpperBound(a,  buildVarRefExp(str,scope));
         setLoopStride(a,buildVarRefExp("1",scope));
-
+       
         Rose_STL_Container<SgStatement*> forLoops = block->get_statements();
         for(Rose_STL_Container<SgStatement*>::iterator iter = forLoops.begin(); iter!= forLoops.end(); iter++ )
-        {
+        {   if(*iter)
+            {
             SgScopeStatement* scope=(*iter)->get_scope();
+
             SageInterface::collectReadWriteRefs(scope, readRefs, writeRefs);
             for (itr=readRefs.begin(); itr!=readRefs.end(); itr++)
             {
@@ -335,8 +337,9 @@ void visit1(SgNode* n)
                     //   cout<<"write Ref "<<(lhs)->unparseToString()<<"["<<(rhs)->unparseToString()<<"]"<<endl;
                 }
             }
-        }
 
+        }
+}
     }
 }
 /*int main(int argc, char * argv[])

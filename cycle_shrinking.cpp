@@ -164,7 +164,7 @@ struct Phi_Values *Simple_Loops_Code_Gen(loop* write,SgNode* n,int loop_number,s
     // cout<<"in sgnode"<<write->dep->write_ref->unparseToString();
     while(dep)
     {
-        cout<<"-------------------in dep ---------------"<<endl;
+       // cout<<"-------------------in dep ---------------"<<endl;
         SgExpression* rhs_read;
         SgExpression* rhs_write;
         rhs_read = isSgBinaryOp(dep->read_ref[0])->get_rhs_operand();

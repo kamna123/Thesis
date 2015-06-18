@@ -34,9 +34,11 @@ void var_loop(SgNode* forloop,string loop_id)
 
     SgForStatement* forLoop=isSgForStatement(forloop);
     SgBasicBlock* loopBody = isSgBasicBlock(forLoop->get_loop_body());
+    
     Rose_STL_Container<SgStatement*> forLoops = loopBody->get_statements();
     for(Rose_STL_Container<SgStatement*>::iterator iter = forLoops.begin(); iter!= forLoops.end(); iter++ )
-    {
+    {   if(*iter)
+        {
         SgScopeStatement* scope=(*iter)->get_scope();
         Rose_STL_Container<SgNode*> pntrArrRefList =  NodeQuery::querySubTree(scope, V_SgVarRefExp);
         Rose_STL_Container<SgNode*>::iterator iter1;
@@ -66,10 +68,11 @@ void var_loop(SgNode* forloop,string loop_id)
             }
         }
     }
+  }}
     /*std::cout << "mymap contains:\n";
     for (it=mymap.begin(); it!=mymap.end(); ++it)
       std::cout << it->first << " =" << it->second.name<<it->second.data_type<<it->second.size<<'\n';*/
-}
+
 std::string process(std::string const& s)
 {
     std::string::size_type pos = s.find(';');
@@ -770,10 +773,15 @@ void SimpleSelective_kernel_definition_DEPENDENCY(char *shrinking_type,string lo
         lambda_k=0;
     SgForStatement* forLoop=isSgForStatement(forloop);
     SgBasicBlock* loopBody = isSgBasicBlock(forLoop->get_loop_body());
+   
     Rose_STL_Container<SgStatement*> forLoops = loopBody->get_statements();
+
     for(Rose_STL_Container<SgStatement*>::iterator iter = forLoops.begin(); iter!= forLoops.end(); iter++ )
     {
+        if(*iter)
+       {
         outputfile1<< (*iter)->unparseToString()<<"\n";
+      }
     }
     temp=Total_Phi;
     while(temp--)
@@ -781,6 +789,7 @@ void SimpleSelective_kernel_definition_DEPENDENCY(char *shrinking_type,string lo
         outputfile1<< "}";
     }
     outputfile1<<"}"<<endl<<endl;
+    
 }
 void cuda_kernel_definition_NO_DEPENDENCY(string loop_id,SgNode* forloop,SgFunctionDefinition *defn,int i)
 {
@@ -807,6 +816,8 @@ void cuda_kernel_definition_NO_DEPENDENCY(string loop_id,SgNode* forloop,SgFunct
     outputfile1<<"\tif((CUDA_L_"<<loop_id<<"<="<<loop_id<<")&&("<<loop_id<<"<=CUDA_U_"<<loop_id<<")){"<<endl;
     SgForStatement* forLoop=isSgForStatement(forloop);
     SgBasicBlock* loopBody = isSgBasicBlock(forLoop->get_loop_body());
+  //  if(loopBody->get_statements()!=NULL)
+    {
     Rose_STL_Container<SgStatement*> forLoops = loopBody->get_statements();
     for(Rose_STL_Container<SgStatement*>::iterator iter = forLoops.begin(); iter!= forLoops.end(); iter++ )
     {
@@ -814,6 +825,7 @@ void cuda_kernel_definition_NO_DEPENDENCY(string loop_id,SgNode* forloop,SgFunct
     }
     outputfile1<<"}";
     outputfile1<<"}"<<endl<<endl;
+    }
 }
 void ExtendedShrinking_kernel_definition_DEPENDENCY(string loop_id,SgNode* forloop,SgFunctionDefinition *defn,int i)
 {
@@ -840,6 +852,8 @@ void ExtendedShrinking_kernel_definition_DEPENDENCY(string loop_id,SgNode* forlo
     outputfile1<<"\tif((CUDA_L_"<<loop_id<<"<="<<loop_id<<")&&("<<loop_id<<"<=CUDA_U_"<<loop_id<<")){"<<endl;
     SgForStatement* forLoop=isSgForStatement(forloop);
     SgBasicBlock* loopBody = isSgBasicBlock(forLoop->get_loop_body());
+  //  if(loopBody->get_statements()!=NULL)
+    {
     Rose_STL_Container<SgStatement*> forLoops = loopBody->get_statements();
     for(Rose_STL_Container<SgStatement*>::iterator iter = forLoops.begin(); iter!= forLoops.end(); iter++ )
     {
@@ -847,4 +861,5 @@ void ExtendedShrinking_kernel_definition_DEPENDENCY(string loop_id,SgNode* forlo
     }
     outputfile1<<"}";
     outputfile1<<"}"<<endl<<endl;
+    }
 }

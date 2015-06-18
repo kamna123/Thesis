@@ -74,4 +74,5 @@ extern char VariableDependenceDist;
 extern std::string op;
 extern std::string rel_op;
 extern int b_val;
+extern char* upper;
 #endif

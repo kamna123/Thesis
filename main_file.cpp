@@ -27,6 +27,7 @@ int noOfNestedLoops=0;
 std::string op;
 std::string rel_op;
 int b_val;
+char* upper;
 char VariableDependenceDist='n';
 struct ReferencePair *RefPair=NULL;
 struct DDV *DDVvector=NULL;
@@ -173,6 +174,19 @@ void end(int i,int k)
 }
 static int loop_num=0;
 static int var_dep_dist_count=0;
+static void getArrayDimensionSizes(const SgArrayType* array_type, std::vector<SgExpression*>& result)
+{
+ROSE_ASSERT (array_type != NULL);
+const SgType* cur_type = array_type;
+do
+{
+ROSE_ASSERT (isSgArrayType(cur_type) != NULL);
+SgExpression* index_exp = isSgArrayType(cur_type)->get_index();
+result.push_back(index_exp); // could be NULL, especially for the first dimension
+cur_type = isSgArrayType(cur_type)->get_base_type();
+}
+while (isSgArrayType(cur_type));
+}
 int main(int argc, char * argv[])
 {
     /* cout<<"abc";
@@ -203,7 +217,7 @@ int main(int argc, char * argv[])
         std::strcpy(S,argvList[3].c_str());
         dependence_test=strstr(S,":");
         dependence_test=dependence_test+1;
-        cout<<"test= "<<dependence_test<<endl;
+        //cout<<"test= "<<dependence_test<<endl;
     }
     if ( CommandlineProcessing::isOption(argvList,"-shrink:","(simple|extShrinking1|extShrinking2)",false)  )
     {
@@ -212,7 +226,7 @@ int main(int argc, char * argv[])
         std::strcpy(S,argvList[4].c_str());
         shrinking=strstr(S,":");
         shrinking=shrinking+1;
-        cout<<"shrinking= "<<shrinking<<endl;
+       // cout<<"shrinking= "<<shrinking<<endl;
     }
     fin.open(file_name,ios::in);
 
@@ -261,6 +275,7 @@ int main(int argc, char * argv[])
      }*/
     //  cout<<"shrinking "<<shrinking<<endl;
     //  cout<<"dep "<<dependence_test<<endl;
+         int multi_dim=0;
     vector<SgNode*> readRefs;
     vector<SgNode*> writeRefs;
     vector<SgNode*>:: iterator itr;
@@ -335,54 +350,149 @@ int main(int argc, char * argv[])
 
         }
 
-        for(jk=var.begin(); jk!=var.end(); jk++)
+      //  for(jk=var.begin(); jk!=var.end(); jk++)
             //   cout<<"var = "<<(*jk)<<endl;
-            cout<<"--------------------------found funcion---------------------"<<endl;
+         //   cout<<"--------------------------found function---------------------"<<endl;
 
         Rose_STL_Container<SgNode*> forLoops = NodeQuery::querySubTree(defn,V_SgForStatement);
-
+        
         for(Rose_STL_Container<SgNode*>::iterator iter = forLoops.begin(); iter!= forLoops.end(); iter++ )
         {
+        multi_dim=0;
+          SgForStatement* forLoop=isSgForStatement(*iter);
+          std::vector<SgForStatement* > loops= SageInterface::querySubTree<SgForStatement>(forLoop,V_SgForStatement);
+           SgBasicBlock* loopBody = isSgBasicBlock((forLoop)->get_loop_body());
+         //  list<SgNode*> forList = NodeQuery::querySubTree( *iter, V_SgForStatement );
+           SgStatementPtrList &init = forLoop->get_init_stmt();
+           size_t loop_nest=loops.size();
+          // cout<<"size = "<<loop_nest<<endl;
+           
+           Rose_STL_Container<SgNode*> arrayAccess = NodeQuery::querySubTree(forLoop,V_SgVarRefExp);
+             for (Rose_STL_Container<SgNode*>::iterator iter = arrayAccess.begin(); iter!= arrayAccess.end(); iter++ )
+{
+  SgVarRefExp* a=isSgVarRefExp(*iter);
+ // cout<<"var reaf "<<(*iter)->unparseToString()<<endl;
+  SgArrayType* b=isSgArrayType(a->get_type());
+ if(b)
+ {int dim=getDimensionCount(b); 
+ // cout<<"a = "<<b->unparseToString()<<endl;
+  //cout<<"dim = "<<getDimensionCount(b)<<endl;
+  if(dim>=2)
+    multi_dim=1;
+}
+    
+}
+ 
+ 
+
+           if(loops.size()==1 && multi_dim==0)
+           {
+
             cout<<"------------------loop normalization ---------------------------"<<endl;
             loop_normalization(*iter,var);
-            cout<<"VariableDependenceDist during normalization "<<VariableDependenceDist<<endl;
+           cout<<"VariableDependenceDist during normalization "<<VariableDependenceDist<<endl;
             var_dep_dist[var_dep_dist_count++]=VariableDependenceDist;
-            VariableDependenceDist='n';
-            //   cout<<"after normalization "<<(*iter)->unparseToString();
+           VariableDependenceDist='n';
+            //  cout<<"after normalization "<<(*iter)->unparseToString();
+          }
+          else
+           {// cout<<(*iter)->unparseToString()<<endl;
+            while(loop_nest!=1){ iter++; loop_nest--;}}
+         
 
         }
         cout<<"-----------done with normalization----------"<<endl;
-        for(Rose_STL_Container<SgNode*>::iterator iter = forLoops.begin(); iter!= forLoops.end(); iter++ )
+       for(Rose_STL_Container<SgNode*>::iterator iter = forLoops.begin(); iter!= forLoops.end(); iter++ )
         {
             // printf ("Found a SgForStatement \n");
             // abc(*iter);
 
-
+ multi_dim=0;
             // printf ("Found a SgForStatement \n");
-
-
+          SgForStatement* forLoop=isSgForStatement(*iter);
+          std::vector<SgForStatement* > loops= SageInterface::querySubTree<SgForStatement>(forLoop,V_SgForStatement);
+           SgBasicBlock* loopBody = isSgBasicBlock((forLoop)->get_loop_body());
+         //  list<SgNode*> forList = NodeQuery::querySubTree( *iter, V_SgForStatement );
+          
+           size_t loop_nest=loops.size();
+          // cout<<"size = "<<loop_nest<<endl;
+            Rose_STL_Container<SgNode*> arrayAccess = NodeQuery::querySubTree(forLoop,V_SgVarRefExp);
+             for (Rose_STL_Container<SgNode*>::iterator iter = arrayAccess.begin(); iter!= arrayAccess.end(); iter++ )
+{
+  SgVarRefExp* a=isSgVarRefExp(*iter);
+ // cout<<"var reaf "<<(*iter)->unparseToString()<<endl;
+  SgArrayType* b=isSgArrayType(a->get_type());
+ if(b)
+ {int dim=getDimensionCount(b);  
+ // cout<<"a = "<<b->unparseToString()<<endl;
+ // cout<<"dim = "<<getDimensionCount(b)<<endl;
+  if(dim>=2)
+    multi_dim=1;
+}
+    
+}
+           if(loops.size()==1 && multi_dim==0)
+           {
+             SgForStatement* forLoop=isSgForStatement(*iter);
+           SgBasicBlock* loopBody = isSgBasicBlock((forLoop)->get_loop_body());
+          
             ref_function(*iter,defn);
+          }
+          else
+          {
+            while(loop_nest!=1)
+            {
+              iter++; loop_nest--;
+            }
             // ref_function1(*iter,defn);
+          }
 
         }
 
 
-        cout<<"display head"<<endl;
-        display(head);
+      //  cout<<"display head"<<endl;
+        if(head)
+       {// display(head);
 
         calculate_intersection_RAW(head);
-        cout<<"after intersection  RAW"<<"\n";
-        display(intersect_RAW);
+      //  cout<<"after intersection  RAW"<<"\n";
+      //  display(intersect_RAW);
         calculate_intersection_WAW(head);
-        cout<<"after intersection  WAW"<<"\n";
-        display(intersect_WAW);
+      //  cout<<"after intersection  WAW"<<"\n";
+       // display(intersect_WAW);
         calculate_intersection_RAW_for_srinking(head);
-        cout<<"after intersection  RAW for cycle shrinking"<<"\n";
-        display(intersect_RAW_shrinking);
+     //   cout<<"after intersection  RAW for cycle shrinking"<<"\n";
+     //   display(intersect_RAW_shrinking);
+      }
 
 
         for(Rose_STL_Container<SgNode*>::iterator iter = forLoops.begin(); iter!= forLoops.end(); iter++ )
         {
+          multi_dim=0;
+           SgForStatement* forLoop=isSgForStatement(*iter);
+          std::vector<SgForStatement* > loops= SageInterface::querySubTree<SgForStatement>(forLoop,V_SgForStatement);
+           SgBasicBlock* loopBody = isSgBasicBlock((forLoop)->get_loop_body());
+         //  list<SgNode*> forList = NodeQuery::querySubTree( *iter, V_SgForStatement );
+          
+           size_t loop_nest=loops.size();
+          // cout<<"size = "<<loop_nest<<endl;
+            Rose_STL_Container<SgNode*> arrayAccess = NodeQuery::querySubTree(forLoop,V_SgVarRefExp);
+             for (Rose_STL_Container<SgNode*>::iterator iter = arrayAccess.begin(); iter!= arrayAccess.end(); iter++ )
+{
+  SgVarRefExp* a=isSgVarRefExp(*iter);
+ // cout<<"var reaf "<<(*iter)->unparseToString()<<endl;
+  SgArrayType* b=isSgArrayType(a->get_type());
+ if(b)
+ {int dim=getDimensionCount(b); 
+ // cout<<"a = "<<b->unparseToString()<<endl;
+ // cout<<"dim = "<<getDimensionCount(b)<<endl;
+  if(dim>=2)
+    multi_dim=1;
+}
+    
+}
+           if(loops.size()==1 && multi_dim==0)
+           {
             m=endline;
             k=startLine;
             loop* temp=intersect_RAW;
@@ -395,6 +505,9 @@ int main(int argc, char * argv[])
                 temp=temp->next;
             SgForStatement* node=isSgForStatement(*iter);
 //if(node) DeleteSgTree(node);
+             SgBasicBlock* loopBody = isSgBasicBlock((node)->get_loop_body());
+             if(loopBody)
+             {
             Sg_File_Info * startInfo = node->get_startOfConstruct();
             Sg_File_Info * endInfo = node->get_endOfConstruct();
             if(startInfo && endInfo)
@@ -453,7 +566,14 @@ int main(int argc, char * argv[])
             lambda_var=NULL;
 
 
-            loop_num++;
+            loop_num++;}}
+            else
+            {
+               while(loop_nest!=1)
+            {
+              iter++; loop_nest--;
+            }
+            }
 
         }
 
@@ -553,7 +673,7 @@ int main(int argc, char * argv[])
         }*/
         // i=f;
 
-        var.clear();
+     var.clear();
     }
 
     /* loop_num=0;
@@ -637,5 +757,6 @@ int main(int argc, char * argv[])
         }
         else outputfile<<c;
     }
+    remove(strcat(strdup(file_name),"u1"));
     return backend(project);
 }

@@ -9,7 +9,7 @@ void Dependence_Testing_Interface(char *test_name, loop* write,SgNode* loop,int 
     int dependency_check=0;
     noOfNestedLoops=0;
 
-    printf("test = %s\n",test_name );
+ //   printf("test = %s\n",test_name );
     /******************************************/
     if(strcmp(test_name,"gcd")==0)
     {

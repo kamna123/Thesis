@@ -133,6 +133,7 @@ void loop_normalization(SgNode* n,set<string> var)
     // cout<<" loop upper bound= "<<(test)->unparseToString()<<"\n";
     string b1=(ubast)->unparseToString();
     b=b1.c_str();
+    //upper=b1.c_str();
     // cout<<"b ="<<b<<endl;
     SgExpression* incr = ab->get_increment();
     // cout<<" loop increment= "<<(incr)->unparseToString()<<"\n";
@@ -165,13 +166,17 @@ void loop_normalization(SgNode* n,set<string> var)
     //cout<<" op ="<<op<<endl;
     //cout<<"b_val "<<b_val<<endl;
     //cout<<"a_val "<<a_val<<endl;
-    if(op.compare("+")==0)
+    if(op.compare("+")==0 )
     {
         //cout<<"true"<<endl;
         b_val=(b_val-a_val)/c_val;
+       // upper=upper+"-"+a+"/"+c;
     }
     else
+       {
         b_val=(a_val-b_val)/c_val;
+       // upper=a+"-"+upper+"/"+c;
+       } 
     //  string rel_op;
     string loop_test;
     loop_test=test->unparseToString();
@@ -202,12 +207,14 @@ void loop_normalization(SgNode* n,set<string> var)
 
     string result;
     SgBasicBlock* loopBody = isSgBasicBlock(ab->get_loop_body());
+    // if(loopBody->get_statements()!=NULL)
+     {
     Rose_STL_Container<SgStatement*> forLoops = loopBody->get_statements();
     //    for(Rose_STL_Container<SgStatement*>::iterator iter = forLoops.begin(); iter!= forLoops.end(); iter++ )
     {
         //  SgScopeStatement* scope=(*iter)->get_scope();
         // cout<<" statements are "<< (*iter)->unparseToString()<<"\n";
-
+      
         SageInterface::collectReadWriteRefs(ab, reads, writes);
         for (itr=reads.begin(); itr!=reads.end(); itr++)
         {
@@ -764,6 +771,7 @@ void loop_normalization(SgNode* n,set<string> var)
             }
         }
     }
+}
 
 }
 

@@ -52,7 +52,7 @@ void calculate_node(loop* node)
         i++;
         node=node->next;
     }
-    cout<<"i= "<<i<<"\n";
+   // cout<<"i= "<<i<<"\n";
 }
 void calculate_intersection_RAW_for_srinking(loop* node)
 {
@@ -90,7 +90,7 @@ void calculate_intersection_RAW_for_srinking(loop* node)
                 {
                     string a1=a->write_ref[0]->unparseToString();
                     string b1=(*i)->unparseToString();
-                    cout<<"a1 = "<<a1 <<"\n";
+                //    cout<<"a1 = "<<a1 <<"\n";
                     //  cout<<"b1 = "<<b1 <<"\n";
                     if(a1[0]==b1[0])
                     {
@@ -297,8 +297,11 @@ void ref_function(SgNode* for_loop,SgFunctionDefinition *defn )
     if(loopBody!=NULL)
     {
         vector<SgNode*>:: iterator itr;
+       // if(loopBody)
+        {
         Rose_STL_Container<SgStatement*> forLoops = loopBody->get_statements();
         //  cout<<"print loop statements "<<"\n";
+       
         loop* node=new loop;
         if(head==NULL)
         {
@@ -318,6 +321,7 @@ void ref_function(SgNode* for_loop,SgFunctionDefinition *defn )
         node->next=NULL;
         node->dep=NULL;
         int k=0;
+       
         for(Rose_STL_Container<SgStatement*>::iterator iter = forLoops.begin(); iter!= forLoops.end(); iter++ )
         {
             SgScopeStatement* scope=(*iter)->get_scope();
@@ -378,7 +382,7 @@ void ref_function(SgNode* for_loop,SgFunctionDefinition *defn )
 
 
 
-    }
+    }}
 
 }
 /*int main(int argc, char * argv[])
