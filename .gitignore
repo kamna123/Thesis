@@ -1,0 +1,6 @@
+.libs
+*.o
+*.lo
+main_file
+setup.sh
+
